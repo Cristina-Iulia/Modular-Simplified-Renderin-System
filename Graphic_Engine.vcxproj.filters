@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="GraphicEngine">
+      <UniqueIdentifier>{5d5d80ea-9c91-408b-8d66-f00167717332}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{bded78da-5342-4d3e-8d10-120a68846e10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicEngine\Window">
+      <UniqueIdentifier>{7add5dd5-0225-44ce-8cb9-89d0b109142d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicEngine\RenderingEngine">
+      <UniqueIdentifier>{287e5e23-805e-4ed0-9300-580f662de370}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicEngine\GameSpecificEngine">
+      <UniqueIdentifier>{5a49aa2b-d15d-4457-bb4b-06b0faae38bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicEngine\PhysicsEngine">
+      <UniqueIdentifier>{5c977594-0425-49ee-be70-589985856246}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\InputModule">
+      <UniqueIdentifier>{9b3f5e25-c98a-4e34-a05a-874dd33d1625}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="App">
+      <UniqueIdentifier>{a2e71861-aeda-4b71-bc61-e2ee2b2d7596}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="App/main.cpp" />
+    <ClCompile Include="GraphicEngine/Window/Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Window.h">
+      <Filter>GraphicEngine\Window</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

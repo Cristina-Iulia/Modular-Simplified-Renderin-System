@@ -30,3 +30,13 @@
 *.exe
 *.out
 *.app
+
+*.idb
+
+*.pdb
+
+*.tlog
+
+x64/Debug/
+
+.vs/Graphic_Engine/v15/
