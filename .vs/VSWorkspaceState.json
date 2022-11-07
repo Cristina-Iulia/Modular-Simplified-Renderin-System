@@ -1,9 +1,10 @@
 {
   "ExpandedNodes": [
     "",
+    "\\App",
     "\\GraphicEngine",
     "\\GraphicEngine\\Window"
   ],
-  "SelectedNode": "\\Graphic_Engine.vcxproj",
+  "SelectedNode": "\\Graphic_Engine.vcxproj.filters",
   "PreviewInSolutionExplorer": false
 }

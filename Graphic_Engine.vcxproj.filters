@@ -28,10 +28,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App/main.cpp" />
-    <ClCompile Include="GraphicEngine/Window/Window.cpp" />
+    <ClCompile Include="GraphicEngine/Window/Window.cpp">
+      <Filter>GraphicEngine\Window</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Window.h">
+    <ClInclude Include="GraphicEngine/Window/Window.h">
       <Filter>GraphicEngine\Window</Filter>
     </ClInclude>
   </ItemGroup>
