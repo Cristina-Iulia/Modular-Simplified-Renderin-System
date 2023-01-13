@@ -7,15 +7,15 @@ class Window
 public:
 	Window();
 	~Window();
-	bool init();
-	bool release();
-	bool broadcast();
+	bool init(); //initialize window
+	bool release(); //destroy window
+	bool broadcast(); //pick msg from system and despach them
 	bool isRun();
 
 	//EVENTS
-	virtual void onCreate()=0;
-	virtual void onUpdate()=0;
-	virtual void onDestroy();
+	 void onCreate();
+	 void onUpdate();
+	 void onDestroy();
 
 
 private:

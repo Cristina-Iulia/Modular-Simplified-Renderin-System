@@ -1,7 +1,6 @@
 #include "Window.h"
 
-Window* window = NULL;
-
+Window* wdSingleton = nullptr;
 Window::Window()
 {
 }
@@ -10,6 +9,7 @@ Window::~Window()
 {
 }
 
+
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg,  WPARAM wparam, LPARAM lparam)
 {
 	switch (msg)
@@ -17,14 +17,14 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg,  WPARAM wparam, LPARAM lparam)
 	case WM_CREATE:
 	{
 		// On Create window Event
-		window->onCreate();
+		wdSingleton->onCreate();
 		break;
 	}
 	case WM_DESTROY:
 	{
 		// On Destroy window Event
-		window->onDestroy();
-		::PostQuitMessage(0); // terminate process
+		wdSingleton->onDestroy();
+		::PostQuitMessage(0); // Make request to system to terminate process
 		break;
 	}
 	default:
@@ -44,9 +44,9 @@ bool Window::init()
 	}
 
 
-	if (!window)
+	if (!wdSingleton)
 	{
-		window = this;
+		wdSingleton = this;
 	}
 
 	//Creation of window
@@ -84,7 +84,7 @@ bool Window::broadcast()
 		DispatchMessage(&msg);
 	}
 
-	window->onUpdate();
+	wdSingleton->onUpdate();
 
 	Sleep(0);
 
@@ -94,6 +94,14 @@ bool Window::broadcast()
 bool Window::isRun()
 {
 	return windowIsRunning;
+}
+
+void Window::onCreate()
+{
+}
+
+void Window::onUpdate()
+{
 }
 
 void Window::onDestroy()

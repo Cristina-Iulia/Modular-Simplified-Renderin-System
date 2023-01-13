@@ -110,12 +110,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App/main.cpp" />
-    <ClCompile Include="App/AppWindow.cpp" />
-    <ClCompile Include="GraphicEngine/Window/Window.cpp" />
+    <ClCompile Include="CoreSystems/Window/Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GraphicEngine/Window/Window.h" />
-    <ClCompile Include="App/AppWindow.h" />
+    <ClInclude Include="CoreSystems/Window/Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,8 +1,8 @@
-#include "AppWindow.h"
+#include "../CoreSystems/Window/Window.h"
 
-int main()
+int main()                                                                                                                                                                                                                                                                                                                 
 {
-	AppWindow app;
+	Window app;
 
 	if (app.init())
 	{
