@@ -1,15 +1,8 @@
-#include "../CoreSystems/Window/Window.h"
+#include "../CoreSystems/ControlModule/Controller.h"
 
 int main()                                                                                                                                                                                                                                                                                                                 
 {
-	Window app;
-
-	if (app.init())
-	{
-		while (app.isRun())
-		{
-			app.broadcast();
-		}
-	}
+	Controller* app = Controller::getInstance();
+	app->Startup();
 	return 0;
 }

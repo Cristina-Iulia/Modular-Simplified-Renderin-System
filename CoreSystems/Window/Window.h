@@ -11,11 +11,13 @@ public:
 	bool release(); //destroy window
 	bool broadcast(); //pick msg from system and despach them
 	bool isRun();
+	static Window* wdSingleton;
+	static Window* getInstance();
 
 	//EVENTS
-	 void onCreate();
-	 void onUpdate();
-	 void onDestroy();
+	void onCreate();
+	void onUpdate();
+	void onDestroy();
 
 
 private:
@@ -24,6 +26,7 @@ protected:
 	HWND m_hwnd;
 	WNDCLASSEX wc;
 	bool windowIsRunning;
+
 
 };
 

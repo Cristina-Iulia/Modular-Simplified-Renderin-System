@@ -110,9 +110,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App/main.cpp" />
+    <ClCompile Include="CoreSystems/ControlModule/Controller.cpp" />
     <ClCompile Include="CoreSystems/Window/Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CoreSystems/ControlModule/Controller.h" />
     <ClInclude Include="CoreSystems/Window/Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

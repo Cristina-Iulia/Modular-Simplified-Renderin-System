@@ -2,7 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\App",
-    "\\CoreSystems"
+    "\\CoreSystems",
+    "\\CoreSystems\\ControlModule"
   ],
+  "SelectedNode": "\\Graphic_Engine.vcxproj",
   "PreviewInSolutionExplorer": false
 }

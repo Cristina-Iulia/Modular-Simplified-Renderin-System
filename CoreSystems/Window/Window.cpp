@@ -1,6 +1,7 @@
 #include "Window.h"
 
-Window* wdSingleton = nullptr;
+Window* Window::wdSingleton = NULL;
+
 Window::Window()
 {
 }
@@ -17,13 +18,13 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg,  WPARAM wparam, LPARAM lparam)
 	case WM_CREATE:
 	{
 		// On Create window Event
-		wdSingleton->onCreate();
+		Window::wdSingleton->onCreate();
 		break;
 	}
 	case WM_DESTROY:
 	{
 		// On Destroy window Event
-		wdSingleton->onDestroy();
+		Window::wdSingleton->onDestroy();
 		::PostQuitMessage(0); // Make request to system to terminate process
 		break;
 	}
@@ -36,17 +37,16 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg,  WPARAM wparam, LPARAM lparam)
 
 bool Window::init()
 {
+	if (!wdSingleton)
+	{
+		wdSingleton = this;
+	}
+
 	windowSettup();
 
 	if (!::RegisterClassEx(&wc))
 	{
 		return false;
-	}
-
-
-	if (!wdSingleton)
-	{
-		wdSingleton = this;
 	}
 
 	//Creation of window
@@ -94,6 +94,20 @@ bool Window::broadcast()
 bool Window::isRun()
 {
 	return windowIsRunning;
+}
+
+Window* Window::getInstance()
+{
+	if (wdSingleton == NULL)
+	{
+		wdSingleton = new Window();
+		return wdSingleton;
+	}
+	else
+	{
+		return wdSingleton;
+	}
+	return nullptr;
 }
 
 void Window::onCreate()
