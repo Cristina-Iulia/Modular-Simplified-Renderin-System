@@ -13,13 +13,21 @@ Controller::~Controller()
 void Controller::init()
 {
 	sglWindow = Window::getInstance();
+	sglRenderer = Renderer::getInstance();
+	
 	if (!sglWindow->init()) {
+		//some error log
+	}
+	else if (!sglRenderer->init())
+	{
 		//some error log
 	}
 }
 
 void Controller::release()
 {
+	sglWindow->onDestroy();
+	sglRenderer->release();
 }
 
 void Controller::Startup()
@@ -35,6 +43,7 @@ void Controller::Startup()
 
 void Controller::ShutDown()
 {
+	release();
 }
 
 Controller * Controller::getInstance()

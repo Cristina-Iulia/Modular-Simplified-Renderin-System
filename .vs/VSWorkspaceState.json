@@ -3,8 +3,9 @@
     "",
     "\\App",
     "\\CoreSystems",
-    "\\CoreSystems\\ControlModule"
+    "\\CoreSystems\\ControlModule",
+    "\\CoreSystems\\DebugLogger"
   ],
-  "SelectedNode": "\\Graphic_Engine.vcxproj",
+  "SelectedNode": "\\GUI",
   "PreviewInSolutionExplorer": false
 }

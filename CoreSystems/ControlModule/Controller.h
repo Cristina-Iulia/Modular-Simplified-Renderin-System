@@ -2,6 +2,7 @@
 
 // Imports
 #include "../Window/Window.h"
+#include "../../Renderer.h"
 
 
 class Controller
@@ -20,6 +21,7 @@ protected:
 	void init();
 	void release();
 	Window* sglWindow;
+	Renderer* sglRenderer;
 	
 };
 

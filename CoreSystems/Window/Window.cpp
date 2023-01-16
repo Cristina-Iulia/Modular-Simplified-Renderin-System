@@ -120,7 +120,10 @@ void Window::onUpdate()
 
 void Window::onDestroy()
 {
-	windowIsRunning = false;
+	if (wdSingleton->release()) {
+		windowIsRunning = false;
+	}
+	
 }
 
 void Window::windowSettup()

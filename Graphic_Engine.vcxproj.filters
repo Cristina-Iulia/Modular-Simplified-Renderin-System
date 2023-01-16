@@ -16,9 +16,6 @@
     <Filter Include="CoreSystems\Window">
       <UniqueIdentifier>{7add5dd5-0225-44ce-8cb9-89d0b109142d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="CoreSystems\DebugLogger">
-      <UniqueIdentifier>{d042d7c9-0331-4fd6-b180-df5812f632f3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="CoreSystems\ControlModule">
       <UniqueIdentifier>{936fca79-7714-4200-9772-1f8820994544}</UniqueIdentifier>
     </Filter>
@@ -28,16 +25,22 @@
     <ClCompile Include="CoreSystems/Window/Window.cpp">
       <Filter>CoreSystems\Window</Filter>
     </ClCompile>
-    <ClCompile Include="Controller.cpp">
+    <ClCompile Include="CoreSystems/ControlModule/Controller.cpp">
       <Filter>CoreSystems\ControlModule</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>LowLevelRenderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CoreSystems/Window/Window.h">
       <Filter>CoreSystems\Window</Filter>
     </ClInclude>
-    <ClInclude Include="Controller.h">
+    <ClInclude Include="CoreSystems/ControlModule/Controller.h">
       <Filter>CoreSystems\ControlModule</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>LowLevelRenderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
