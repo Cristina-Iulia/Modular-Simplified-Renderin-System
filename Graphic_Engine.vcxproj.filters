@@ -7,9 +7,6 @@
     <Filter Include="GUI\InputModule">
       <UniqueIdentifier>{9b3f5e25-c98a-4e34-a05a-874dd33d1625}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LowLevelRenderer">
-      <UniqueIdentifier>{1385ccea-053e-4466-ad99-5a1da45d15c9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="CoreSystems">
       <UniqueIdentifier>{5d5d80ea-9c91-408b-8d66-f00167717332}</UniqueIdentifier>
     </Filter>
@@ -18,6 +15,15 @@
     </Filter>
     <Filter Include="CoreSystems\ControlModule">
       <UniqueIdentifier>{936fca79-7714-4200-9772-1f8820994544}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LowLevelRenderModule">
+      <UniqueIdentifier>{1385ccea-053e-4466-ad99-5a1da45d15c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LowLevelRenderModule\Renderer">
+      <UniqueIdentifier>{d664cc14-c477-47b1-a0f5-087a15d827fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LowLevelRenderModule\SwapChain">
+      <UniqueIdentifier>{9c5157ba-e0de-44d6-bded-215de0d98a21}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -29,7 +35,10 @@
       <Filter>CoreSystems\ControlModule</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
-      <Filter>LowLevelRenderer</Filter>
+      <Filter>LowLevelRenderModule\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="SwapChain.cpp">
+      <Filter>LowLevelRenderModule\SwapChain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -40,7 +49,10 @@
       <Filter>CoreSystems\ControlModule</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">
-      <Filter>LowLevelRenderer</Filter>
+      <Filter>LowLevelRenderModule\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="SwapChain.h">
+      <Filter>LowLevelRenderModule\SwapChain</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

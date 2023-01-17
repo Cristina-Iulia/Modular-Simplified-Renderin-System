@@ -41,6 +41,12 @@ bool Renderer::init()
 		++driver_type_index;
 	}
 
+	//if (FAILED(res)) throw std::runtime_error("DGraphicsEngine not created successfully");
+
+	m_d3dDevice->QueryInterface(__uuidof(IDXGIDevice), (void**)&m_dxgiDevice);
+	m_dxgiDevice->GetParent(__uuidof(IDXGIAdapter), (void**)&m_dxgiAdapter);
+	m_dxgiAdapter->GetParent(__uuidof(IDXGIFactory), (void**)&m_dxgiFactory);
+
 	return true;
 }
 
@@ -66,3 +72,15 @@ Renderer * Renderer::getInstance()
 
 	return nullptr;
 }
+
+IDXGIFactory * Renderer::getFactory()
+{
+	return rdSingleton->m_dxgiFactory;
+}
+
+ID3D11Device* Renderer::getDevice()
+{
+	return rdSingleton->m_d3dDevice;
+}
+
+
