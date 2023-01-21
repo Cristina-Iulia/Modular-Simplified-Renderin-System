@@ -25,6 +25,9 @@
     <Filter Include="LowLevelRenderModule\SwapChain">
       <UniqueIdentifier>{9c5157ba-e0de-44d6-bded-215de0d98a21}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CoreSystems\DeviceManager">
+      <UniqueIdentifier>{aa59513d-914b-466c-a070-5d6d22af8603}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App/main.cpp" />
@@ -34,10 +37,13 @@
     <ClCompile Include="CoreSystems/ControlModule/Controller.cpp">
       <Filter>CoreSystems\ControlModule</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer.cpp">
+    <ClCompile Include="CoreSystems/DeviceManager/DeviceManager.cpp">
+      <Filter>CoreSystems\DeviceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="LowLevelRenderModule/Renderer/Renderer.cpp">
       <Filter>LowLevelRenderModule\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="SwapChain.cpp">
+    <ClCompile Include="LowLevelRenderModule/SwapChain/SwapChain.cpp">
       <Filter>LowLevelRenderModule\SwapChain</Filter>
     </ClCompile>
   </ItemGroup>
@@ -48,10 +54,13 @@
     <ClInclude Include="CoreSystems/ControlModule/Controller.h">
       <Filter>CoreSystems\ControlModule</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer.h">
+    <ClInclude Include="CoreSystems/DeviceManager/DeviceManager.h">
+      <Filter>CoreSystems\DeviceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="LowLevelRenderModule/Renderer/Renderer.h">
       <Filter>LowLevelRenderModule\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="SwapChain.h">
+    <ClInclude Include="LowLevelRenderModule/SwapChain/SwapChain.h">
       <Filter>LowLevelRenderModule\SwapChain</Filter>
     </ClInclude>
   </ItemGroup>

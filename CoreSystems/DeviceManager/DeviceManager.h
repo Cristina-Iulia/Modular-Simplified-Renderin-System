@@ -1,21 +1,21 @@
 #pragma once
 #include <d3d11.h>
 
-
-class Renderer
+class DeviceManager
 {
 public:
-	Renderer();
-	~Renderer();
+	DeviceManager();
+	~DeviceManager();
+
 	bool init();
-	bool release();
-	static Renderer* getInstance();
-	static Renderer* rdSingleton;
+	void relese();
+
+	static DeviceManager* dvmSingleton;
+	static DeviceManager* getInstance();
 
 	// GETTER FUNCTIONS
 	static ID3D11Device* getDevice();
 	static IDXGIFactory* getFactory();
-
 
 private:
 	ID3D11Device* m_d3dDevice;

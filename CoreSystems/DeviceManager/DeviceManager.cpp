@@ -1,18 +1,17 @@
-#include "Renderer.h"
+#include "DeviceManager.h"
 
-//#define driver_types (D3D_DRIVER_TYPE[]) { D3D_DRIVER_TYPE_HARDWARE, D3D_DRIVER_TYPE_WARP, D3D_DRIVER_TYPE_REFERENCE}
+DeviceManager* DeviceManager::dvmSingleton = nullptr;
 
-Renderer* Renderer::rdSingleton = nullptr;
 
-Renderer::Renderer()
+DeviceManager::DeviceManager()
 {
 }
 
-Renderer::~Renderer()
+DeviceManager::~DeviceManager()
 {
 }
 
-bool Renderer::init()
+bool DeviceManager::init()
 {
 	D3D_DRIVER_TYPE driver_types[] = //array used to set driver in order from best to worst option 
 	{
@@ -20,17 +19,16 @@ bool Renderer::init()
 		D3D_DRIVER_TYPE_WARP, //use CPU as main driver
 		D3D_DRIVER_TYPE_REFERENCE //WARP with low performance
 	};
-	
-	UINT num_driver_types = ARRAYSIZE(driver_types);
 
 	D3D_FEATURE_LEVEL feature_levels[] =
 	{
 	 D3D_FEATURE_LEVEL_11_0
 	};
-	UINT num_feature_levels = ARRAYSIZE(feature_levels);
 
+	UINT num_driver_types = ARRAYSIZE(driver_types);
+	UINT num_feature_levels = ARRAYSIZE(feature_levels);
 	HRESULT res = 0;
-	
+
 
 	for (UINT driver_type_index = 0; driver_type_index < num_driver_types;)
 	{
@@ -41,7 +39,10 @@ bool Renderer::init()
 		++driver_type_index;
 	}
 
-	//if (FAILED(res)) throw std::runtime_error("DGraphicsEngine not created successfully");
+	if (FAILED(res))
+	{
+		return false;
+	}
 
 	m_d3dDevice->QueryInterface(__uuidof(IDXGIDevice), (void**)&m_dxgiDevice);
 	m_dxgiDevice->GetParent(__uuidof(IDXGIAdapter), (void**)&m_dxgiAdapter);
@@ -50,37 +51,36 @@ bool Renderer::init()
 	return true;
 }
 
-bool Renderer::release()
+void DeviceManager::relese()
 {
 	m_immContext->Release();
+	m_dxgiDevice->Release();
+	m_dxgiAdapter->Release();
+	m_dxgiFactory->Release();
 	m_d3dDevice->Release();
-
-	return true;
 }
 
-Renderer * Renderer::getInstance()
+DeviceManager * DeviceManager::getInstance()
 {
-	if (Renderer::rdSingleton == nullptr)
+	if (DeviceManager::dvmSingleton == nullptr)
 	{
-		Renderer::rdSingleton = new Renderer;
-		return rdSingleton;
+		DeviceManager::dvmSingleton = new DeviceManager;
+		return dvmSingleton;
 	}
 	else
 	{
-		return rdSingleton;
+		return dvmSingleton;
 	}
 
 	return nullptr;
 }
 
-IDXGIFactory * Renderer::getFactory()
+IDXGIFactory * DeviceManager::getFactory()
 {
-	return rdSingleton->m_dxgiFactory;
+	return dvmSingleton->m_dxgiFactory;
 }
 
-ID3D11Device* Renderer::getDevice()
+ID3D11Device* DeviceManager::getDevice()
 {
-	return rdSingleton->m_d3dDevice;
+	return dvmSingleton->m_d3dDevice;
 }
-
-

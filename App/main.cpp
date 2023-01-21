@@ -3,7 +3,7 @@
 
 int main()                                                                                                                                                                                                                                                                                                                 
 {
-	spdlog::info("Ciocanul vesel");
+	spdlog::info("In main()");
 	Controller* app = Controller::getInstance();
 	app->Startup();
 

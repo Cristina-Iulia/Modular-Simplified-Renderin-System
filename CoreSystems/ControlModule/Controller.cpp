@@ -14,8 +14,12 @@ void Controller::init()
 {
 	sglWindow = Window::getInstance();
 	sglRenderer = Renderer::getInstance();
+	sglDeviceManager = DeviceManager::getInstance();
 	
-	if (!sglWindow->init()) {
+	if (!sglDeviceManager->init()) {
+		//some error log
+	}
+	else if (!sglWindow->init()) {
 		//some error log
 	}
 	else if (!sglRenderer->init())
@@ -28,6 +32,7 @@ void Controller::release()
 {
 	sglWindow->onDestroy();
 	sglRenderer->release();
+	sglDeviceManager->relese();
 }
 
 void Controller::Startup()

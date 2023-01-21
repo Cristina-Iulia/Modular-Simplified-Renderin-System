@@ -2,7 +2,8 @@
 
 // Imports
 #include "../Window/Window.h"
-#include "../../Renderer.h"
+#include "../../LowLevelRenderModule/Renderer/Renderer.h"
+#include "../DeviceManager/DeviceManager.h"
 
 
 class Controller
@@ -20,6 +21,7 @@ protected:
 
 	void init();
 	void release();
+	DeviceManager* sglDeviceManager;
 	Window* sglWindow;
 	Renderer* sglRenderer;
 	
