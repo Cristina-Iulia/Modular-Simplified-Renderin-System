@@ -1,4 +1,6 @@
 #pragma once
+#ifndef WND_DEF
+#define WND_DEF
 #include <Windows.h>
 
 
@@ -30,3 +32,4 @@ protected:
 
 };
 
+#endif

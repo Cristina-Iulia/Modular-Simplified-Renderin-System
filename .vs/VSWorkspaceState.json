@@ -1,11 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\App",
     "\\CoreSystems",
     "\\CoreSystems\\ControlModule",
-    "\\CoreSystems\\DebugLogger"
+    "\\LowLevelRenderModule",
+    "\\LowLevelRenderModule\\Renderer"
   ],
-  "SelectedNode": "\\GUI",
+  "SelectedNode": "\\CoreSystems\\ControlModule\\Controller.h",
   "PreviewInSolutionExplorer": false
 }

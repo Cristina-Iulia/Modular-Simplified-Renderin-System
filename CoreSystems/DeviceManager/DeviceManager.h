@@ -1,4 +1,7 @@
 #pragma once
+#ifndef  DEV_M
+#define DEV_M
+
 #include <d3d11.h>
 
 class DeviceManager
@@ -27,3 +30,4 @@ private:
 
 };
 
+#endif 
