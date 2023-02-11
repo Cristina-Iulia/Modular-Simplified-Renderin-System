@@ -13,7 +13,6 @@ public:
 	bool init();
 	void relese();
 
-	static DeviceManager* dvmSingleton;
 	static DeviceManager* getInstance();
 
 	// GETTER FUNCTIONS

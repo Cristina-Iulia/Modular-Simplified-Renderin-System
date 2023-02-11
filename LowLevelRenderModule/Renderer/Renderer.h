@@ -1,5 +1,7 @@
 #pragma once
 #include "../../CoreSystems/DeviceManager/DeviceManager.h"
+#include "../SwapChain/SwapChain.h"
+#include "../../CoreSystems/Window/Window.h"
 
 class Renderer
 {
@@ -9,10 +11,12 @@ public:
 	bool init();
 	bool release();
 	static Renderer* getInstance();
-	static Renderer* rdSingleton;
+
 
 private:
 	DeviceManager* sglDeviceManager;
+	SwapChain* sglSwapChain;
+	Window* sglHwnd;
 
 };
 

@@ -1,7 +1,6 @@
 #include "DeviceManager.h"
 
-DeviceManager* DeviceManager::dvmSingleton = nullptr;
-
+static DeviceManager* dvmSingleton = nullptr;
 
 DeviceManager::DeviceManager()
 {
@@ -62,9 +61,10 @@ void DeviceManager::relese()
 
 DeviceManager * DeviceManager::getInstance()
 {
-	if (DeviceManager::dvmSingleton == nullptr)
+
+	if (dvmSingleton == nullptr)
 	{
-		DeviceManager::dvmSingleton = new DeviceManager;
+		dvmSingleton = new DeviceManager();
 		return dvmSingleton;
 	}
 	else

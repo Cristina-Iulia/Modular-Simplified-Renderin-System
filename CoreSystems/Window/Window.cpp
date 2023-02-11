@@ -1,9 +1,10 @@
 #include "Window.h"
 
-Window* Window::wdSingleton = NULL;
+static Window* wdSingleton = nullptr;
 
 Window::Window()
 {
+	spdlog::info("In Window::Window() ");
 }
 
 Window::~Window()
@@ -17,14 +18,22 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg,  WPARAM wparam, LPARAM lparam)
 	{
 	case WM_CREATE:
 	{
+		// Event fired when the window is created
+		// collected here..
+		//Window::wdSingleton = (Window*)((LPCREATESTRUCT)lparam)->lpCreateParams;
+		// .. and then stored for later lookup
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)wdSingleton);
+		wdSingleton->setHwnd(hwnd);
 		// On Create window Event
-		Window::wdSingleton->onCreate();
+		wdSingleton->onCreate();
 		break;
 	}
 	case WM_DESTROY:
 	{
+		// Event fired when the window is destroyed
+		Window* window = (Window*)GetWindowLong(hwnd, GWLP_USERDATA);
 		// On Destroy window Event
-		Window::wdSingleton->onDestroy();
+		window->onDestroy();
 		::PostQuitMessage(0); // Make request to system to terminate process
 		break;
 	}
@@ -37,10 +46,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg,  WPARAM wparam, LPARAM lparam)
 
 bool Window::init()
 {
-	if (!wdSingleton)
-	{
-		wdSingleton = this;
-	}
 
 	windowSettup();
 
@@ -84,7 +89,7 @@ bool Window::broadcast()
 		DispatchMessage(&msg);
 	}
 
-	wdSingleton->onUpdate();
+	this->onUpdate();
 
 	Sleep(0);
 
@@ -98,15 +103,28 @@ bool Window::isRun()
 
 Window* Window::getInstance()
 {
-	if (wdSingleton == NULL)
+
+
+	spdlog::info("In Window::getInstance");
+
+	if (wdSingleton == nullptr)
 	{
+		spdlog::info("In Window::getInstance -> if ");
 		wdSingleton = new Window();
+
+		if (wdSingleton == nullptr) {
+			spdlog::info("In Window::getInstance wdSingleton ");
+		}
+		//spdlog::info("In Window::getInstance : {}", Window::wdSingleton);
 		return wdSingleton;
 	}
 	else
 	{
+		spdlog::info("In Window::getInstance -> else ");
 		return wdSingleton;
 	}
+
+	spdlog::info("In Window::getInstance -> WRONG ");
 	return nullptr;
 }
 
@@ -120,10 +138,27 @@ void Window::onUpdate()
 
 void Window::onDestroy()
 {
-	if (wdSingleton->release()) {
+	if (this->release()) {
 		windowIsRunning = false;
 	}
 	
+}
+
+RECT Window::getWindowRect()
+{
+	RECT rc;
+	::GetClientRect(this->m_hwnd, &rc);
+	return rc;
+}
+
+HWND Window::getWindowDesc()
+{
+	return this->m_hwnd;
+}
+
+void Window::setHwnd(HWND hwnd)
+{
+	this->m_hwnd = hwnd;
 }
 
 void Window::windowSettup()

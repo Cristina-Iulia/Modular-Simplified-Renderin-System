@@ -1,6 +1,7 @@
 #include "Controller.h"
 
-Controller* Controller::crtModule = NULL;
+
+static Controller* crtModule = nullptr;
 
 Controller::Controller()
 {
@@ -12,17 +13,20 @@ Controller::~Controller()
 
 void Controller::init()
 {
+	spdlog::info("In Controller::init()");
 	sglWindow = Window::getInstance();
-	sglRenderer = Renderer::getInstance();
-	sglDeviceManager = DeviceManager::getInstance();
+	if (!sglWindow->init()) {
+		//some error log
+	}
 	
+	sglDeviceManager = DeviceManager::getInstance();
 	if (!sglDeviceManager->init()) {
 		//some error log
 	}
-	else if (!sglWindow->init()) {
-		//some error log
-	}
-	else if (!sglRenderer->init())
+
+
+	sglRenderer = Renderer::getInstance();
+	if (!sglRenderer->init())
 	{
 		//some error log
 	}
@@ -30,19 +34,20 @@ void Controller::init()
 
 void Controller::release()
 {
-	sglWindow->onDestroy();
 	sglRenderer->release();
 	sglDeviceManager->relese();
+	sglWindow->onDestroy();
 }
 
 void Controller::Startup()
 {
-	crtModule->init();
+	spdlog::info("In Controller::Startup()");
+	this->init();
 
-	while (crtModule->sglWindow->isRun())
+	while (this->sglWindow->isRun())
 	{
 
-		crtModule->sglWindow->broadcast();
+		this->sglWindow->broadcast();
 	}
 }
 
@@ -53,14 +58,19 @@ void Controller::ShutDown()
 
 Controller * Controller::getInstance()
 {
-	if (crtModule == NULL)
+	spdlog::info("In Controller::getInstance()");
+	if (crtModule == nullptr)
 	{
+		spdlog::info("In Controller::getInstance() -> if");
 		crtModule = new Controller();
 		return crtModule;
 	}
 	else
 	{
+		spdlog::info("In Controller::getInstance() -> else");
 		return crtModule;
 	}
+
+	spdlog::info("In Controller::getInstance() ->WRONG");
 	return nullptr;
 }

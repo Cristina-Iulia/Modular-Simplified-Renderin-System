@@ -7,10 +7,13 @@ class SwapChain
 public:
 	SwapChain();
 	~SwapChain();
-	void init();
+	void init(HWND hwnd, UINT width, UINT height);
 	void release();
 
 	static SwapChain* getInstance();
-	static SwapChain* swapSingleton;
+
+
+private:
+	IDXGISwapChain* m_swap_chain = nullptr;
 };
 

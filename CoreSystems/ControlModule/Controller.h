@@ -13,7 +13,6 @@ public:
 	~Controller();
 	void Startup();
 	void ShutDown();
-	static Controller* crtModule;
 	static Controller* getInstance();
 
 
