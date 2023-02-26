@@ -4,7 +4,7 @@ static Window* wdSingleton = nullptr;
 
 Window::Window()
 {
-	spdlog::info("In Window::Window() ");
+	//spdlog::info("In Window::Window() ");
 }
 
 Window::~Window()
@@ -109,22 +109,18 @@ Window* Window::getInstance()
 
 	if (wdSingleton == nullptr)
 	{
-		spdlog::info("In Window::getInstance -> if ");
 		wdSingleton = new Window();
 
 		if (wdSingleton == nullptr) {
 			spdlog::info("In Window::getInstance wdSingleton ");
 		}
-		//spdlog::info("In Window::getInstance : {}", Window::wdSingleton);
 		return wdSingleton;
 	}
 	else
 	{
-		spdlog::info("In Window::getInstance -> else ");
 		return wdSingleton;
 	}
 
-	spdlog::info("In Window::getInstance -> WRONG ");
 	return nullptr;
 }
 

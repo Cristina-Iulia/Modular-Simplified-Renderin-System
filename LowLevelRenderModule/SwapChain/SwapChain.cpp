@@ -1,5 +1,4 @@
 #include "SwapChain.h"
-#include <stdexcept>
 
 static SwapChain* swapSingleton = nullptr;
 
@@ -13,8 +12,14 @@ SwapChain::~SwapChain()
 
 void SwapChain::init(HWND hwnd, UINT width, UINT height)
 {
+	spdlog::info("__Initializing SwapChain Entity__ : STARTED");
 	ID3D11Device* device = DeviceManager::getDevice();
-	DXGI_SWAP_CHAIN_DESC desc; //declare swap chain descriptor
+	
+	if (device == nullptr)
+	{
+		spdlog::critical("DEVICE retrieval returned NULLPTR");
+	}
+	DXGI_SWAP_CHAIN_DESC desc = {}; //declare swap chain descriptor
 	desc.BufferCount = 1; //set the number of backbuffers to be used to one
 	desc.BufferDesc.Width = width; //set width of backbuffer
 	desc.BufferDesc.Height = height; //set height of backbuffer
@@ -28,13 +33,56 @@ void SwapChain::init(HWND hwnd, UINT width, UINT height)
 	//desc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 	desc.Windowed = TRUE;
 
+	spdlog::info("SwapChain internal startup parameters set");
 	HRESULT result = DeviceManager::getFactory()->CreateSwapChain(device, &desc, &m_swap_chain);
 
 	if (FAILED(result))
 	{
-		std::runtime_error("SwapChain creation UNSUCCESSFUL");
+		spdlog::critical("SwapChain creation UNSUCCESSFUL");
+		spdlog::critical(HRESULT_CODE(result));
+		return;
+	}
+	else
+	{
+		if (m_swap_chain != nullptr)
+		{
+			spdlog::info("SwapChain creation SUCCESSFUL");
+		}
+		else
+		{
+			spdlog::critical("SwapChain creation UNSUCCESSFUL");
+		}
 	}
 
+	// get the back buffer of the swap chain
+	ID3D11Texture2D* buffer = NULL;
+	result = m_swap_chain->GetBuffer(0, __uuidof(ID3D10Texture2D), (void**)buffer);
+
+	if (FAILED(result))
+	{
+		spdlog::critical("BackBuffer retival UNSUCCESSFUL");
+		return;
+	}
+	else
+	{
+		spdlog::info("BackBuffer retival SUCCESSFUL");
+	}
+
+	// create a render target using the back buffer retrieved earlier
+	result = device->CreateRenderTargetView(buffer, NULL, &m_rtv);
+	buffer->Release();
+
+	if (FAILED(result))
+	{
+		spdlog::critical("Render Target View creation UNSUCCESSFUL");
+		spdlog::critical(HRESULT_CODE(result));
+	}
+	else
+	{
+		spdlog::info("Render Target View creation SUCCESSFUL");
+	}
+
+	spdlog::info("__Initializing SwapChain Entity__ : FINISHED");
 }
 
 void SwapChain::release()

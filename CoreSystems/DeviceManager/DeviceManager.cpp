@@ -4,6 +4,7 @@ static DeviceManager* dvmSingleton = nullptr;
 
 DeviceManager::DeviceManager()
 {
+	spdlog::info("Construct DeviceManager instance");
 }
 
 DeviceManager::~DeviceManager()
@@ -12,6 +13,7 @@ DeviceManager::~DeviceManager()
 
 bool DeviceManager::init()
 {
+	spdlog::info("Initialising DeviceManager instance");
 	D3D_DRIVER_TYPE driver_types[] = //array used to set driver in order from best to worst option 
 	{
 		D3D_DRIVER_TYPE_HARDWARE, //use GPU as main driver
@@ -40,6 +42,7 @@ bool DeviceManager::init()
 
 	if (FAILED(res))
 	{
+		spdlog::critical("Device Creation FAILED");
 		return false;
 	}
 
@@ -47,11 +50,13 @@ bool DeviceManager::init()
 	m_dxgiDevice->GetParent(__uuidof(IDXGIAdapter), (void**)&m_dxgiAdapter);
 	m_dxgiAdapter->GetParent(__uuidof(IDXGIFactory), (void**)&m_dxgiFactory);
 
+	spdlog::info("Device Creation SUCCESS");
 	return true;
 }
 
 void DeviceManager::relese()
 {
+	spdlog::info("Destroy DeviceManager : RELEASE resources");
 	m_immContext->Release();
 	m_dxgiDevice->Release();
 	m_dxgiAdapter->Release();
@@ -61,7 +66,7 @@ void DeviceManager::relese()
 
 DeviceManager * DeviceManager::getInstance()
 {
-
+	spdlog::info("Retrieve DeviceManager instance");
 	if (dvmSingleton == nullptr)
 	{
 		dvmSingleton = new DeviceManager();
@@ -72,15 +77,55 @@ DeviceManager * DeviceManager::getInstance()
 		return dvmSingleton;
 	}
 
+	spdlog::critical("ERROR AT : DeviceManager::INSTANCE retrieval");
 	return nullptr;
 }
 
 IDXGIFactory * DeviceManager::getFactory()
 {
-	return dvmSingleton->m_dxgiFactory;
+	if (dvmSingleton->m_dxgiFactory == nullptr)
+	{
+		spdlog::critical("ERROR AT : DeviceManager::FACTORY retrieval");
+	}
+	else
+	{
+		spdlog::info("Retrieve DeviceManager::FACTORY");
+		return dvmSingleton->m_dxgiFactory;
+	}
+
+	spdlog::critical("ERROR AT : DeviceManager::FACTORY retrieval");
+	return nullptr;
+}
+
+ID3D11DeviceContext * DeviceManager::getDeviceContext()
+{
+
+	if (dvmSingleton->m_immContext == nullptr)
+	{
+		spdlog::critical("ERROR AT : DeviceManager::CONTEXT retrieval");
+	}
+	else
+	{
+		spdlog::info("Retrieve DeviceManager::CONTEXT");
+		return dvmSingleton->m_immContext;
+	}
+
+	spdlog::critical("ERROR AT : DeviceManager::CONTEXT retrieval");
+	return nullptr;
 }
 
 ID3D11Device* DeviceManager::getDevice()
 {
-	return dvmSingleton->m_d3dDevice;
+	if (dvmSingleton->m_d3dDevice == nullptr)
+	{
+		spdlog::critical("ERROR AT : DeviceManager::DEVICE retrieval");
+	}
+	else
+	{
+		spdlog::info("Retrieve DeviceManager::DEVICE");
+		return dvmSingleton->m_d3dDevice;
+	}
+
+	spdlog::critical("ERROR AT : DeviceManager::DEVICE retrieval");
+	return nullptr;
 }

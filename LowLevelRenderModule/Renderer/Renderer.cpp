@@ -16,27 +16,30 @@ bool Renderer::init()
 	sglHwnd = Window::getInstance();
 	if (sglHwnd == nullptr)
 	{
-		std::runtime_error("Bad instance: Window -> nullptr");
+		spdlog::critical("Bad instance: Window -> nullptr");
 	}
 
 
 	sglDeviceManager = DeviceManager::getInstance();
 	if (sglDeviceManager == nullptr)
 	{
-		std::runtime_error("Bad instance: DeviceManager -> nullptr");
+		spdlog::critical("Bad instance: DeviceManager -> nullptr");
 	}
 
 
 	sglSwapChain = SwapChain::getInstance();
 	if (sglSwapChain == nullptr)
 	{
-		std::runtime_error("Bad instance: SwapChain -> nullptr");
+		spdlog::critical("Bad instance: SwapChain -> nullptr");
 	}
 	else {
 
 		RECT rc = sglHwnd->getWindowRect();
 		sglSwapChain->init(this->sglHwnd->getWindowDesc(), rc.right-rc.left, rc.bottom-rc.top);
 	}
+
+	devContext = new DeviceContext();
+	devContext->init();
 
 
 	return true;
@@ -45,6 +48,7 @@ bool Renderer::init()
 bool Renderer::release()
 {
 	sglSwapChain->release();
+	devContext->release();
 	return true;
 }
 

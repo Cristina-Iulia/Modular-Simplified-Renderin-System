@@ -1,4 +1,6 @@
 #pragma once
+#ifndef  CONTROLLER_MAC
+#define CONTROLLER_MAC
 
 // Imports
 #include "../Window/Window.h"
@@ -26,3 +28,5 @@ protected:
 	
 };
 
+
+#endif 

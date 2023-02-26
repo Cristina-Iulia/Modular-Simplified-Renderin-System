@@ -13,22 +13,24 @@ Controller::~Controller()
 
 void Controller::init()
 {
-	spdlog::info("In Controller::init()");
+	spdlog::info("Initialising Controller");
 	sglWindow = Window::getInstance();
-	if (!sglWindow->init()) {
-		//some error log
+	if (!sglWindow->init()) 
+	{
+		spdlog::critical("Window initialisation FAILED");
 	}
 	
 	sglDeviceManager = DeviceManager::getInstance();
-	if (!sglDeviceManager->init()) {
-		//some error log
+	if (!sglDeviceManager->init()) 
+	{
+		spdlog::critical("DeviceManager initialisation FAILED");
 	}
 
 
 	sglRenderer = Renderer::getInstance();
 	if (!sglRenderer->init())
 	{
-		//some error log
+		spdlog::critical("Renderer initialisation FAILED");
 	}
 }
 
@@ -58,19 +60,19 @@ void Controller::ShutDown()
 
 Controller * Controller::getInstance()
 {
-	spdlog::info("In Controller::getInstance()");
+
 	if (crtModule == nullptr)
 	{
-		spdlog::info("In Controller::getInstance() -> if");
+
 		crtModule = new Controller();
 		return crtModule;
 	}
 	else
 	{
-		spdlog::info("In Controller::getInstance() -> else");
+
 		return crtModule;
 	}
 
-	spdlog::info("In Controller::getInstance() ->WRONG");
+
 	return nullptr;
 }

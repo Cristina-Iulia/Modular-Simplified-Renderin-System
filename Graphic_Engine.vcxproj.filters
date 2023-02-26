@@ -28,6 +28,9 @@
     <Filter Include="CoreSystems\DeviceManager">
       <UniqueIdentifier>{aa59513d-914b-466c-a070-5d6d22af8603}</UniqueIdentifier>
     </Filter>
+    <Filter Include="LowLevelRenderModule\DeviceContext">
+      <UniqueIdentifier>{87f28bfc-b5de-4a80-9249-d7ca238a24e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App/main.cpp" />
@@ -46,6 +49,9 @@
     <ClCompile Include="LowLevelRenderModule/SwapChain/SwapChain.cpp">
       <Filter>LowLevelRenderModule\SwapChain</Filter>
     </ClCompile>
+    <ClCompile Include="DeviceContext.cpp">
+      <Filter>LowLevelRenderModule\DeviceContext</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CoreSystems/Window/Window.h">
@@ -62,6 +68,9 @@
     </ClInclude>
     <ClInclude Include="LowLevelRenderModule/SwapChain/SwapChain.h">
       <Filter>LowLevelRenderModule\SwapChain</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceContext.h">
+      <Filter>LowLevelRenderModule\DeviceContext</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

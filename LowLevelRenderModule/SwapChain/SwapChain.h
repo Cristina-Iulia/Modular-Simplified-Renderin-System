@@ -1,5 +1,9 @@
 #pragma once
+#ifndef  SWAPCHAIN_MECHANISM
+#define SWAPCHAIN_MECHANISM
+
 #include "../../CoreSystems/DeviceManager/DeviceManager.h"
+#include "spdlog/spdlog.h"
 
 
 class SwapChain
@@ -14,6 +18,8 @@ public:
 
 
 private:
-	IDXGISwapChain* m_swap_chain = nullptr;
+	IDXGISwapChain* m_swap_chain;
+	ID3D11RenderTargetView* m_rtv;
 };
 
+#endif
