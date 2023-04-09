@@ -3,6 +3,8 @@
 #define WND_DEF
 #include <Windows.h>
 #include "spdlog/spdlog.h"
+#include "../../LowLevelRenderModule/Renderer/Renderer.h"
+//#include "../../Singleton.h"
 
 
 class Window
@@ -24,8 +26,10 @@ public:
 	RECT getWindowRect();
 	HWND getWindowDesc();
 	void setHwnd(HWND hwnd);
+	void setRenderer(Renderer* renderer);
 
 private:
+	Renderer* sglRenderer;
 	void windowSettup();
 protected:
 	HWND m_hwnd;

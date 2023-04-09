@@ -11,14 +11,8 @@ Renderer::~Renderer()
 {
 }
 
-bool Renderer::init()
+bool Renderer::init(HWND m_hwnd, RECT rc)
 {
-	sglHwnd = Window::getInstance();
-	if (sglHwnd == nullptr)
-	{
-		spdlog::critical("Bad instance: Window -> nullptr");
-	}
-
 
 	sglDeviceManager = DeviceManager::getInstance();
 	if (sglDeviceManager == nullptr)
@@ -32,15 +26,15 @@ bool Renderer::init()
 	{
 		spdlog::critical("Bad instance: SwapChain -> nullptr");
 	}
-	else {
-
-		RECT rc = sglHwnd->getWindowRect();
-		sglSwapChain->init(this->sglHwnd->getWindowDesc(), rc.right-rc.left, rc.bottom-rc.top);
+	else 
+	{
+		sglSwapChain->init(m_hwnd, rc.right-rc.left, rc.bottom-rc.top);
 	}
 
 	devContext = new DeviceContext();
 	devContext->init();
 
+	renderTarget = sglSwapChain->getRenderTarget();
 
 	return true;
 }
@@ -67,6 +61,14 @@ Renderer * Renderer::getInstance()
 	return nullptr;
 }
 
+void Renderer::clearRenderTarget( float red, float green, float blue, float alpha)
+{
+	this->devContext->clearRenderTarget(this->renderTarget, red, green, blue, alpha);
+}
 
+void Renderer::present(bool vsync)
+{
+	sglSwapChain->present(vsync);
+}
 
 

@@ -28,10 +28,12 @@ void Controller::init()
 
 
 	sglRenderer = Renderer::getInstance();
-	if (!sglRenderer->init())
+	if (!sglRenderer->init(sglWindow->getWindowDesc(), sglWindow->getWindowRect()))
 	{
 		spdlog::critical("Renderer initialisation FAILED");
 	}
+
+	sglWindow->setRenderer(sglRenderer);
 }
 
 void Controller::release()

@@ -23,7 +23,8 @@ bool DeviceManager::init()
 
 	D3D_FEATURE_LEVEL feature_levels[] =
 	{
-	 D3D_FEATURE_LEVEL_11_0
+	 D3D_FEATURE_LEVEL_11_0,
+	 D3D_FEATURE_LEVEL_11_1
 	};
 
 	UINT num_driver_types = ARRAYSIZE(driver_types);

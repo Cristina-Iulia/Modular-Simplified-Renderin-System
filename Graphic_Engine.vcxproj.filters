@@ -31,6 +31,18 @@
     <Filter Include="LowLevelRenderModule\DeviceContext">
       <UniqueIdentifier>{87f28bfc-b5de-4a80-9249-d7ca238a24e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DebugTools">
+      <UniqueIdentifier>{0eac15f8-b556-4ecd-a565-acf90fb56d60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interfaces">
+      <UniqueIdentifier>{9497aa94-c35d-452a-8714-9f8b1e8b6a34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LowLevelRenderModule\MemoryBuffers">
+      <UniqueIdentifier>{73c8f2dc-ba25-4052-a63b-6676568752d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LowLevelRenderModule\MemoryBuffers\VertexBuffer">
+      <UniqueIdentifier>{59058353-dcf2-48b2-8c76-5f6caf006f0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App/main.cpp" />
@@ -52,6 +64,9 @@
     <ClCompile Include="DeviceContext.cpp">
       <Filter>LowLevelRenderModule\DeviceContext</Filter>
     </ClCompile>
+    <ClCompile Include="VertexBuffer.cpp">
+      <Filter>LowLevelRenderModule\MemoryBuffers\VertexBuffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CoreSystems/Window/Window.h">
@@ -71,6 +86,13 @@
     </ClInclude>
     <ClInclude Include="DeviceContext.h">
       <Filter>LowLevelRenderModule\DeviceContext</Filter>
+    </ClInclude>
+    <ClInclude Include="LOGGER.h">
+      <Filter>DebugTools</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h" />
+    <ClInclude Include="VertexBuffer.h">
+      <Filter>LowLevelRenderModule\MemoryBuffers\VertexBuffer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

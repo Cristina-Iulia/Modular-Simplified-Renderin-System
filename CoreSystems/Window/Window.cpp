@@ -82,14 +82,14 @@ bool Window::release()
 
 bool Window::broadcast()
 {
+	this->onUpdate();
+
 	MSG msg;
 	while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) > 0)
 	{
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
-
-	this->onUpdate();
 
 	Sleep(0);
 
@@ -130,6 +130,8 @@ void Window::onCreate()
 
 void Window::onUpdate()
 {
+	sglRenderer->clearRenderTarget(0,0,0,1);
+	sglRenderer->present(false);
 }
 
 void Window::onDestroy()
@@ -155,6 +157,11 @@ HWND Window::getWindowDesc()
 void Window::setHwnd(HWND hwnd)
 {
 	this->m_hwnd = hwnd;
+}
+
+void Window::setRenderer(Renderer * renderer)
+{
+	sglRenderer = renderer;
 }
 
 void Window::windowSettup()

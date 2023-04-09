@@ -6,6 +6,7 @@
 #include "spdlog/spdlog.h"
 
 
+
 class SwapChain
 {
 public:
@@ -15,7 +16,8 @@ public:
 	void release();
 
 	static SwapChain* getInstance();
-
+	ID3D11RenderTargetView* getRenderTarget();
+	void present(bool vsync);
 
 private:
 	IDXGISwapChain* m_swap_chain;

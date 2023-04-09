@@ -126,14 +126,18 @@
     <ClCompile Include="DeviceContext.cpp" />
     <ClCompile Include="LowLevelRenderModule/Renderer/Renderer.cpp" />
     <ClCompile Include="LowLevelRenderModule/SwapChain/SwapChain.cpp" />
+    <ClCompile Include="VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CoreSystems/ControlModule/Controller.h" />
     <ClInclude Include="CoreSystems/Window/Window.h" />
     <ClInclude Include="CoreSystems/DeviceManager/DeviceManager.h" />
     <ClInclude Include="DeviceContext.h" />
+    <ClInclude Include="LOGGER.h" />
     <ClInclude Include="LowLevelRenderModule/Renderer/Renderer.h" />
     <ClInclude Include="LowLevelRenderModule/SwapChain/SwapChain.h" />
+    <ClInclude Include="Singleton.h" />
+    <ClInclude Include="VertexBuffer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

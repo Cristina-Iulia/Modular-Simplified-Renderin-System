@@ -8,6 +8,8 @@ void DeviceContext::init()
 
 void DeviceContext::release()
 {
+	this->m_dev_Context->Release();
+	delete this;
 }
 
 DeviceContext::DeviceContext()

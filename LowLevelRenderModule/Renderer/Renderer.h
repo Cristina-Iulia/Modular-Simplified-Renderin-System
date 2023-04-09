@@ -3,7 +3,7 @@
 #define LOW_LEVEL_RENDERER
 #include "../../CoreSystems/DeviceManager/DeviceManager.h"
 #include "../SwapChain/SwapChain.h"
-#include "../../CoreSystems/Window/Window.h"
+#include <Windows.h>
 #include "../../DeviceContext.h"
 #include "spdlog/spdlog.h"
 
@@ -12,16 +12,19 @@ class Renderer
 public:
 	Renderer();
 	~Renderer();
-	bool init();
+	bool init(HWND m_hwnd, RECT rc);
 	bool release();
 	static Renderer* getInstance();
+
+	void clearRenderTarget(float red, float green, float blue, float alpha);
+	void present(bool vsync);
 
 
 private:
 	DeviceManager* sglDeviceManager;
 	SwapChain* sglSwapChain;
-	Window* sglHwnd;
 	DeviceContext* devContext;
+	ID3D11RenderTargetView* renderTarget;
 
 };
 
