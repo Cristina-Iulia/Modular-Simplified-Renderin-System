@@ -18,13 +18,15 @@ public:
 
 	void clearRenderTarget(float red, float green, float blue, float alpha);
 	void present(bool vsync);
+	void createVertexBuffer();
 
-
+	VertexBuffer* vertexBuffer;
+	DeviceContext* devContext;
 private:
 	DeviceManager* sglDeviceManager;
 	SwapChain* sglSwapChain;
-	DeviceContext* devContext;
 	ID3D11RenderTargetView* renderTarget;
+
 
 };
 

@@ -4,6 +4,7 @@
 #include <Windows.h>
 #include "spdlog/spdlog.h"
 #include "../../LowLevelRenderModule/Renderer/Renderer.h"
+#include "../DeviceManager/DeviceManager.h"
 //#include "../../Singleton.h"
 
 

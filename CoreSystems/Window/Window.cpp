@@ -2,6 +2,16 @@
 
 static Window* wdSingleton = nullptr;
 
+struct vec3
+{
+	float x, y, z;
+};
+
+struct vertex
+{
+	vec3 position;
+};
+
 Window::Window()
 {
 	//spdlog::info("In Window::Window() ");
@@ -126,11 +136,22 @@ Window* Window::getInstance()
 
 void Window::onCreate()
 {
+	
 }
 
 void Window::onUpdate()
 {
 	sglRenderer->clearRenderTarget(0,0,0,1);
+
+
+	RECT rc = getWindowRect();
+	sglRenderer->devContext->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
+	sglRenderer->devContext->setShaders();
+
+	sglRenderer->devContext->setVertexBuffer(sglRenderer->vertexBuffer);
+	UINT listSize = sglRenderer->vertexBuffer->sizeOfList;
+	sglRenderer->devContext->drawTriangleStrip(listSize, 0);
+
 	sglRenderer->present(false);
 }
 
@@ -162,6 +183,25 @@ void Window::setHwnd(HWND hwnd)
 void Window::setRenderer(Renderer * renderer)
 {
 	sglRenderer = renderer;
+
+	vertex list[] =
+	{
+		//X - Y - Z
+		{-0.5f,-0.5f,0.0f}, // POS1
+		{-0.5f,0.5f,0.0f}, // POS2
+		{ 0.5f,-0.5f,0.0f },// POS2
+		{ 0.5f,0.5f,0.0f}
+	};
+
+	sglRenderer->createVertexBuffer();
+	UINT listSize = ARRAYSIZE(list);
+
+	sglRenderer->devContext->createShaders();
+	void* shader_byte_code = nullptr;
+	UINT shaderSize = 0;
+	sglRenderer->devContext->getShaderBufferAndSize(&shader_byte_code, &shaderSize);
+	sglRenderer->vertexBuffer->init(list, sizeof(vertex), listSize, shader_byte_code, shaderSize);
+	spdlog::info("List of vertexes : ", sglRenderer->vertexBuffer->data.pSysMem);
 }
 
 void Window::windowSettup()

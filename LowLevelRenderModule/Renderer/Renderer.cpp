@@ -43,6 +43,7 @@ bool Renderer::release()
 {
 	sglSwapChain->release();
 	devContext->release();
+	vertexBuffer->release();
 	return true;
 }
 
@@ -69,6 +70,11 @@ void Renderer::clearRenderTarget( float red, float green, float blue, float alph
 void Renderer::present(bool vsync)
 {
 	sglSwapChain->present(vsync);
+}
+
+void Renderer::createVertexBuffer()
+{
+	vertexBuffer =  new VertexBuffer();
 }
 
 
