@@ -7,6 +7,7 @@
 #include "CoreSystems/DeviceManager/DeviceManager.h"
 #include "LowLevelRenderModule/SwapChain/SwapChain.h"
 #include "VertexBuffer.h"
+#include "VertexShader.h"
 #include "spdlog/spdlog.h"
 
 class DeviceContext
@@ -20,13 +21,13 @@ public:
 
 	void clearRenderTarget(ID3D11RenderTargetView* target, float red, float green, float blue, float alpha);
 	void setVertexBuffer(VertexBuffer* vertex_buffer);
+	void setVertexShader(VertexShader* vertex_shader);
 	void drawTriangleList(UINT vertexCount, UINT startVertexIndex);
 	void drawTriangleStrip(UINT vertexCount, UINT startVertexIndex);
 	void setViewportSize(UINT width, UINT height);
 
 	void createShaders();
 	void setShaders();
-	void getShaderBufferAndSize(void **bytecode, UINT*size);
 
 private:
 	ID3D11DeviceContext* m_dev_Context = nullptr;

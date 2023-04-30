@@ -77,4 +77,35 @@ void Renderer::createVertexBuffer()
 	vertexBuffer =  new VertexBuffer();
 }
 
+void Renderer::compileVertexShader(const wchar_t* file, const char* entryPointName, void** shaderByteCode, size_t* byteCodeSize)
+{
+	ID3DBlob* error_blob = nullptr;
+	HRESULT result = ::D3DCompileFromFile(file, nullptr, nullptr, entryPointName, "vs_5_0", 0, 0, &m_blob, &error_blob);
+
+	if (FAILED(result))
+	{
+		spdlog::critical("VertexShader compilation UNSUCCESSFUL");
+		spdlog::critical(HRESULT_CODE(result));
+		exit(1);
+	}
+
+	*shaderByteCode = m_blob->GetBufferPointer();
+	*byteCodeSize = m_blob->GetBufferSize();
+}
+
+void Renderer::releaseCompiledShader()
+{
+	if (m_blob)
+		m_blob->Release();
+}
+
+VertexShader* Renderer::createVertexShader(void* shaderByteCode, size_t byteCodeSize)
+{
+	VertexShader* vertexShader = new VertexShader();
+
+	vertexShader->init(shaderByteCode, byteCodeSize);
+
+	return vertexShader;
+}
+
 

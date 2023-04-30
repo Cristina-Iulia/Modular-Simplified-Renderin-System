@@ -43,6 +43,12 @@
     <Filter Include="LowLevelRenderModule\MemoryBuffers\VertexBuffer">
       <UniqueIdentifier>{59058353-dcf2-48b2-8c76-5f6caf006f0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="LowLevelRenderModule\Shaders">
+      <UniqueIdentifier>{9f18855e-01e9-4163-964c-2004ebbce4b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LowLevelRenderModule\Shaders\VertexShader">
+      <UniqueIdentifier>{7c091315-5a4c-4554-b1b7-54afc37349e7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App/main.cpp" />
@@ -66,6 +72,9 @@
     </ClCompile>
     <ClCompile Include="VertexBuffer.cpp">
       <Filter>LowLevelRenderModule\MemoryBuffers\VertexBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexShader.cpp">
+      <Filter>LowLevelRenderModule\Shaders\VertexShader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -94,8 +103,12 @@
     <ClInclude Include="VertexBuffer.h">
       <Filter>LowLevelRenderModule\MemoryBuffers\VertexBuffer</Filter>
     </ClInclude>
+    <ClInclude Include="VertexShader.h">
+      <Filter>LowLevelRenderModule\Shaders\VertexShader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader.fx" />
+    <FxCompile Include="VertexShader.hlsl" />
   </ItemGroup>
 </Project>

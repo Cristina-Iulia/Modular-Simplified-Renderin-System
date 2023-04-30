@@ -147,7 +147,7 @@ void Window::onUpdate()
 	RECT rc = getWindowRect();
 	sglRenderer->devContext->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 	sglRenderer->devContext->setShaders();
-
+	sglRenderer->devContext->setVertexShader(sglRenderer->vertexShader);
 	sglRenderer->devContext->setVertexBuffer(sglRenderer->vertexBuffer);
 	UINT listSize = sglRenderer->vertexBuffer->sizeOfList;
 	sglRenderer->devContext->drawTriangleStrip(listSize, 0);
@@ -197,10 +197,15 @@ void Window::setRenderer(Renderer * renderer)
 	UINT listSize = ARRAYSIZE(list);
 
 	sglRenderer->devContext->createShaders();
+
 	void* shader_byte_code = nullptr;
-	UINT shaderSize = 0;
-	sglRenderer->devContext->getShaderBufferAndSize(&shader_byte_code, &shaderSize);
+	size_t shaderSize = 0;
+	sglRenderer->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &shaderSize);
+
+	sglRenderer->vertexShader  = sglRenderer->createVertexShader(shader_byte_code, shaderSize);
 	sglRenderer->vertexBuffer->init(list, sizeof(vertex), listSize, shader_byte_code, shaderSize);
+
+	sglRenderer->releaseCompiledShader();
 	spdlog::info("List of vertexes : ", sglRenderer->vertexBuffer->data.pSysMem);
 }
 
