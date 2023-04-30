@@ -49,6 +49,9 @@
     <Filter Include="LowLevelRenderModule\Shaders\VertexShader">
       <UniqueIdentifier>{7c091315-5a4c-4554-b1b7-54afc37349e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="LowLevelRenderModule\Shaders\PixelShader">
+      <UniqueIdentifier>{6984050b-3cf1-408f-be7c-a82f379f0348}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App/main.cpp" />
@@ -75,6 +78,9 @@
     </ClCompile>
     <ClCompile Include="VertexShader.cpp">
       <Filter>LowLevelRenderModule\Shaders\VertexShader</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelShader.cpp">
+      <Filter>LowLevelRenderModule\Shaders\PixelShader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -106,9 +112,13 @@
     <ClInclude Include="VertexShader.h">
       <Filter>LowLevelRenderModule\Shaders\VertexShader</Filter>
     </ClInclude>
+    <ClInclude Include="PixelShader.h">
+      <Filter>LowLevelRenderModule\Shaders\PixelShader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader.fx" />
     <FxCompile Include="VertexShader.hlsl" />
+    <FxCompile Include="PixelShader.hlsl" />
   </ItemGroup>
 </Project>

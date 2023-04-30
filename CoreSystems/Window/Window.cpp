@@ -10,6 +10,7 @@ struct vec3
 struct vertex
 {
 	vec3 position;
+	vec3 color;
 };
 
 Window::Window()
@@ -146,8 +147,11 @@ void Window::onUpdate()
 
 	RECT rc = getWindowRect();
 	sglRenderer->devContext->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
-	sglRenderer->devContext->setPixelShaders(sglRenderer->m_ps);
+
 	sglRenderer->devContext->setVertexShader(sglRenderer->vertexShader);
+	sglRenderer->devContext->setPixelShader(sglRenderer->pixelShader);
+
+
 	sglRenderer->devContext->setVertexBuffer(sglRenderer->vertexBuffer);
 	UINT listSize = sglRenderer->vertexBuffer->sizeOfList;
 	sglRenderer->devContext->drawTriangleStrip(listSize, 0);
@@ -187,23 +191,27 @@ void Window::setRenderer(Renderer * renderer)
 	vertex list[] =
 	{
 		//X - Y - Z
-		{-0.5f,-0.5f,0.0f}, // POS1
-		{-0.5f,0.5f,0.0f}, // POS2
-		{ 0.5f,-0.5f,0.0f },// POS2
-		{ 0.5f,0.5f,0.0f}
+		{-0.5f,-0.5f,0.0f,      1,0,0}, // POS1
+		{-0.5f,0.5f,0.0f,      0,1,0}, // POS2
+		{ 0.5f,-0.5f,0.0f,      0,0,1},// POS2
+		{ 0.5f,0.5f,0.0f,      1,1,0}
 	};
 
 	sglRenderer->createVertexBuffer();
 	UINT listSize = ARRAYSIZE(list);
 
-	sglRenderer->createPixelShader();
-
 	void* shader_byte_code = nullptr;
 	size_t shaderSize = 0;
-	sglRenderer->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &shaderSize);
 
+	sglRenderer->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &shaderSize);
 	sglRenderer->createVertexShader(shader_byte_code, shaderSize);
 	sglRenderer->vertexBuffer->init(list, sizeof(vertex), listSize, shader_byte_code, shaderSize);
+
+	sglRenderer->releaseCompiledShader();
+
+	sglRenderer->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &shaderSize);
+	sglRenderer->createPixelShader(shader_byte_code, shaderSize);
+
 
 	sglRenderer->releaseCompiledShader();
 }

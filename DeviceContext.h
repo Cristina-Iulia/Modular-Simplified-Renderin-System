@@ -6,6 +6,7 @@
 #include "LowLevelRenderModule/SwapChain/SwapChain.h"
 #include "VertexBuffer.h"
 #include "VertexShader.h"
+#include "PixelShader.h"
 #include "spdlog/spdlog.h"
 
 class DeviceContext
@@ -20,7 +21,7 @@ public:
 	void setVertexBuffer(VertexBuffer* vertex_buffer);
 	void setVertexShader(VertexShader* vertex_shader);
 	void setViewportSize(UINT width, UINT height);
-	void setPixelShaders(ID3D11PixelShader* m_ps);
+	void setPixelShader(PixelShader* pixel_shader);
 
 
 	// ACTIONS --- ACTIONS --- ACTIONS --- ACTIONS --- ACTIONS

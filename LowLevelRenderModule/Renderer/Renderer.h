@@ -19,7 +19,7 @@ public:
 
 	// CREATE RESOURCES --- CREATE RESOURCES --- CREATE RESOURCES --- CREATE RESOURCES --- CREATE RESOURCES
 	void createVertexShader(void* shaderByteCode, size_t byteCodeSize);
-	void createPixelShader();
+	void createPixelShader(void* shaderByteCode, size_t byteCodeSize);
 	void createVertexBuffer();
 
 
@@ -28,14 +28,15 @@ public:
 	void present(bool vsync);
 
 	void compileVertexShader(const wchar_t* file, const char* entryPointName, void** shaderByteCode, size_t* byteCodeSize);
+	void compilePixelShader(const wchar_t* file, const char* entryPointName, void** shaderByteCode, size_t* byteCodeSize);
 	void releaseCompiledShader();
 
 	// RESOURCES --- RESOURCES --- RESOURCES --- RESOURCES --- RESOURCES
 	VertexBuffer* vertexBuffer = nullptr;
 	VertexShader* vertexShader = nullptr;
+	PixelShader* pixelShader = nullptr;
 
 	DeviceContext* devContext = nullptr;
-	ID3D11PixelShader* m_ps = nullptr;
 
 
 private:
@@ -44,8 +45,7 @@ private:
 	SwapChain* sglSwapChain = nullptr;
 	ID3D11RenderTargetView* renderTarget = nullptr;
 
-	ID3DBlob* m_vsblob = nullptr;
-	ID3DBlob* m_psblob = nullptr;
+	ID3DBlob* m_blob = nullptr;
 
 };
 

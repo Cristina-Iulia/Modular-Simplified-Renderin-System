@@ -73,7 +73,7 @@ void Renderer::createVertexBuffer()
 void Renderer::compileVertexShader(const wchar_t* file, const char* entryPointName, void** shaderByteCode, size_t* byteCodeSize)
 {
 	ID3DBlob* error_blob = nullptr;
-	HRESULT result = ::D3DCompileFromFile(file, nullptr, nullptr, entryPointName, "vs_5_0", 0, 0, &m_vsblob, &error_blob);
+	HRESULT result = ::D3DCompileFromFile(file, nullptr, nullptr, entryPointName, "vs_5_0", 0, 0, &m_blob, &error_blob);
 
 	if (FAILED(result))
 	{
@@ -82,14 +82,30 @@ void Renderer::compileVertexShader(const wchar_t* file, const char* entryPointNa
 		exit(1);
 	}
 
-	*shaderByteCode = m_vsblob->GetBufferPointer();
-	*byteCodeSize = m_vsblob->GetBufferSize();
+	*shaderByteCode = m_blob->GetBufferPointer();
+	*byteCodeSize = m_blob->GetBufferSize();
+}
+
+void Renderer::compilePixelShader(const wchar_t * file, const char * entryPointName, void ** shaderByteCode, size_t * byteCodeSize)
+{
+	ID3DBlob* error_blob = nullptr;
+	HRESULT result = ::D3DCompileFromFile(file, nullptr, nullptr, entryPointName, "ps_5_0", 0, 0, &m_blob, &error_blob);
+
+	if (FAILED(result))
+	{
+		spdlog::critical("PixelShader compilation UNSUCCESSFUL");
+		spdlog::critical(HRESULT_CODE(result));
+		exit(1);
+	}
+
+	*shaderByteCode = m_blob->GetBufferPointer();
+	*byteCodeSize = m_blob->GetBufferSize();
 }
 
 void Renderer::releaseCompiledShader()
 {
-	if (m_vsblob)
-		m_vsblob->Release();
+	if (m_blob)
+		m_blob->Release();
 }
 
 void Renderer::createVertexShader(void* shaderByteCode, size_t byteCodeSize)
@@ -99,9 +115,8 @@ void Renderer::createVertexShader(void* shaderByteCode, size_t byteCodeSize)
 }
 
 
-void Renderer::createPixelShader()
+void Renderer::createPixelShader(void* shaderByteCode, size_t byteCodeSize)
 {
-	ID3DBlob* errblob = nullptr;
-	D3DCompileFromFile(L"shader.fx", nullptr, nullptr, "psmain", "ps_5_0", NULL, NULL, &m_psblob, &errblob);
-	DeviceManager::getDevice()->CreatePixelShader(m_psblob->GetBufferPointer(), m_psblob->GetBufferSize(), nullptr, &m_ps);
+	pixelShader = new PixelShader();
+	pixelShader->init(shaderByteCode, byteCodeSize);
 }

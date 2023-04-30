@@ -65,8 +65,8 @@ void DeviceContext::setViewportSize(UINT width, UINT height)
 }
 
 
-void DeviceContext::setPixelShaders(ID3D11PixelShader* m_ps)
+void DeviceContext::setPixelShader(PixelShader* pixel_shader)
 {
-	m_dev_Context->PSSetShader(m_ps, nullptr, 0);
+	m_dev_Context->PSSetShader(pixel_shader->getShader(), nullptr, 0);
 }
 

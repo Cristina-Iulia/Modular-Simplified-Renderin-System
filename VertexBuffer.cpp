@@ -39,7 +39,9 @@ void VertexBuffer::init(void* vertexList, UINT vertexSize, UINT listSize, void* 
 		0,								// aligned byte ofset
 		D3D11_INPUT_PER_VERTEX_DATA,	// input slot class
 		0								// instance data step rate
-		}
+		},
+
+		{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
 	};
 
 	UINT layoutSize = ARRAYSIZE(layout);
