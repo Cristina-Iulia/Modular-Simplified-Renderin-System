@@ -3,9 +3,8 @@
 
 void DeviceContext::init()
 {
-	this->m_dev_Context = DeviceManager::getDeviceContext();
-	this->swapChain = SwapChain::getInstance();
-	this->m_d3dDevice = DeviceManager::getDevice();
+	m_dev_Context = DeviceManager::getDeviceContext();
+
 }
 
 void DeviceContext::release()
@@ -65,14 +64,8 @@ void DeviceContext::setViewportSize(UINT width, UINT height)
 	m_dev_Context->RSSetViewports(numberOfViewports, &vp);
 }
 
-void DeviceContext::createShaders()
-{
-	ID3DBlob* errblob = nullptr;
-	D3DCompileFromFile(L"shader.fx", nullptr, nullptr, "psmain", "ps_5_0", NULL, NULL, &m_psblob, &errblob);
-	m_d3dDevice->CreatePixelShader(m_psblob->GetBufferPointer(), m_psblob->GetBufferSize(), nullptr, &m_ps);
-}
 
-void DeviceContext::setShaders()
+void DeviceContext::setPixelShaders(ID3D11PixelShader* m_ps)
 {
 	m_dev_Context->PSSetShader(m_ps, nullptr, 0);
 }

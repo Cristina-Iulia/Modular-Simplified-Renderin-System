@@ -13,14 +13,6 @@ Renderer::~Renderer()
 
 bool Renderer::init(HWND m_hwnd, RECT rc)
 {
-
-	sglDeviceManager = DeviceManager::getInstance();
-	if (sglDeviceManager == nullptr)
-	{
-		spdlog::critical("Bad instance: DeviceManager -> nullptr");
-	}
-
-
 	sglSwapChain = SwapChain::getInstance();
 	if (sglSwapChain == nullptr)
 	{
@@ -44,6 +36,7 @@ bool Renderer::release()
 	sglSwapChain->release();
 	devContext->release();
 	vertexBuffer->release();
+	vertexShader->release();
 	return true;
 }
 
@@ -80,7 +73,7 @@ void Renderer::createVertexBuffer()
 void Renderer::compileVertexShader(const wchar_t* file, const char* entryPointName, void** shaderByteCode, size_t* byteCodeSize)
 {
 	ID3DBlob* error_blob = nullptr;
-	HRESULT result = ::D3DCompileFromFile(file, nullptr, nullptr, entryPointName, "vs_5_0", 0, 0, &m_blob, &error_blob);
+	HRESULT result = ::D3DCompileFromFile(file, nullptr, nullptr, entryPointName, "vs_5_0", 0, 0, &m_vsblob, &error_blob);
 
 	if (FAILED(result))
 	{
@@ -89,23 +82,26 @@ void Renderer::compileVertexShader(const wchar_t* file, const char* entryPointNa
 		exit(1);
 	}
 
-	*shaderByteCode = m_blob->GetBufferPointer();
-	*byteCodeSize = m_blob->GetBufferSize();
+	*shaderByteCode = m_vsblob->GetBufferPointer();
+	*byteCodeSize = m_vsblob->GetBufferSize();
 }
 
 void Renderer::releaseCompiledShader()
 {
-	if (m_blob)
-		m_blob->Release();
+	if (m_vsblob)
+		m_vsblob->Release();
 }
 
-VertexShader* Renderer::createVertexShader(void* shaderByteCode, size_t byteCodeSize)
+void Renderer::createVertexShader(void* shaderByteCode, size_t byteCodeSize)
 {
-	VertexShader* vertexShader = new VertexShader();
-
+	vertexShader = new VertexShader();
 	vertexShader->init(shaderByteCode, byteCodeSize);
-
-	return vertexShader;
 }
 
 
+void Renderer::createPixelShader()
+{
+	ID3DBlob* errblob = nullptr;
+	D3DCompileFromFile(L"shader.fx", nullptr, nullptr, "psmain", "ps_5_0", NULL, NULL, &m_psblob, &errblob);
+	DeviceManager::getDevice()->CreatePixelShader(m_psblob->GetBufferPointer(), m_psblob->GetBufferSize(), nullptr, &m_ps);
+}

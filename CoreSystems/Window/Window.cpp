@@ -146,7 +146,7 @@ void Window::onUpdate()
 
 	RECT rc = getWindowRect();
 	sglRenderer->devContext->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
-	sglRenderer->devContext->setShaders();
+	sglRenderer->devContext->setPixelShaders(sglRenderer->m_ps);
 	sglRenderer->devContext->setVertexShader(sglRenderer->vertexShader);
 	sglRenderer->devContext->setVertexBuffer(sglRenderer->vertexBuffer);
 	UINT listSize = sglRenderer->vertexBuffer->sizeOfList;
@@ -196,17 +196,16 @@ void Window::setRenderer(Renderer * renderer)
 	sglRenderer->createVertexBuffer();
 	UINT listSize = ARRAYSIZE(list);
 
-	sglRenderer->devContext->createShaders();
+	sglRenderer->createPixelShader();
 
 	void* shader_byte_code = nullptr;
 	size_t shaderSize = 0;
 	sglRenderer->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &shaderSize);
 
-	sglRenderer->vertexShader  = sglRenderer->createVertexShader(shader_byte_code, shaderSize);
+	sglRenderer->createVertexShader(shader_byte_code, shaderSize);
 	sglRenderer->vertexBuffer->init(list, sizeof(vertex), listSize, shader_byte_code, shaderSize);
 
 	sglRenderer->releaseCompiledShader();
-	spdlog::info("List of vertexes : ", sglRenderer->vertexBuffer->data.pSysMem);
 }
 
 void Window::windowSettup()
