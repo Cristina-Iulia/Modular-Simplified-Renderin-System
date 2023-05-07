@@ -73,19 +73,19 @@
     <ClCompile Include="LowLevelRenderModule/SwapChain/SwapChain.cpp">
       <Filter>LowLevelRenderModule\SwapChain</Filter>
     </ClCompile>
-    <ClCompile Include="DeviceContext.cpp">
+    <ClCompile Include="LowLevelRenderModule/DeviceContext/DeviceContext.cpp">
       <Filter>LowLevelRenderModule\DeviceContext</Filter>
     </ClCompile>
-    <ClCompile Include="VertexBuffer.cpp">
+    <ClCompile Include="LowLevelRenderModule/MemoryBuffers/VertexBuffer/VertexBuffer.cpp">
       <Filter>LowLevelRenderModule\MemoryBuffers\VertexBuffer</Filter>
     </ClCompile>
-    <ClCompile Include="VertexShader.cpp">
+    <ClCompile Include="LowLevelRenderModule/Shaders/VertexShader/VertexShader.cpp">
       <Filter>LowLevelRenderModule\Shaders\VertexShader</Filter>
     </ClCompile>
-    <ClCompile Include="PixelShader.cpp">
+    <ClCompile Include="LowLevelRenderModule/Shaders/PixelShader/PixelShader.cpp">
       <Filter>LowLevelRenderModule\Shaders\PixelShader</Filter>
     </ClCompile>
-    <ClCompile Include="ConstantBuffer.cpp">
+    <ClCompile Include="LowLevelRenderModule/MemoryBuffers/ConstantBuffer/ConstantBuffer.cpp">
       <Filter>LowLevelRenderModule\MemoryBuffers\ConstantBuffer</Filter>
     </ClCompile>
   </ItemGroup>
@@ -105,28 +105,23 @@
     <ClInclude Include="LowLevelRenderModule/SwapChain/SwapChain.h">
       <Filter>LowLevelRenderModule\SwapChain</Filter>
     </ClInclude>
-    <ClInclude Include="DeviceContext.h">
+    <ClInclude Include="LowLevelRenderModule/DeviceContext/DeviceContext.h">
       <Filter>LowLevelRenderModule\DeviceContext</Filter>
     </ClInclude>
-    <ClInclude Include="LOGGER.h">
-      <Filter>DebugTools</Filter>
-    </ClInclude>
-    <ClInclude Include="Singleton.h" />
-    <ClInclude Include="VertexBuffer.h">
+    <ClInclude Include="LowLevelRenderModule/MemoryBuffers/VertexBuffer/VertexBuffer.h">
       <Filter>LowLevelRenderModule\MemoryBuffers\VertexBuffer</Filter>
     </ClInclude>
-    <ClInclude Include="VertexShader.h">
+    <ClInclude Include="LowLevelRenderModule/Shaders/VertexShader/VertexShader.h">
       <Filter>LowLevelRenderModule\Shaders\VertexShader</Filter>
     </ClInclude>
-    <ClInclude Include="PixelShader.h">
+    <ClInclude Include="LowLevelRenderModule/Shaders/PixelShader/PixelShader.h">
       <Filter>LowLevelRenderModule\Shaders\PixelShader</Filter>
     </ClInclude>
-    <ClInclude Include="ConstantBuffer.h">
+    <ClInclude Include="LowLevelRenderModule/MemoryBuffers/ConstantBuffer/ConstantBuffer.h">
       <Filter>LowLevelRenderModule\MemoryBuffers\ConstantBuffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="shader.fx" />
     <FxCompile Include="VertexShader.hlsl" />
     <FxCompile Include="PixelShader.hlsl" />
   </ItemGroup>

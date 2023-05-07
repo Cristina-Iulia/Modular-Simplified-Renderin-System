@@ -2,13 +2,13 @@
 #ifndef  DEV_CONTEXT
 #define DEV_CONTEXT
 
-#include "CoreSystems/DeviceManager/DeviceManager.h"
-#include "LowLevelRenderModule/SwapChain/SwapChain.h"
-#include "VertexBuffer.h"
-#include "VertexShader.h"
-#include "PixelShader.h"
-#include "ConstantBuffer.h"
-#include "spdlog/spdlog.h"
+#include "../../CoreSystems/DeviceManager/DeviceManager.h"
+#include "../SwapChain/SwapChain.h"
+#include "../MemoryBuffers/VertexBuffer/VertexBuffer.h"
+#include "../Shaders/VertexShader/VertexShader.h"
+#include "../Shaders/PixelShader/PixelShader.h"
+#include "../MemoryBuffers/ConstantBuffer/ConstantBuffer.h"
+#include "../../spdlog-1.11.0/include/spdlog/spdlog.h"
 
 class DeviceContext
 {

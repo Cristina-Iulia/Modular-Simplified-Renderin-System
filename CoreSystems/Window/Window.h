@@ -2,9 +2,8 @@
 #ifndef WND_DEF
 #define WND_DEF
 #include <Windows.h>
-#include "spdlog/spdlog.h"
+#include "../../spdlog-1.11.0/include/spdlog/spdlog.h"
 #include "../../LowLevelRenderModule/Renderer/Renderer.h"
-//#include "../../Singleton.h"
 
 
 class Window

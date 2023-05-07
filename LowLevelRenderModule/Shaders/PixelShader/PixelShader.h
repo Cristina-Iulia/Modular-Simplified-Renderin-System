@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CoreSystems/DeviceManager/DeviceManager.h"
+#include "../../../CoreSystems/DeviceManager/DeviceManager.h"
 
 
 class PixelShader

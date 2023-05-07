@@ -1,8 +1,8 @@
 #pragma once
 
 
-#include "CoreSystems/DeviceManager/DeviceManager.h"
-#include "spdlog/spdlog.h"
+#include "../../../CoreSystems/DeviceManager/DeviceManager.h"
+#include "../../spdlog-1.11.0/include/spdlog/spdlog.h"
 
 class ConstantBuffer
 {

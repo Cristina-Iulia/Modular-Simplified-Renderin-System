@@ -3,9 +3,14 @@
     "",
     "\\CoreSystems",
     "\\CoreSystems\\ControlModule",
+    "\\CoreSystems\\DeviceManager",
+    "\\CoreSystems\\Window",
     "\\LowLevelRenderModule",
-    "\\LowLevelRenderModule\\Renderer"
+    "\\LowLevelRenderModule\\DeviceContext",
+    "\\LowLevelRenderModule\\MemoryBuffers",
+    "\\LowLevelRenderModule\\Renderer",
+    "\\LowLevelRenderModule\\Shaders"
   ],
-  "SelectedNode": "\\VertexShader.h",
+  "SelectedNode": "\\LowLevelRenderModule",
   "PreviewInSolutionExplorer": false
 }

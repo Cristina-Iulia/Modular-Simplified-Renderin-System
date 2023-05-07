@@ -2,10 +2,10 @@
 #ifndef  LOW_LEVEL_RENDERER
 #define LOW_LEVEL_RENDERER
 
-#include "../SwapChain/SwapChain.h"
 #include <Windows.h>
-#include "../../DeviceContext.h"
-#include "spdlog/spdlog.h"
+#include "../SwapChain/SwapChain.h"
+#include "../DeviceContext/DeviceContext.h"
+#include "../../spdlog-1.11.0/include/spdlog/spdlog.h"
 
 class Renderer
 {

@@ -120,30 +120,28 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App/main.cpp" />
-    <ClCompile Include="ConstantBuffer.cpp" />
+    <ClCompile Include="LowLevelRenderModule/MemoryBuffers/ConstantBuffer/ConstantBuffer.cpp" />
     <ClCompile Include="CoreSystems/ControlModule/Controller.cpp" />
     <ClCompile Include="CoreSystems/Window/Window.cpp" />
     <ClCompile Include="CoreSystems/DeviceManager/DeviceManager.cpp" />
-    <ClCompile Include="DeviceContext.cpp" />
+    <ClCompile Include="LowLevelRenderModule/DeviceContext/DeviceContext.cpp" />
     <ClCompile Include="LowLevelRenderModule/Renderer/Renderer.cpp" />
     <ClCompile Include="LowLevelRenderModule/SwapChain/SwapChain.cpp" />
-    <ClCompile Include="PixelShader.cpp" />
-    <ClCompile Include="VertexBuffer.cpp" />
-    <ClCompile Include="VertexShader.cpp" />
+    <ClCompile Include="LowLevelRenderModule/Shaders/PixelShader/PixelShader.cpp" />
+    <ClCompile Include="LowLevelRenderModule/MemoryBuffers/VertexBuffer/VertexBuffer.cpp" />
+    <ClCompile Include="LowLevelRenderModule/Shaders/VertexShader/VertexShader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ConstantBuffer.h" />
+    <ClInclude Include="LowLevelRenderModule/MemoryBuffers/ConstantBuffer/ConstantBuffer.h" />
     <ClInclude Include="CoreSystems/ControlModule/Controller.h" />
     <ClInclude Include="CoreSystems/Window/Window.h" />
     <ClInclude Include="CoreSystems/DeviceManager/DeviceManager.h" />
-    <ClInclude Include="DeviceContext.h" />
-    <ClInclude Include="LOGGER.h" />
+    <ClInclude Include="LowLevelRenderModule/DeviceContext/DeviceContext.h" />
     <ClInclude Include="LowLevelRenderModule/Renderer/Renderer.h" />
     <ClInclude Include="LowLevelRenderModule/SwapChain/SwapChain.h" />
-    <ClInclude Include="PixelShader.h" />
-    <ClInclude Include="Singleton.h" />
-    <ClInclude Include="VertexBuffer.h" />
-    <ClInclude Include="VertexShader.h" />
+    <ClInclude Include="LowLevelRenderModule/Shaders/PixelShader/PixelShader.h" />
+    <ClInclude Include="LowLevelRenderModule/MemoryBuffers/VertexBuffer/VertexBuffer.h" />
+    <ClInclude Include="LowLevelRenderModule/Shaders/VertexShader/VertexShader.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">
@@ -155,10 +153,6 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="shader.fx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
