@@ -70,15 +70,24 @@ void Renderer::createVertexBuffer()
 	vertexBuffer =  new VertexBuffer();
 }
 
+void Renderer::createConstantBuffer()
+{
+	constantBuffer = new ConstantBuffer();
+}
+
 void Renderer::compileVertexShader(const wchar_t* file, const char* entryPointName, void** shaderByteCode, size_t* byteCodeSize)
 {
 	ID3DBlob* error_blob = nullptr;
+	if (m_blob)
+		m_blob->Release();
 	HRESULT result = ::D3DCompileFromFile(file, nullptr, nullptr, entryPointName, "vs_5_0", 0, 0, &m_blob, &error_blob);
 
 	if (FAILED(result))
 	{
 		spdlog::critical("VertexShader compilation UNSUCCESSFUL");
 		spdlog::critical(HRESULT_CODE(result));
+		if (error_blob)
+			error_blob->Release();
 		exit(1);
 	}
 
@@ -89,12 +98,16 @@ void Renderer::compileVertexShader(const wchar_t* file, const char* entryPointNa
 void Renderer::compilePixelShader(const wchar_t * file, const char * entryPointName, void ** shaderByteCode, size_t * byteCodeSize)
 {
 	ID3DBlob* error_blob = nullptr;
+	if (m_blob)
+		m_blob->Release();
 	HRESULT result = ::D3DCompileFromFile(file, nullptr, nullptr, entryPointName, "ps_5_0", 0, 0, &m_blob, &error_blob);
 
 	if (FAILED(result))
 	{
 		spdlog::critical("PixelShader compilation UNSUCCESSFUL");
 		spdlog::critical(HRESULT_CODE(result));
+		if (error_blob)
+			error_blob->Release();
 		exit(1);
 	}
 

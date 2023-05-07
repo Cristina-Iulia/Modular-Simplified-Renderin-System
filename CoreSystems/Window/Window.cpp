@@ -10,7 +10,15 @@ struct vec3
 struct vertex
 {
 	vec3 position;
+	vec3 position_after;
 	vec3 color;
+	vec3 color_sfter;
+};
+
+__declspec(align(16))
+struct constant
+{
+	float m_angle;
 };
 
 Window::Window()
@@ -148,8 +156,22 @@ void Window::onUpdate()
 	RECT rc = getWindowRect();
 	sglRenderer->devContext->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
+	unsigned long new_time = 0;
+	if (m_old_time)
+		new_time = ::GetTickCount() - m_old_time;
+	m_delta_time = new_time / 1000.0f;
+	m_old_time = ::GetTickCount();
+	m_angle += 1.57f*m_delta_time;
+	constant cc;
+	cc.m_angle = m_angle;
+
+	sglRenderer->constantBuffer->update(&cc);
+
 	sglRenderer->devContext->setVertexShader(sglRenderer->vertexShader);
 	sglRenderer->devContext->setPixelShader(sglRenderer->pixelShader);
+
+	sglRenderer->devContext->setConstantBuffer(sglRenderer->vertexShader, sglRenderer->constantBuffer);
+	sglRenderer->devContext->setConstantBuffer(sglRenderer->pixelShader, sglRenderer->constantBuffer);
 
 
 	sglRenderer->devContext->setVertexBuffer(sglRenderer->vertexBuffer);
@@ -191,10 +213,10 @@ void Window::setRenderer(Renderer * renderer)
 	vertex list[] =
 	{
 		//X - Y - Z
-		{-0.5f,-0.5f,0.0f,      1,0,0}, // POS1
-		{-0.5f,0.5f,0.0f,      0,1,0}, // POS2
-		{ 0.5f,-0.5f,0.0f,      0,0,1},// POS2
-		{ 0.5f,0.5f,0.0f,      1,1,0}
+		{-0.5f,-0.5f,0.0f,    -0.32f,-0.11f,0.0f,   0,0,0,  0,1,0 }, // POS1
+		{-0.5f,0.5f,0.0f,     -0.11f,0.78f,0.0f,    1,1,0,  0,1,1 }, // POS2
+		{ 0.5f,-0.5f,0.0f,     0.75f,-0.73f,0.0f,   0,0,1,  1,0,0 },// POS2
+		{ 0.5f,0.5f,0.0f,      0.88f,0.77f,0.0f,    1,1,1,  0,0,1 }
 	};
 
 	sglRenderer->createVertexBuffer();
@@ -214,6 +236,11 @@ void Window::setRenderer(Renderer * renderer)
 
 
 	sglRenderer->releaseCompiledShader();
+
+	constant cc;
+	cc.m_angle = 0;
+	sglRenderer->createConstantBuffer();
+	sglRenderer->constantBuffer->init(&cc, sizeof(constant));
 }
 
 void Window::windowSettup()

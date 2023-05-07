@@ -120,6 +120,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App/main.cpp" />
+    <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="CoreSystems/ControlModule/Controller.cpp" />
     <ClCompile Include="CoreSystems/Window/Window.cpp" />
     <ClCompile Include="CoreSystems/DeviceManager/DeviceManager.cpp" />
@@ -131,6 +132,7 @@
     <ClCompile Include="VertexShader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="CoreSystems/ControlModule/Controller.h" />
     <ClInclude Include="CoreSystems/Window/Window.h" />
     <ClInclude Include="CoreSystems/DeviceManager/DeviceManager.h" />

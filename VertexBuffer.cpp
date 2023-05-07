@@ -8,11 +8,11 @@ VertexBuffer::~VertexBuffer()
 {
 }
 
-void VertexBuffer::init(void* vertexList, UINT vertexSize, UINT listSize, void* shader_byte_code, UINT shader_size)
+void VertexBuffer::init(void* vertexList, UINT vertexSize, UINT listSize, void* shader_byte_code, size_t shader_size)
 {
 
-	//if (buffer) buffer->Release();
-	//if (inputLayout) inputLayout->Release();
+	if (buffer) buffer->Release();
+	if (inputLayout) inputLayout->Release();
 
 
 	this->sizeOfVertex = vertexSize;
@@ -31,17 +31,11 @@ void VertexBuffer::init(void* vertexList, UINT vertexSize, UINT listSize, void* 
 
 	D3D11_INPUT_ELEMENT_DESC layout[]=
 	{
-		{
-		"POSITION",						// semantic name
-		0,								// semantic index
-		DXGI_FORMAT_R32G32B32_FLOAT,	// format
-		0,								// input slot
-		0,								// aligned byte ofset
-		D3D11_INPUT_PER_VERTEX_DATA,	// input slot class
-		0								// instance data step rate
-		},
-
-		{"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
+		//SEMANTIC NAME - SEMANTIC INDEX - FORMAT - INPUT SLOT - ALIGNED BYTE OFFSET - INPUT SLOT CLASS - INSTANCE DATA STEP RATE
+		{"POSITION", 0,  DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA ,0},
+		{"POSITION", 1,  DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA ,0 },
+		{ "COLOR", 0,  DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA ,0 },
+		{ "COLOR", 1,  DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA ,0 }
 	};
 
 	UINT layoutSize = ARRAYSIZE(layout);

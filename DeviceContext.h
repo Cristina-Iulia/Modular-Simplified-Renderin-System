@@ -7,6 +7,7 @@
 #include "VertexBuffer.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
+#include "ConstantBuffer.h"
 #include "spdlog/spdlog.h"
 
 class DeviceContext
@@ -22,6 +23,8 @@ public:
 	void setVertexShader(VertexShader* vertex_shader);
 	void setViewportSize(UINT width, UINT height);
 	void setPixelShader(PixelShader* pixel_shader);
+	void setConstantBuffer(VertexShader* vertex_shader, ConstantBuffer* constant_buffer);
+	void setConstantBuffer(PixelShader* pixel_shader, ConstantBuffer* constant_buffer);
 
 
 	// ACTIONS --- ACTIONS --- ACTIONS --- ACTIONS --- ACTIONS

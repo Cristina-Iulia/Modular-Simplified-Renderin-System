@@ -21,6 +21,7 @@ public:
 	void createVertexShader(void* shaderByteCode, size_t byteCodeSize);
 	void createPixelShader(void* shaderByteCode, size_t byteCodeSize);
 	void createVertexBuffer();
+	void createConstantBuffer();
 
 
 	// ACTIONS --- ACTIONS --- ACTIONS --- ACTIONS --- ACTIONS
@@ -33,6 +34,7 @@ public:
 
 	// RESOURCES --- RESOURCES --- RESOURCES --- RESOURCES --- RESOURCES
 	VertexBuffer* vertexBuffer = nullptr;
+	ConstantBuffer* constantBuffer = nullptr;
 	VertexShader* vertexShader = nullptr;
 	PixelShader* pixelShader = nullptr;
 

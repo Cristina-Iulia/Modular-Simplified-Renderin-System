@@ -4,7 +4,6 @@
 void DeviceContext::init()
 {
 	m_dev_Context = DeviceManager::getDeviceContext();
-
 }
 
 void DeviceContext::release()
@@ -68,5 +67,15 @@ void DeviceContext::setViewportSize(UINT width, UINT height)
 void DeviceContext::setPixelShader(PixelShader* pixel_shader)
 {
 	m_dev_Context->PSSetShader(pixel_shader->getShader(), nullptr, 0);
+}
+
+void DeviceContext::setConstantBuffer(VertexShader * vertex_shader, ConstantBuffer * constant_buffer)
+{
+	m_dev_Context->VSSetConstantBuffers(0,1, &constant_buffer->constBuffer);
+}
+
+void DeviceContext::setConstantBuffer(PixelShader * pixel_shader, ConstantBuffer * constant_buffer)
+{
+	m_dev_Context->PSSetConstantBuffers(0, 1, &constant_buffer->constBuffer);
 }
 

@@ -52,6 +52,9 @@
     <Filter Include="LowLevelRenderModule\Shaders\PixelShader">
       <UniqueIdentifier>{6984050b-3cf1-408f-be7c-a82f379f0348}</UniqueIdentifier>
     </Filter>
+    <Filter Include="LowLevelRenderModule\MemoryBuffers\ConstantBuffer">
+      <UniqueIdentifier>{62a2ea0f-8f0b-4ee8-ba5f-04b8091c546f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App/main.cpp" />
@@ -81,6 +84,9 @@
     </ClCompile>
     <ClCompile Include="PixelShader.cpp">
       <Filter>LowLevelRenderModule\Shaders\PixelShader</Filter>
+    </ClCompile>
+    <ClCompile Include="ConstantBuffer.cpp">
+      <Filter>LowLevelRenderModule\MemoryBuffers\ConstantBuffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -114,6 +120,9 @@
     </ClInclude>
     <ClInclude Include="PixelShader.h">
       <Filter>LowLevelRenderModule\Shaders\PixelShader</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantBuffer.h">
+      <Filter>LowLevelRenderModule\MemoryBuffers\ConstantBuffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

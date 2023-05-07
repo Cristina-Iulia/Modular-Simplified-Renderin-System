@@ -8,7 +8,7 @@ class VertexBuffer
 public:
 	VertexBuffer();
 	~VertexBuffer();
-	void init(void* vertexList, UINT vertexSize, UINT listSize, void* shader_byte_code, UINT shader_size);
+	void init(void* vertexList, UINT vertexSize, UINT listSize, void* shader_byte_code, size_t shader_size);
 	void release();
 
 	ID3D11Buffer* buffer = 0;
