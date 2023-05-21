@@ -2,22 +2,21 @@
 
 static Window* wdSingleton = nullptr;
 
-struct vec3
-{
-	float x, y, z;
-};
-
 struct vertex
 {
-	vec3 position;
-	vec3 position_after;
-	vec3 color;
-	vec3 color_sfter;
+	Vector3D position;
+	Vector3D position_after;
+	Vector3D color;
+	Vector3D color_sfter;
 };
 
 __declspec(align(16))
 struct constant
 {
+public:
+	Matrix4x4 m_world;
+	Matrix4x4 m_view;
+	Matrix4x4 m_proj;
 	float m_angle;
 };
 
@@ -145,27 +144,19 @@ Window* Window::getInstance()
 
 void Window::onCreate()
 {
-	
+	//InputSystem::getInstance()->addListener(this);
 }
 
 void Window::onUpdate()
 {
+	//InputSystem::getInstance()->update();
 	sglRenderer->clearRenderTarget(0,0,0,1);
 
 
 	RECT rc = getWindowRect();
 	sglRenderer->devContext->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
-	unsigned long new_time = 0;
-	if (m_old_time)
-		new_time = ::GetTickCount() - m_old_time;
-	m_delta_time = new_time / 1000.0f;
-	m_old_time = ::GetTickCount();
-	m_angle += 1.57f*m_delta_time;
-	constant cc;
-	cc.m_angle = m_angle;
-
-	sglRenderer->constantBuffer->update(&cc);
+	updateQuadPosition();
 
 	sglRenderer->devContext->setVertexShader(sglRenderer->vertexShader);
 	sglRenderer->devContext->setPixelShader(sglRenderer->pixelShader);
@@ -178,7 +169,11 @@ void Window::onUpdate()
 	UINT listSize = sglRenderer->vertexBuffer->sizeOfList;
 	sglRenderer->devContext->drawTriangleStrip(listSize, 0);
 
-	sglRenderer->present(false);
+	sglRenderer->present(true);
+
+	old_delta = new_delta;
+	new_delta = ::GetTickCount();
+	delta_time = (old_delta) ? ((new_delta - old_delta)/1000.0f)  : 0;
 }
 
 void Window::onDestroy()
@@ -213,10 +208,10 @@ void Window::setRenderer(Renderer * renderer)
 	vertex list[] =
 	{
 		//X - Y - Z
-		{-0.5f,-0.5f,0.0f,    -0.32f,-0.11f,0.0f,   0,0,0,  0,1,0 }, // POS1
-		{-0.5f,0.5f,0.0f,     -0.11f,0.78f,0.0f,    1,1,0,  0,1,1 }, // POS2
-		{ 0.5f,-0.5f,0.0f,     0.75f,-0.73f,0.0f,   0,0,1,  1,0,0 },// POS2
-		{ 0.5f,0.5f,0.0f,      0.88f,0.77f,0.0f,    1,1,1,  0,0,1 }
+		{Vector3D (-0.5f,-0.5f,0.0f),    Vector3D(-0.32f,-0.11f,0.0f),   Vector3D(0,0,0),  Vector3D(0,1,0) }, // POS1
+		{Vector3D(-0.5f,0.5f,0.0f),    Vector3D(-0.11f,0.78f,0.0f),    Vector3D(1,1,0), Vector3D(0,1,1) }, // POS2
+		{Vector3D(0.5f,-0.5f,0.0f),     Vector3D(0.75f,-0.73f,0.0f),  Vector3D(0,0,1),  Vector3D(1,0,0) },// POS2
+		{ Vector3D(0.5f,0.5f,0.0f),      Vector3D(0.88f,0.77f,0.0f),    Vector3D(1,1,1),  Vector3D(0,0,1) }
 	};
 
 	sglRenderer->createVertexBuffer();
@@ -243,6 +238,38 @@ void Window::setRenderer(Renderer * renderer)
 	sglRenderer->constantBuffer->init(&cc, sizeof(constant));
 }
 
+void Window::updateQuadPosition()
+{
+	constant cc;
+	cc.m_angle = ::GetTickCount();
+
+	auto rec = getWindowRect();
+	auto width = (rec.right - rec.left)/400.0f;
+	auto height = (rec.bottom - rec.top)/400.0f;
+
+
+	delta_pos += delta_time / 4.0f;
+	if (delta_pos > 1.0f)
+	{
+		delta_pos = 0;
+	}
+
+	Matrix4x4 temp;
+	temp.setTranslation(Vector3D::lerp(Vector3D(-1.5f, -1.5f, 0), Vector3D(1.5f, 1.5f, 0), delta_pos));
+	
+	delta_scale += delta_time / 0.5f;
+
+	//cc.m_world.setTranslation(Vector3D::lerp(Vector3D(-2, -2, 0 ), Vector3D(2, 2, 0), delta_pos));
+	cc.m_world.setScale(Vector3D::lerp(Vector3D(0.5f, 0.5f, 0), Vector3D(1.0f, 1.0f, 0), (sin(delta_scale)+1.0f)/2.0f));
+
+	cc.m_world*=temp;
+	cc.m_view.setIdentity();
+	cc.m_proj.setProjectionORTH(width, height, -4.0f, 4.0f);
+	
+
+	sglRenderer->constantBuffer->update(reinterpret_cast<void *>(&cc));
+}
+
 void Window::windowSettup()
 {
 	//Setting up WNDCLASSEX object
@@ -259,4 +286,12 @@ void Window::windowSettup()
 	wc.lpszMenuName = "";
 	wc.style = NULL;
 	wc.lpfnWndProc = &WndProc;
+}
+
+void Window::keyDown(int key)
+{
+}
+
+void Window::keyUp(int key)
+{
 }

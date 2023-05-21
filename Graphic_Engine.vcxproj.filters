@@ -1,12 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="GUI">
-      <UniqueIdentifier>{bded78da-5342-4d3e-8d10-120a68846e10}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUI\InputModule">
-      <UniqueIdentifier>{9b3f5e25-c98a-4e34-a05a-874dd33d1625}</UniqueIdentifier>
-    </Filter>
     <Filter Include="CoreSystems">
       <UniqueIdentifier>{5d5d80ea-9c91-408b-8d66-f00167717332}</UniqueIdentifier>
     </Filter>
@@ -31,9 +25,6 @@
     <Filter Include="LowLevelRenderModule\DeviceContext">
       <UniqueIdentifier>{87f28bfc-b5de-4a80-9249-d7ca238a24e8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="DebugTools">
-      <UniqueIdentifier>{0eac15f8-b556-4ecd-a565-acf90fb56d60}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Interfaces">
       <UniqueIdentifier>{9497aa94-c35d-452a-8714-9f8b1e8b6a34}</UniqueIdentifier>
     </Filter>
@@ -54,6 +45,12 @@
     </Filter>
     <Filter Include="LowLevelRenderModule\MemoryBuffers\ConstantBuffer">
       <UniqueIdentifier>{62a2ea0f-8f0b-4ee8-ba5f-04b8091c546f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MathLibrary">
+      <UniqueIdentifier>{6d817659-2d80-4b04-8e9c-50ad9f9f32e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InputSystem">
+      <UniqueIdentifier>{2fa2a8be-1821-4256-9dbd-9364a218c11c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +85,9 @@
     <ClCompile Include="LowLevelRenderModule/MemoryBuffers/ConstantBuffer/ConstantBuffer.cpp">
       <Filter>LowLevelRenderModule\MemoryBuffers\ConstantBuffer</Filter>
     </ClCompile>
+    <ClCompile Include="InputSystem\InputSystem.cpp">
+      <Filter>InputSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CoreSystems/Window/Window.h">
@@ -119,6 +119,24 @@
     </ClInclude>
     <ClInclude Include="LowLevelRenderModule/MemoryBuffers/ConstantBuffer/ConstantBuffer.h">
       <Filter>LowLevelRenderModule\MemoryBuffers\ConstantBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="MathLibrary\Vector3D.h">
+      <Filter>MathLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="MathLibrary\Matrix4x4.h">
+      <Filter>MathLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="MathLibrary\IMatrix.h">
+      <Filter>MathLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="MathLibrary\IVector.h">
+      <Filter>MathLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="InputSystem\InputSystem.h">
+      <Filter>InputSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\InputListener.h">
+      <Filter>Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

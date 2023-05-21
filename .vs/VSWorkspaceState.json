@@ -5,12 +5,11 @@
     "\\CoreSystems\\ControlModule",
     "\\CoreSystems\\DeviceManager",
     "\\CoreSystems\\Window",
-    "\\LowLevelRenderModule",
-    "\\LowLevelRenderModule\\DeviceContext",
+    "\\InputSystem",
+    "\\Interfaces",
     "\\LowLevelRenderModule\\MemoryBuffers",
-    "\\LowLevelRenderModule\\Renderer",
-    "\\LowLevelRenderModule\\Shaders"
+    "\\LowLevelRenderModule\\SwapChain"
   ],
-  "SelectedNode": "\\LowLevelRenderModule",
+  "SelectedNode": "\\CoreSystems\\Window\\Window.cpp",
   "PreviewInSolutionExplorer": false
 }

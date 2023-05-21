@@ -120,6 +120,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App/main.cpp" />
+    <ClCompile Include="InputSystem\InputSystem.cpp" />
     <ClCompile Include="LowLevelRenderModule/MemoryBuffers/ConstantBuffer/ConstantBuffer.cpp" />
     <ClCompile Include="CoreSystems/ControlModule/Controller.cpp" />
     <ClCompile Include="CoreSystems/Window/Window.cpp" />
@@ -132,6 +133,8 @@
     <ClCompile Include="LowLevelRenderModule/Shaders/VertexShader/VertexShader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="InputSystem\InputSystem.h" />
+    <ClInclude Include="Interfaces\InputListener.h" />
     <ClInclude Include="LowLevelRenderModule/MemoryBuffers/ConstantBuffer/ConstantBuffer.h" />
     <ClInclude Include="CoreSystems/ControlModule/Controller.h" />
     <ClInclude Include="CoreSystems/Window/Window.h" />
@@ -142,6 +145,10 @@
     <ClInclude Include="LowLevelRenderModule/Shaders/PixelShader/PixelShader.h" />
     <ClInclude Include="LowLevelRenderModule/MemoryBuffers/VertexBuffer/VertexBuffer.h" />
     <ClInclude Include="LowLevelRenderModule/Shaders/VertexShader/VertexShader.h" />
+    <ClInclude Include="MathLibrary\IMatrix.h" />
+    <ClInclude Include="MathLibrary\IVector.h" />
+    <ClInclude Include="MathLibrary\Matrix4x4.h" />
+    <ClInclude Include="MathLibrary\Vector3D.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">

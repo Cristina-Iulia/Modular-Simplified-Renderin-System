@@ -1,12 +1,17 @@
 #pragma once
 #ifndef WND_DEF
 #define WND_DEF
+
 #include <Windows.h>
 #include "../../spdlog-1.11.0/include/spdlog/spdlog.h"
 #include "../../LowLevelRenderModule/Renderer/Renderer.h"
+#include "../../MathLibrary/Vector3D.h"
+#include "../../MathLibrary/Matrix4x4.h"
+#include "../../Interfaces/InputListener.h"
+#include "../../InputSystem/InputSystem.h"
 
 
-class Window
+class Window: public InputListener
 {
 public:
 	Window();
@@ -27,9 +32,28 @@ public:
 	void setHwnd(HWND hwnd);
 	void setRenderer(Renderer* renderer);
 
+	void updateQuadPosition();
+
+	// Inherited via InputListener
+	virtual void keyDown(int key) override;
+	virtual void keyUp(int key) override;
+
+
 private:
 	Renderer* sglRenderer;
 	void windowSettup();
+	float old_delta = 0 ; // time for last frame
+	float new_delta = 0; // time for current frame
+	float delta_time = 0; // time between frames
+
+	float delta_pos = 0;
+	float delta_scale = 0;
+
+	float rot_x = 0;
+	float rot_y = 0;
+
+
+
 protected:
 	HWND m_hwnd;
 	WNDCLASSEX wc;
@@ -38,7 +62,6 @@ protected:
 	unsigned long m_old_time = 0;
 	float m_delta_time = 0;
 	float m_angle = 0;
-
 
 };
 
