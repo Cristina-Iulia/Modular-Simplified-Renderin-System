@@ -52,6 +52,9 @@
     <Filter Include="InputSystem">
       <UniqueIdentifier>{2fa2a8be-1821-4256-9dbd-9364a218c11c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="LowLevelRenderModule\MemoryBuffers\IndexBuffer">
+      <UniqueIdentifier>{d10c0090-5000-4629-9f48-808e9db52682}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App/main.cpp" />
@@ -87,6 +90,9 @@
     </ClCompile>
     <ClCompile Include="InputSystem\InputSystem.cpp">
       <Filter>InputSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="LowLevelRenderModule\MemoryBuffers\IndexBuffer\IndexBuffer.cpp">
+      <Filter>LowLevelRenderModule\MemoryBuffers\IndexBuffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -137,6 +143,9 @@
     </ClInclude>
     <ClInclude Include="Interfaces\InputListener.h">
       <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="LowLevelRenderModule\MemoryBuffers\IndexBuffer\IndexBuffer.h">
+      <Filter>LowLevelRenderModule\MemoryBuffers\IndexBuffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

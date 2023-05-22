@@ -2,7 +2,6 @@
 struct VS_INPUT
 {
 	float4 position: POSITION;
-	float4 position_after: POSITION1;
 	float3 color: COLOR;
 	float3 color_after: COLOR1;
 };
@@ -33,6 +32,8 @@ VS_OUTPUT vsmain(VS_INPUT input)
 	output.position = mul(output.position, m_view);
 	// Screen space
 	output.position = mul(output.position, m_proj);
+
+
 	output.color = input.color;
 	output.color_after = input.color_after;
 

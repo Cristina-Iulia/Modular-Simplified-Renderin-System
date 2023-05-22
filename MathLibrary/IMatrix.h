@@ -158,23 +158,31 @@ template <typename T, size_t M, size_t N> struct matrix_t
 	}
 
 	// Matrix multiplication short version
-	template<size_t X>
-	matrix_t<T, M, X> operator*=(const matrix_t<T, N, X>& other)
+	void operator*=(const matrix_t<T, M, N>& other)
 	{
+		if (!isSquare())
+		{
+			spdlog::error("Matrix is not square");
+			return;
+		}
+		matrix_t<T, M, N> result;
 		for (int i = 0; i < M; ++i) {
-			for (int j = 0; j < X; ++j) {
-				for (int k = 0; k < N; ++k) {
-					data[i][j] += data[i][k] * other.data[k][j];
+			for (int j = 0; j < N; ++j) {
+				result.data[i][j] = 0;
+				for (int k = 0; k < M; ++k) {
+					result.data[i][j] += data[i][k] * other.data[k][j];
 				}
 			}
 		}
-		return *this;
+
+		::memcpy(data, result.data, sizeof(T) * M * N);
 	}
 
 
 	/*//////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////---------------- MANIPULATORS --------------//////////////////
 	//////////////////////////////////////////////////////////////////////////////////////*/
+
 
 	// Dot product
 	template<size_t X>
@@ -231,9 +239,20 @@ template <typename T, size_t M, size_t N> struct matrix_t
 			spdlog::error("Matrix is not square");
 			return;
 		}
+		::memset(data, 0, sizeof(T) * M * N);
 		for (int i = 0; i < M; ++i) 
 		{
 			data[i][i] = 1;				
+		}
+	}
+
+	// Reset Matrix
+	void reset()
+	{
+		for (int i = 0; i < M; ++i) {
+			for (int j = 0; j < N; ++j) {
+				data[i][i] = 0;
+			}
 		}
 	}
 

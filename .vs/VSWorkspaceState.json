@@ -3,12 +3,13 @@
     "",
     "\\CoreSystems",
     "\\CoreSystems\\ControlModule",
-    "\\CoreSystems\\DeviceManager",
-    "\\CoreSystems\\Window",
-    "\\InputSystem",
-    "\\Interfaces",
+    "\\LowLevelRenderModule",
+    "\\LowLevelRenderModule\\DeviceContext",
     "\\LowLevelRenderModule\\MemoryBuffers",
-    "\\LowLevelRenderModule\\SwapChain"
+    "\\LowLevelRenderModule\\MemoryBuffers\\IndexBuffer",
+    "\\LowLevelRenderModule\\MemoryBuffers\\VertexBuffer",
+    "\\LowLevelRenderModule\\Renderer",
+    "\\MathLibrary"
   ],
   "SelectedNode": "\\CoreSystems\\Window\\Window.cpp",
   "PreviewInSolutionExplorer": false

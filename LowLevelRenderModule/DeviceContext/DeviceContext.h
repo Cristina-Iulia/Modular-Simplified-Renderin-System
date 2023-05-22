@@ -5,6 +5,7 @@
 #include "../../CoreSystems/DeviceManager/DeviceManager.h"
 #include "../SwapChain/SwapChain.h"
 #include "../MemoryBuffers/VertexBuffer/VertexBuffer.h"
+#include "../MemoryBuffers/IndexBuffer/IndexBuffer.h"
 #include "../Shaders/VertexShader/VertexShader.h"
 #include "../Shaders/PixelShader/PixelShader.h"
 #include "../MemoryBuffers/ConstantBuffer/ConstantBuffer.h"
@@ -20,6 +21,7 @@ public:
 
 	// SETER --- SETER --- SETER --- SETER --- SETER
 	void setVertexBuffer(VertexBuffer* vertex_buffer);
+	void setIndexBuffer(IndexBuffer* index_buffer);
 	void setVertexShader(VertexShader* vertex_shader);
 	void setViewportSize(UINT width, UINT height);
 	void setPixelShader(PixelShader* pixel_shader);
@@ -30,6 +32,7 @@ public:
 	// ACTIONS --- ACTIONS --- ACTIONS --- ACTIONS --- ACTIONS
 	void clearRenderTarget(ID3D11RenderTargetView* target, float red, float green, float blue, float alpha);
 	void drawTriangleList(UINT vertexCount, UINT startVertexIndex);
+	void drawIndexedTriangleList(UINT indexCount, UINT startVertexIndex, UINT startIndex);
 	void drawTriangleStrip(UINT vertexCount, UINT startVertexIndex);
 
 

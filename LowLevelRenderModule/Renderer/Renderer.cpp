@@ -36,6 +36,8 @@ bool Renderer::release()
 	sglSwapChain->release();
 	devContext->release();
 	vertexBuffer->release();
+	indexBuffer->release();
+	constantBuffer->release();
 	vertexShader->release();
 	return true;
 }
@@ -73,6 +75,11 @@ void Renderer::createVertexBuffer()
 void Renderer::createConstantBuffer()
 {
 	constantBuffer = new ConstantBuffer();
+}
+
+void Renderer::createIndexBuffer()
+{
+	indexBuffer = new IndexBuffer();
 }
 
 void Renderer::compileVertexShader(const wchar_t* file, const char* entryPointName, void** shaderByteCode, size_t* byteCodeSize)

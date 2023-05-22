@@ -7,6 +7,7 @@
 #include "../DeviceContext/DeviceContext.h"
 #include "../../spdlog-1.11.0/include/spdlog/spdlog.h"
 
+
 class Renderer
 {
 public:
@@ -22,6 +23,7 @@ public:
 	void createPixelShader(void* shaderByteCode, size_t byteCodeSize);
 	void createVertexBuffer();
 	void createConstantBuffer();
+	void createIndexBuffer();
 
 
 	// ACTIONS --- ACTIONS --- ACTIONS --- ACTIONS --- ACTIONS
@@ -37,6 +39,7 @@ public:
 	ConstantBuffer* constantBuffer = nullptr;
 	VertexShader* vertexShader = nullptr;
 	PixelShader* pixelShader = nullptr;
+	IndexBuffer* indexBuffer = nullptr;
 
 	DeviceContext* devContext = nullptr;
 
