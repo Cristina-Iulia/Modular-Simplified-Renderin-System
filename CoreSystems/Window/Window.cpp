@@ -143,12 +143,12 @@ Window* Window::getInstance()
 
 void Window::onCreate()
 {
-	//InputSystem::getInstance()->addListener(this);
+	InputSystem::getInstance()->addListener(this);
 }
 
 void Window::onUpdate()
 {
-	//InputSystem::getInstance()->update();
+	InputSystem::getInstance()->update();
 	sglRenderer->clearRenderTarget(0,0,0,1);
 
 
@@ -293,15 +293,15 @@ void Window::updateQuadPosition()
 	cc.m_world.setScale(Vector3D(1.0f, 1.0f, 1.0f));
 
 
-	temp.setRotationZ(delta_scale);
+	temp.setRotationZ(0.0f);
 	cc.m_world *= temp;
 
 	//temp.reset();
-	temp.setRotationY(delta_scale);
+	temp.setRotationY(rot_y);
 	cc.m_world *= temp;
 
 	//temp.reset();
-	temp.setRotationX(delta_scale);
+	temp.setRotationX(rot_x);
 	cc.m_world *= temp;
 
 
@@ -337,8 +337,40 @@ void Window::windowSettup()
 
 void Window::keyDown(int key)
 {
+	if (key == 'W')
+	{
+		rot_x += 1.707*delta_time;
+	}
+	else if (key == 'S')
+	{
+		rot_x -= 1.707*delta_time;
+	}
+	else if (key == 'A')
+	{
+		rot_y += 1.707*delta_time;
+	}
+	else if (key == 'D')
+	{
+		rot_y -= 1.707*delta_time;
+	}
 }
 
 void Window::keyUp(int key)
 {
+	if (key == 'W')
+	{
+		rot_x += 1.707*delta_time;
+	}
+	else if (key == 'S')
+	{
+		rot_x -= 1.707*delta_time;
+	}
+	else if (key == 'A')
+	{
+		rot_y += 1.707*delta_time;
+	}
+	else if (key == 'D')
+	{
+		rot_y -= 1.707*delta_time;
+	}
 }
