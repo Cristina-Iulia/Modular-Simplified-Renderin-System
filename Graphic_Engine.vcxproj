@@ -150,6 +150,7 @@
     <ClInclude Include="MathLibrary\IMatrix.h" />
     <ClInclude Include="MathLibrary\IVector.h" />
     <ClInclude Include="MathLibrary\Matrix4x4.h" />
+    <ClInclude Include="MathLibrary\Point.h" />
     <ClInclude Include="MathLibrary\Vector3D.h" />
   </ItemGroup>
   <ItemGroup>

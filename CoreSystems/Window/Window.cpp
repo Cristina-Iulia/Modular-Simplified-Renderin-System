@@ -29,33 +29,45 @@ Window::~Window()
 }
 
 
-LRESULT CALLBACK WndProc(HWND hwnd, UINT msg,  WPARAM wparam, LPARAM lparam)
+LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	switch (msg)
 	{
-	case WM_CREATE:
-	{
-		// Event fired when the window is created
-		// collected here..
-		//Window::wdSingleton = (Window*)((LPCREATESTRUCT)lparam)->lpCreateParams;
-		// .. and then stored for later lookup
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)wdSingleton);
-		wdSingleton->setHwnd(hwnd);
-		// On Create window Event
-		wdSingleton->onCreate();
-		break;
-	}
-	case WM_DESTROY:
-	{
-		// Event fired when the window is destroyed
-		Window* window = (Window*)GetWindowLong(hwnd, GWLP_USERDATA);
-		// On Destroy window Event
-		window->onDestroy();
-		::PostQuitMessage(0); // Make request to system to terminate process
-		break;
-	}
-	default:
-		return ::DefWindowProc(hwnd, msg, wparam, lparam);
+		case WM_CREATE:
+		{
+			// Event fired when the window is created
+			// collected here..
+			//Window::wdSingleton = (Window*)((LPCREATESTRUCT)lparam)->lpCreateParams;
+			// .. and then stored for later lookup
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)wdSingleton);
+			wdSingleton->setHwnd(hwnd);
+			// On Create window Event
+			wdSingleton->onCreate();
+			break;
+		}
+		case WM_SETFOCUS:
+		{
+			Window* window = (Window*)GetWindowLong(hwnd, GWLP_USERDATA);
+			window->onFocuse();
+			break;
+		}
+		case WM_KILLFOCUS:
+		{
+			Window* window = (Window*)GetWindowLong(hwnd, GWLP_USERDATA);
+			window->onLoseFocus();
+			break;
+		}
+		case WM_DESTROY:
+		{
+			// Event fired when the window is destroyed
+			Window* window = (Window*)GetWindowLong(hwnd, GWLP_USERDATA);
+			// On Destroy window Event
+			window->onDestroy();
+			::PostQuitMessage(0); // Make request to system to terminate process
+			break;
+		}
+		default:
+			return ::DefWindowProc(hwnd, msg, wparam, lparam);
 	}
 
 	return NULL;
@@ -143,7 +155,6 @@ Window* Window::getInstance()
 
 void Window::onCreate()
 {
-	InputSystem::getInstance()->addListener(this);
 }
 
 void Window::onUpdate()
@@ -183,6 +194,16 @@ void Window::onDestroy()
 		windowIsRunning = false;
 	}
 	
+}
+
+void Window::onFocuse()
+{
+	InputSystem::getInstance()->addListener(wdSingleton);
+}
+
+void Window::onLoseFocus()
+{
+	InputSystem::getInstance()->removeListener(wdSingleton);
 }
 
 RECT Window::getWindowRect()
@@ -290,7 +311,7 @@ void Window::updateQuadPosition()
 	delta_scale += delta_time / 0.55f;
 
 	//cc.m_world*=temp;
-	cc.m_world.setScale(Vector3D(1.0f, 1.0f, 1.0f));
+	cc.m_world.setScale(Vector3D(scale_cube, scale_cube, scale_cube));
 
 
 	temp.setRotationZ(0.0f);
@@ -373,4 +394,30 @@ void Window::keyUp(int key)
 	{
 		rot_y -= 1.707*delta_time;
 	}
+}
+
+void Window::onMouseMove(const Point & delta_pos)
+{
+	rot_x -= delta_pos.y*delta_time;
+	rot_y -= delta_pos.x*delta_time;
+}
+
+void Window::onLeftMouseDown(const Point & mouse_pos)
+{
+	scale_cube = 0.5f;
+}
+
+void Window::onLeftMouseUp(const Point & mouse_pos)
+{
+	scale_cube = 1.0f;
+}
+
+void Window::onRightMouseDown(const Point & mouse_pos)
+{
+	scale_cube = 2.0f;
+}
+
+void Window::onRightMouseUp(const Point & mouse_pos)
+{
+	scale_cube = 1.0f;
 }

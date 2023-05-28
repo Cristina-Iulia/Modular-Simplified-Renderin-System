@@ -26,6 +26,8 @@ public:
 	void onCreate();
 	void onUpdate();
 	void onDestroy();
+	void onFocuse();
+	void onLoseFocus();
 
 	RECT getWindowRect();
 	HWND getWindowDesc();
@@ -37,6 +39,13 @@ public:
 	// Inherited via InputListener
 	virtual void keyDown(int key) override;
 	virtual void keyUp(int key) override;
+	virtual void onMouseMove(const Point& delta_pos) override;
+
+	virtual void onLeftMouseDown(const Point& mouse_pos) override;
+	virtual void onLeftMouseUp(const Point& mouse_pos) override;
+
+	virtual void onRightMouseDown(const Point& mouse_pos) override;
+	virtual void onRightMouseUp(const Point& mouse_pos) override;
 
 
 private:
@@ -62,6 +71,8 @@ protected:
 	unsigned long m_old_time = 0;
 	float m_delta_time = 0;
 	float m_angle = 0;
+
+	float scale_cube = 1;
 
 };
 

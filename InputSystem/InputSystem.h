@@ -3,7 +3,9 @@
 #define INPUT_SYSTEM
 
 #include "../Interfaces/InputListener.h"
-#include <map>
+#include "../MathLibrary/Point.h"
+#include "spdlog/spdlog.h"
+#include <unordered_set>
 #include <Windows.h>
 
 class InputSystem
@@ -17,12 +19,22 @@ public:
 	void removeListener(InputListener* listener);
 	void update();
 
+	std::unordered_set<InputListener*> listenersSet;
+
 private: 
 	InputSystem();
 	~InputSystem();
 
-	std::map<InputListener*, InputListener*> listenerMap;
+	// KEYBOARD HANDLING ATTRIBUTES
+
 	unsigned char keysState[256] = {};
 	unsigned char lastKeysState[256] = {};
+
+
+	// MOUSE HANDLING ATTRIBUTES
+	Point old_mouse_pos;
+
+
+
 };
 #endif

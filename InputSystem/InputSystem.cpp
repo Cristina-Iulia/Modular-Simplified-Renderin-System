@@ -23,25 +23,46 @@ void InputSystem::init()
 
 void InputSystem::release()
 {
+	delete this;
 }
 
 void InputSystem::addListener(InputListener * listener)
 {
-	listenerMap.insert(std::make_pair<InputListener*, InputListener*>(std::forward<InputListener*>(listener), std::forward<InputListener*>(listener)));
+	listenersSet.insert(listener);
 }
 
 void InputSystem::removeListener(InputListener * listener)
 {
-	std::map<InputListener*, InputListener*>::iterator it = listenerMap.find(listener);
-	if (it != listenerMap.end())
-	{
-		listenerMap.erase(it);
+	auto it = listenersSet.find(listener);  // Find iterator for element
+	if (it != listenersSet.end()) {
+		it = listenersSet.erase(it);  // Erase element and update iterator
 	}
-
+	//listenersSet.erase(listener);
 }
 
 void InputSystem::update()
 {
+
+	POINT current_mouse_pos = {};
+	::GetCursorPos(&current_mouse_pos);
+
+	if (current_mouse_pos.x != old_mouse_pos.x || current_mouse_pos.y != old_mouse_pos.y)
+	{
+		// the mouse was moved
+		std::unordered_set<InputListener*>::iterator it = listenersSet.begin();
+
+		while (it != listenersSet.end() && *it)
+		{
+			// notify listeners
+			(*it)->onMouseMove(Point(current_mouse_pos.x - old_mouse_pos.x, current_mouse_pos.y - old_mouse_pos.y));
+			++it;
+		}
+	}
+
+	old_mouse_pos = Point(current_mouse_pos.x, current_mouse_pos.y); //update last read position of the mouse
+
+
+
 	if (::GetKeyboardState(keysState))
 	{
 		for (unsigned int i = 0; i < 256; ++i)
@@ -49,11 +70,25 @@ void InputSystem::update()
 			if (keysState[i] & 0x80)
 			{ // KEY DOWN
 
-				std::map<InputListener*, InputListener*>::iterator it = listenerMap.begin();
+				std::unordered_set<InputListener*>::iterator it = listenersSet.begin();
 
-				while (it != listenerMap.end())
+				while (it != listenersSet.end() && *it)
 				{
-					it->second->keyDown(i);
+					if (i == VK_LBUTTON)
+					{
+						if (keysState[i] != lastKeysState[i])
+							(*it)->onLeftMouseDown(Point(current_mouse_pos.x, current_mouse_pos.y));
+					}
+					else if (i == VK_RBUTTON)
+					{
+						if (keysState[i] != lastKeysState[i])
+							(*it)->onRightMouseDown(Point(current_mouse_pos.x, current_mouse_pos.y));
+					}
+					else
+					{
+						(*it)->keyDown(i);
+					}
+					
 					++it;
 				}
 			}
@@ -62,11 +97,25 @@ void InputSystem::update()
 
 				if (keysState[i] != lastKeysState[i])
 				{
-					std::map<InputListener*, InputListener*>::iterator it = listenerMap.begin();
+					std::unordered_set<InputListener*>::iterator it = listenersSet.begin();
 
-					while (it != listenerMap.end())
+					while (it != listenersSet.end() && *it)
 					{
-						it->second->keyUp(i);
+						if (i == VK_LBUTTON)
+						{
+							if (keysState[i] != lastKeysState[i])
+								(*it)->onLeftMouseUp(Point(current_mouse_pos.x, current_mouse_pos.y));
+						}
+						else if (i == VK_RBUTTON)
+						{
+							if (keysState[i] != lastKeysState[i])
+								(*it)->onRightMouseUp(Point(current_mouse_pos.x, current_mouse_pos.y));
+						}
+						else
+						{
+							(*it)->keyUp(i);
+						}
+						
 						++it;
 					}
 				}
@@ -81,6 +130,11 @@ void InputSystem::update()
 
 InputSystem::InputSystem()
 {
+	// Initialize firs ever read position of the mouse
+	POINT current_mouse_pos = {};
+	::GetCursorPos(&current_mouse_pos);
+	old_mouse_pos = Point(current_mouse_pos.x, current_mouse_pos.y);
+
 }
 
 InputSystem::~InputSystem()

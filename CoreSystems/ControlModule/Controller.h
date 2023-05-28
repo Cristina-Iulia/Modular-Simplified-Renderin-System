@@ -6,6 +6,7 @@
 #include "../Window/Window.h"
 #include "../DeviceManager/DeviceManager.h"
 #include "../../LowLevelRenderModule/Renderer/Renderer.h"
+#include "../../InputSystem/InputSystem.h"
 
 
 class Controller

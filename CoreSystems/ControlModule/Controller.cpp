@@ -34,6 +34,7 @@ void Controller::init()
 	}
 
 	sglWindow->setRenderer(sglRenderer);
+	InputSystem::getInstance()->addListener(sglWindow);
 }
 
 void Controller::release()

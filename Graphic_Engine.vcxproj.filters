@@ -147,6 +147,9 @@
     <ClInclude Include="LowLevelRenderModule\MemoryBuffers\IndexBuffer\IndexBuffer.h">
       <Filter>LowLevelRenderModule\MemoryBuffers\IndexBuffer</Filter>
     </ClInclude>
+    <ClInclude Include="MathLibrary\Point.h">
+      <Filter>MathLibrary</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl" />
