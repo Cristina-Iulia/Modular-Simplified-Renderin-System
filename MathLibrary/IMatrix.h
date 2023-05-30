@@ -4,6 +4,7 @@
 #include <memory>
 #include <cstring>
 #include "spdlog/spdlog.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
 
 template <typename T, size_t M, size_t N> struct matrix_t
 {
@@ -52,16 +53,14 @@ template <typename T, size_t M, size_t N> struct matrix_t
 	}
 
 	// Assignment operator
-	matrix_t& operator=(const matrix_t<T, M, N>& other)
+	void operator=(const matrix_t<T, M, N>& other)
 	{
-		if (this != &other) {
-			for (int i = 0; i < M; ++i) {
-				for (int j = 0; j < N; ++j) {
-					data[i][j] = other.data[i][j];
-				}
+		for (int i = 0; i < M; ++i) {
+			for (int j = 0; j < N; ++j) {
+				data[i][j] = other.data[i][j];
 			}
 		}
-		return *this;
+
 	}
 
 	// Equality operator
@@ -140,6 +139,16 @@ template <typename T, size_t M, size_t N> struct matrix_t
 			}
 		}
 		return result;
+	}
+
+	// Scalar multiplication short version
+	void operator*=(T scalar)
+	{
+		for (int i = 0; i < M; ++i) {
+			for (int j = 0; j < N; ++j) {
+				data[i][j] = scalar * data[i][j];
+			}
+		}	
 	}
 
 	// Matrix multiplication
@@ -268,7 +277,6 @@ template <typename T, size_t M, size_t N> struct matrix_t
 
 		// Create a copy of the matrix to perform LU decomposition
 		matrix_t<T, M, N> luMatrix(*this);
-
 		// Perform LU decomposition with partial pivoting
 		for (size_t k = 0; k < M - 1; ++k)
 		{
@@ -276,7 +284,6 @@ template <typename T, size_t M, size_t N> struct matrix_t
 			{
 				if (luMatrix[k][k] == 0)
 				{
-					spdlog::error("Error: Zero pivot encountered");
 					return T(0);
 				}
 				luMatrix[i][k] /= luMatrix[k][k];
@@ -297,47 +304,50 @@ template <typename T, size_t M, size_t N> struct matrix_t
 	}
 
 	// Invert of Matrix
-	matrix_t<T, M, N> invert() const
+	/*void invert()
 	{
 		matrix_t<T, M, N> inverse;
 		double determinant = det();
 		if (determinant == 0)
 		{
 			spdlog::error("Matrix not invertible");
-			return inverse;
+			return;
 		}
 
 
-		// Create a copy of the matrix to perform LU decomposition
-		matrix_t<T, M, N> adjugate;
-
-		// Create the adjugate matrix
+		// Create the cofactor matrix
+		matrix_t<T, M, N> cofactor;
 		for (size_t i = 0; i < M; ++i) {
-			for (size_t j = 0; j < N; ++j) {
-				matrix_t<T, M - 1, N - 1> submatrix;
+			for (size_t j = 0; j < M; ++j) {
+				// Create submatrix by removing the current row and column
+				matrix_t<T, M-1, N-1> submatrix;
+				size_t subRow = 0;
 				for (size_t row = 0; row < M; ++row) {
-					for (size_t col = 0; col < N; ++col) {
-						if (row != i && col != j) {
-							submatrix[row < i ? row : row - 1][col < j ? col : col - 1] = data[row][col];
-						}
+					if (row == i) continue; // Skip the current row
+					size_t subCol = 0;
+					for (size_t col = 0; col < M; ++col) {
+						if (col == j) continue; // Skip the current column
+						submatrix[subRow][subCol] = data[row][col];
+						++subCol;
 					}
+					++subRow;
 				}
-				double cofactor = ((i + j) % 2 == 0) ? 1 : -1;
-				adjugate[j][i] = cofactor * submatrix.det();
+				// Calculate the cofactor as the determinant of the submatrix multiplied by the appropriate sign
+				T sign = ((i + j) % 2 == 0) ? T(1) : T(-1);
+				cofactor[j][i] = sign * submatrix.det();
 			}
 		}
 
-		// Multiply adjugate matrix by the reciprocal of the determinant to get the inverse
-
-		double reciprocalDeterminant = T(1) / determinant;
+		// Calculate the adjugate matrix
+		matrix_t<T, M, N> adjugate;
 		for (size_t i = 0; i < M; ++i) {
-			for (size_t j = 0; j < N; ++j) {
-				inverse[i][j] = adjugate[i][j] * reciprocalDeterminant;
+			for (size_t j = 0; j < M; ++j) {
+				adjugate[i][j] = cofactor[i][j] / determinant;
 			}
 		}
 
-		return inverse;
-	}
+		::memcpy(data, adjugate.data, sizeof(T)* M * N);
+	}*/
 
 	/*//////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////---------------- VALIDATORS --------------//////////////////
@@ -413,18 +423,29 @@ template <typename T, size_t M, size_t N> struct matrix_t
 	/////////////////////////---------------- PRINT --------------//////////////////
 	//////////////////////////////////////////////////////////////////////////////////////*/
 
-	/*void display() const
+	void display() const
 	{
-		std::cout << std::endl;
-		for (int i = 0; i < M; ++i)
-		{
-			std::cout << std::endl;
-			for (int j = 0; j < N; ++j)
-			{
-				std::cout << data[i][j] << " ";
-			}
+		auto logger = spdlog::get("matrixLogger");
+
+		if(!logger) {
+			// If the logger does not exist, create it with the name "matrixLogger"
+			auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+			logger = std::make_shared<spdlog::logger>("matrixLogger", console_sink);
+			spdlog::register_logger(logger);
 		}
-	}*/
+
+		logger->info("Matrix:");
+
+		// Iterate over the matrix and log each row
+		for (int i = 0; i < M; ++i) {
+			std::string rowStr;
+			for (int j = 0; j < N; ++j) {
+				// Convert each element to a string and append it to the row string
+				rowStr += std::to_string(data[i][j]) + " ";
+			}
+			logger->info(rowStr);
+		}
+	}
 };
 
 

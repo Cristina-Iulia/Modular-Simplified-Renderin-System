@@ -152,6 +152,7 @@
     <ClInclude Include="MathLibrary\Matrix4x4.h" />
     <ClInclude Include="MathLibrary\Point.h" />
     <ClInclude Include="MathLibrary\Vector3D.h" />
+    <ClInclude Include="MathLibrary\Vector4D.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">

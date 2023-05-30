@@ -19,6 +19,15 @@ public:
 	void removeListener(InputListener* listener);
 	void update();
 
+	void handleLeftMouseDown();
+	void handleLeftMouseUp();
+
+	void handleRightMouseDown();
+	void handleRightMouseUp();
+
+	void setCursorPosition(const Point& pos);
+	void showCursor(bool show);
+
 	std::unordered_set<InputListener*> listenersSet;
 
 private: 

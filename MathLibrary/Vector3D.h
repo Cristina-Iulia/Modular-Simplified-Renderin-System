@@ -18,5 +18,15 @@ public:
 		return result;
 	}
 
+	Vector3D operator+(const Vector3D other)
+	{
+		return Vector3D(x+other.x, y+other.y, z+other.z);
+	}
+
+	Vector3D operator*(const float scalar)
+	{
+		return Vector3D(x*scalar, y*scalar, z*scalar);
+	}
+
 	float x, y, z;
 };

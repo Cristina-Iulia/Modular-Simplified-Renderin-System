@@ -54,7 +54,7 @@ void InputSystem::update()
 		while (it != listenersSet.end() && *it)
 		{
 			// notify listeners
-			(*it)->onMouseMove(Point(current_mouse_pos.x - old_mouse_pos.x, current_mouse_pos.y - old_mouse_pos.y));
+			(*it)->onMouseMove(Point(current_mouse_pos.x, current_mouse_pos.y));
 			++it;
 		}
 	}
@@ -74,21 +74,7 @@ void InputSystem::update()
 
 				while (it != listenersSet.end() && *it)
 				{
-					if (i == VK_LBUTTON)
-					{
-						if (keysState[i] != lastKeysState[i])
-							(*it)->onLeftMouseDown(Point(current_mouse_pos.x, current_mouse_pos.y));
-					}
-					else if (i == VK_RBUTTON)
-					{
-						if (keysState[i] != lastKeysState[i])
-							(*it)->onRightMouseDown(Point(current_mouse_pos.x, current_mouse_pos.y));
-					}
-					else
-					{
-						(*it)->keyDown(i);
-					}
-					
+					(*it)->keyDown(i);
 					++it;
 				}
 			}
@@ -101,21 +87,7 @@ void InputSystem::update()
 
 					while (it != listenersSet.end() && *it)
 					{
-						if (i == VK_LBUTTON)
-						{
-							if (keysState[i] != lastKeysState[i])
-								(*it)->onLeftMouseUp(Point(current_mouse_pos.x, current_mouse_pos.y));
-						}
-						else if (i == VK_RBUTTON)
-						{
-							if (keysState[i] != lastKeysState[i])
-								(*it)->onRightMouseUp(Point(current_mouse_pos.x, current_mouse_pos.y));
-						}
-						else
-						{
-							(*it)->keyUp(i);
-						}
-						
+						(*it)->keyUp(i);
 						++it;
 					}
 				}
@@ -126,6 +98,92 @@ void InputSystem::update()
 		// store latest state
 		::memcpy(lastKeysState, keysState, sizeof(unsigned char)*256);
 	}
+}
+
+void InputSystem::handleLeftMouseDown()
+{
+	POINT current_mouse_pos = {};
+	::GetCursorPos(&current_mouse_pos);
+
+	std::unordered_set<InputListener*>::iterator it = listenersSet.begin();
+
+	while (it != listenersSet.end() && *it)
+	{
+		
+		(*it)->onLeftMouseDown(Point(current_mouse_pos.x, current_mouse_pos.y));
+		
+
+		++it;
+	}
+
+	old_mouse_pos = Point(current_mouse_pos.x, current_mouse_pos.y); //update last read position of the mouse
+}
+
+void InputSystem::handleLeftMouseUp()
+{
+	POINT current_mouse_pos = {};
+	::GetCursorPos(&current_mouse_pos);
+
+	std::unordered_set<InputListener*>::iterator it = listenersSet.begin();
+
+	while (it != listenersSet.end() && *it)
+	{
+
+		(*it)->onLeftMouseUp(Point(current_mouse_pos.x, current_mouse_pos.y));
+
+
+		++it;
+	}
+
+	old_mouse_pos = Point(current_mouse_pos.x, current_mouse_pos.y); //update last read position of the mouse
+}
+
+void InputSystem::handleRightMouseDown()
+{
+	POINT current_mouse_pos = {};
+	::GetCursorPos(&current_mouse_pos);
+
+	std::unordered_set<InputListener*>::iterator it = listenersSet.begin();
+
+	while (it != listenersSet.end() && *it)
+	{
+
+		(*it)->onRightMouseDown(Point(current_mouse_pos.x, current_mouse_pos.y));
+
+
+		++it;
+	}
+
+	old_mouse_pos = Point(current_mouse_pos.x, current_mouse_pos.y); //update last read position of the mouse
+}
+
+void InputSystem::handleRightMouseUp()
+{
+	POINT current_mouse_pos = {};
+	::GetCursorPos(&current_mouse_pos);
+
+	std::unordered_set<InputListener*>::iterator it = listenersSet.begin();
+
+	while (it != listenersSet.end() && *it)
+	{
+
+		(*it)->onRightMouseUp(Point(current_mouse_pos.x, current_mouse_pos.y));
+
+
+		++it;
+	}
+
+	old_mouse_pos = Point(current_mouse_pos.x, current_mouse_pos.y); //update last read position of the mouse
+}
+
+void InputSystem::setCursorPosition(const Point & pos)
+{
+	::SetCursorPos(pos.x, pos.y);
+}
+
+void InputSystem::showCursor(bool show)
+{
+	::ShowCursor(show);
 }
 
 InputSystem::InputSystem()

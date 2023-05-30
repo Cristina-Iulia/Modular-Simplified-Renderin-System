@@ -34,7 +34,7 @@ public:
 	void setHwnd(HWND hwnd);
 	void setRenderer(Renderer* renderer);
 
-	void updateQuadPosition();
+	void update();
 
 	// Inherited via InputListener
 	virtual void keyDown(int key) override;
@@ -60,6 +60,10 @@ private:
 
 	float rot_x = 0;
 	float rot_y = 0;
+
+	Matrix4x4 camera;
+	float camera_Z = 0.0f;
+	float camera_X = 0.0f;
 
 
 

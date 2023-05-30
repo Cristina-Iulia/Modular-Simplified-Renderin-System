@@ -150,6 +150,9 @@
     <ClInclude Include="MathLibrary\Point.h">
       <Filter>MathLibrary</Filter>
     </ClInclude>
+    <ClInclude Include="MathLibrary\Vector4D.h">
+      <Filter>MathLibrary</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl" />

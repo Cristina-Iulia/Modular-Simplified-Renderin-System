@@ -57,6 +57,26 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 			window->onLoseFocus();
 			break;
 		}
+		case WM_LBUTTONDOWN:
+		{
+			InputSystem::getInstance()->handleLeftMouseDown();
+			break;
+		}
+		case WM_LBUTTONUP:
+		{
+			InputSystem::getInstance()->handleLeftMouseUp();
+			break;
+		}
+		case WM_RBUTTONDOWN:
+		{
+			InputSystem::getInstance()->handleRightMouseDown();
+			break;
+		}
+		case WM_RBUTTONUP:
+		{
+			InputSystem::getInstance()->handleRightMouseUp();
+			break;
+		}
 		case WM_DESTROY:
 		{
 			// Event fired when the window is destroyed
@@ -155,6 +175,7 @@ Window* Window::getInstance()
 
 void Window::onCreate()
 {
+	InputSystem::getInstance()->showCursor(false);
 }
 
 void Window::onUpdate()
@@ -166,7 +187,7 @@ void Window::onUpdate()
 	RECT rc = getWindowRect();
 	sglRenderer->devContext->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
-	updateQuadPosition();
+	update();
 
 	sglRenderer->devContext->setVertexShader(sglRenderer->vertexShader);
 	sglRenderer->devContext->setPixelShader(sglRenderer->pixelShader);
@@ -226,6 +247,9 @@ void Window::setHwnd(HWND hwnd)
 void Window::setRenderer(Renderer * renderer)
 {
 	sglRenderer = renderer;
+
+	camera.setIdentity();
+	camera.setTranslation(Vector3D(0, 0, -2));
 
 	vertex list[] =
 	{
@@ -294,7 +318,7 @@ void Window::setRenderer(Renderer * renderer)
 	sglRenderer->constantBuffer->init(&cc, sizeof(constant));
 }
 
-void Window::updateQuadPosition()
+void Window::update()
 {
 	constant cc;
 	cc.m_angle = ::GetTickCount();
@@ -310,29 +334,32 @@ void Window::updateQuadPosition()
 	
 	delta_scale += delta_time / 0.55f;
 
-	//cc.m_world*=temp;
-	cc.m_world.setScale(Vector3D(scale_cube, scale_cube, scale_cube));
+	cc.m_world.setIdentity();
 
-
-	temp.setRotationZ(0.0f);
-	cc.m_world *= temp;
-
-	//temp.reset();
-	temp.setRotationY(rot_y);
-	cc.m_world *= temp;
-
-	//temp.reset();
+	Matrix4x4 cameraMartix;
+	cameraMartix.setIdentity();
 	temp.setRotationX(rot_x);
-	cc.m_world *= temp;
+	cameraMartix *= temp;	
 
+	temp.setIdentity();
+	temp.setRotationY(rot_y);
+	cameraMartix *= temp;
 
+	Vector3D new_pos = camera.getTranslation() + cameraMartix.getDirectionZ() * (camera_Z * 0.3f);
+	new_pos = new_pos + cameraMartix.getDirectionX() * (camera_X * 0.3f);
 
-	cc.m_view.setIdentity();
+	cameraMartix.setTranslation(new_pos);
+
+	camera = cameraMartix;
+	cameraMartix.inverse();
+	cc.m_view = cameraMartix;
 
 	auto rec = getWindowRect();
-	auto width = (rec.right - rec.left) / 300.0f;
-	auto height = (rec.bottom - rec.top) / 300.0f;
-	cc.m_proj.setProjectionORTH(width, height, -4.0f, 4.0f);
+	auto width = (rec.right - rec.left);
+	auto height = (rec.bottom - rec.top);
+	//cc.m_proj.setProjectionORTH(width, height, -4.0f, 4.0f);
+
+	cc.m_proj.setProjectionPerspective(1.57f, ((float)width / (float)height), 0.1f, 100.0f);
 	
 
 	sglRenderer->constantBuffer->update(reinterpret_cast<void *>(&cc));
@@ -360,46 +387,42 @@ void Window::keyDown(int key)
 {
 	if (key == 'W')
 	{
-		rot_x += 1.707*delta_time;
+		//rot_x += 1.707*delta_time;
+		camera_Z = 0.5f;
 	}
 	else if (key == 'S')
 	{
-		rot_x -= 1.707*delta_time;
+		//rot_x -= 1.707*delta_time;
+		camera_Z = -0.5f;
 	}
 	else if (key == 'A')
 	{
-		rot_y += 1.707*delta_time;
+		//rot_y += 1.707*delta_time;
+		camera_X = -0.5f;
 	}
 	else if (key == 'D')
 	{
-		rot_y -= 1.707*delta_time;
+		//rot_y -= 1.707*delta_time;
+		camera_X = 0.5f;
 	}
 }
 
 void Window::keyUp(int key)
 {
-	if (key == 'W')
-	{
-		rot_x += 1.707*delta_time;
-	}
-	else if (key == 'S')
-	{
-		rot_x -= 1.707*delta_time;
-	}
-	else if (key == 'A')
-	{
-		rot_y += 1.707*delta_time;
-	}
-	else if (key == 'D')
-	{
-		rot_y -= 1.707*delta_time;
-	}
+	camera_Z = 0.0f;
+	camera_X = 0.0f;
 }
 
 void Window::onMouseMove(const Point & delta_pos)
 {
-	rot_x -= delta_pos.y*delta_time;
-	rot_y -= delta_pos.x*delta_time;
+	auto rec = getWindowRect();
+	auto width = (rec.right - rec.left);
+	auto height = (rec.bottom - rec.top);
+
+	rot_x += (delta_pos.y - (height/2.0f))*delta_time*1.0f;
+	rot_y += (delta_pos.x - (width / 2.0f))*delta_time*1.0f;
+
+	InputSystem::getInstance()->setCursorPosition(Point(width/2.0f, height/2.0f ));
 }
 
 void Window::onLeftMouseDown(const Point & mouse_pos)
