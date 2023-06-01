@@ -5,6 +5,7 @@
 #include <Windows.h>
 #include "../SwapChain/SwapChain.h"
 #include "../DeviceContext/DeviceContext.h"
+#include "../Resources.h"
 #include "../../spdlog-1.11.0/include/spdlog/spdlog.h"
 
 
@@ -35,11 +36,11 @@ public:
 	void releaseCompiledShader();
 
 	// RESOURCES --- RESOURCES --- RESOURCES --- RESOURCES --- RESOURCES
-	VertexBuffer* vertexBuffer = nullptr;
-	ConstantBuffer* constantBuffer = nullptr;
-	VertexShader* vertexShader = nullptr;
-	PixelShader* pixelShader = nullptr;
-	IndexBuffer* indexBuffer = nullptr;
+	VertexBufferPtr vertexBuffer = nullptr;
+	ConstantBufferPtr constantBuffer = nullptr;
+	VertexShaderPtr vertexShader = nullptr;
+	PixelShaderPtr pixelShader = nullptr;
+	IndexBufferPtr indexBuffer = nullptr;
 
 	DeviceContext* devContext = nullptr;
 

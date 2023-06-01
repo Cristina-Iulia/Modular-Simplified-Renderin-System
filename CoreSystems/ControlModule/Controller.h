@@ -7,6 +7,7 @@
 #include "../DeviceManager/DeviceManager.h"
 #include "../../LowLevelRenderModule/Renderer/Renderer.h"
 #include "../../InputSystem/InputSystem.h"
+#include "../../ResourceManagerModule/ResourceGenerator.h"
 
 
 class Controller
@@ -26,6 +27,8 @@ protected:
 	Window* sglWindow;
 	DeviceManager* sglDeviceManager;
 	Renderer* sglRenderer;
+	ResourceGenerator* sglResourceGenerator;
+	
 	
 };
 

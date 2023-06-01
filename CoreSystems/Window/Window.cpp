@@ -5,8 +5,7 @@ static Window* wdSingleton = nullptr;
 struct vertex
 {
 	Vector3D position;
-	Vector3D color;
-	Vector3D color_sfter;
+	Vector2D textcoord;
 };
 
 __declspec(align(16))
@@ -48,13 +47,13 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 		case WM_SETFOCUS:
 		{
 			Window* window = (Window*)GetWindowLong(hwnd, GWLP_USERDATA);
-			window->onFocuse();
+			if (window) window->onFocuse();
 			break;
 		}
 		case WM_KILLFOCUS:
 		{
 			Window* window = (Window*)GetWindowLong(hwnd, GWLP_USERDATA);
-			window->onLoseFocus();
+			if (window) window->onLoseFocus();
 			break;
 		}
 		case WM_LBUTTONDOWN:
@@ -82,7 +81,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 			// Event fired when the window is destroyed
 			Window* window = (Window*)GetWindowLong(hwnd, GWLP_USERDATA);
 			// On Destroy window Event
-			window->onDestroy();
+			if (window) window->onDestroy();
 			::PostQuitMessage(0); // Make request to system to terminate process
 			break;
 		}
@@ -194,6 +193,8 @@ void Window::onUpdate()
 
 	sglRenderer->devContext->setConstantBuffer(sglRenderer->vertexShader, sglRenderer->constantBuffer);
 	sglRenderer->devContext->setConstantBuffer(sglRenderer->pixelShader, sglRenderer->constantBuffer);
+	sglRenderer->devContext->setTexture(sglRenderer->vertexShader, wood_tex);
+	sglRenderer->devContext->setTexture(sglRenderer->pixelShader, wood_tex);
 
 
 	sglRenderer->devContext->setVertexBuffer(sglRenderer->vertexBuffer);
@@ -251,24 +252,71 @@ void Window::setRenderer(Renderer * renderer)
 	camera.setIdentity();
 	camera.setTranslation(Vector3D(0, 0, -2));
 
-	vertex list[] =
+	Vector3D position_list[] =
 	{
 		//X - Y - Z
 		//FRONT FACE
-		{Vector3D(-0.5f,-0.5f,-0.5f),    Vector3D(1,0,0),  Vector3D(0.2f,0,0) },
-		{Vector3D(-0.5f,0.5f,-0.5f),    Vector3D(1,1,0), Vector3D(0.2f,0.2f,0) },
-		{ Vector3D(0.5f,0.5f,-0.5f),   Vector3D(1,1,0),  Vector3D(0.2f,0.2f,0) },
-		{ Vector3D(0.5f,-0.5f,-0.5f),     Vector3D(1,0,0), Vector3D(0.2f,0,0) },
+		{Vector3D(-0.5f,-0.5f,-0.5f) },
+		{Vector3D(-0.5f,0.5f,-0.5f)},
+		{ Vector3D(0.5f,0.5f,-0.5f)},
+		{ Vector3D(0.5f,-0.5f,-0.5f)},
 
 		//BACK FACE
-		{ Vector3D(0.5f,-0.5f,0.5f),    Vector3D(0,1,0), Vector3D(0,0.2f,0) },
-		{ Vector3D(0.5f,0.5f,0.5f),    Vector3D(0,1,1), Vector3D(0,0.2f,0.2f) },
-		{ Vector3D(-0.5f,0.5f,0.5f),   Vector3D(0,1,1),  Vector3D(0,0.2f,0.2f) },
-		{ Vector3D(-0.5f,-0.5f,0.5f),     Vector3D(0,1,0), Vector3D(0,0.2f,0) }
+		{ Vector3D(0.5f,-0.5f,0.5f)},
+		{ Vector3D(0.5f,0.5f,0.5f) },
+		{ Vector3D(-0.5f,0.5f,0.5f)},
+		{ Vector3D(-0.5f,-0.5f,0.5f)}
+	};
+
+	Vector2D texcoord_list[] =
+	{
+		{ Vector2D(0.0f, 0.0f)},
+		{ Vector2D(0.0f, 1.0f)},
+		{ Vector2D(1.0f, 0.0f)},
+		{ Vector2D(1.0f, 1.0f)}
+	};
+
+	vertex vertex_list[] =
+	{
+		//X - Y - Z
+		//FRONT FACE
+		{ position_list[0],texcoord_list[1] },
+		{ position_list[1],texcoord_list[0] },
+		{ position_list[2],texcoord_list[2] },
+		{ position_list[3],texcoord_list[3] },
+
+
+		{ position_list[4],texcoord_list[1] },
+		{ position_list[5],texcoord_list[0] },
+		{ position_list[6],texcoord_list[2] },
+		{ position_list[7],texcoord_list[3] },
+
+
+		{ position_list[1],texcoord_list[1] },
+		{ position_list[6],texcoord_list[0] },
+		{ position_list[5],texcoord_list[2] },
+		{ position_list[2],texcoord_list[3] },
+
+		{ position_list[7],texcoord_list[1] },
+		{ position_list[0],texcoord_list[0] },
+		{ position_list[3],texcoord_list[2] },
+		{ position_list[4],texcoord_list[3] },
+
+		{ position_list[3],texcoord_list[1] },
+		{ position_list[2],texcoord_list[0] },
+		{ position_list[5],texcoord_list[2] },
+		{ position_list[4],texcoord_list[3] },
+
+		{ position_list[7],texcoord_list[1] },
+		{ position_list[6],texcoord_list[0] },
+		{ position_list[1],texcoord_list[2] },
+		{ position_list[0],texcoord_list[3] }
+
+
 	};
 
 	sglRenderer->createVertexBuffer();
-	UINT listSize = ARRAYSIZE(list);
+	UINT listSize = ARRAYSIZE(vertex_list);
 
 	unsigned int index_list[] =
 	{
@@ -279,17 +327,17 @@ void Window::setRenderer(Renderer * renderer)
 		4,5,6,
 		6,7,4,
 		//TOP SIDE
-		1,6,5,
-		5,2,1,
+		8,9,10,
+		10,11,8,
 		//BOTTOM SIDE
-		7,0,3,
-		3,4,7,
+		12,13,14,
+		14,15,12,
 		//RIGHT SIDE
-		3,2,5,
-		5,4,3,
+		16,17,18,
+		18,19,16,
 		//LEFT SIDE
-		7,6,1,
-		1,0,7
+		20,21,22,
+		22,23,20
 	};
 
 	sglRenderer->createIndexBuffer();
@@ -302,7 +350,7 @@ void Window::setRenderer(Renderer * renderer)
 
 	sglRenderer->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &shaderSize);
 	sglRenderer->createVertexShader(shader_byte_code, shaderSize);
-	sglRenderer->vertexBuffer->init(list, sizeof(vertex), listSize, shader_byte_code, shaderSize);
+	sglRenderer->vertexBuffer->init(vertex_list, sizeof(vertex), listSize, shader_byte_code, shaderSize);
 
 	sglRenderer->releaseCompiledShader();
 
@@ -316,6 +364,20 @@ void Window::setRenderer(Renderer * renderer)
 	cc.m_angle = 0;
 	sglRenderer->createConstantBuffer();
 	sglRenderer->constantBuffer->init(&cc, sizeof(constant));
+}
+
+void Window::setResourceGenerator(ResourceGenerator * generator)
+{
+	sglResourceGenerator = generator;
+
+	wood_tex = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture,L"Assets\\Textures\\wood.jpg"));
+	//TextureManager* textmng = new TextureManager();
+	//wood_tex = textmng->getTexture(L"Assets\\Textures\\wood.jpg");
+
+	if (wood_tex == nullptr)
+	{
+		spdlog::error("NO TEXTURE");
+	}
 }
 
 void Window::update()
@@ -419,8 +481,8 @@ void Window::onMouseMove(const Point & delta_pos)
 	auto width = (rec.right - rec.left);
 	auto height = (rec.bottom - rec.top);
 
-	rot_x += (delta_pos.y - (height/2.0f))*delta_time*1.0f;
-	rot_y += (delta_pos.x - (width / 2.0f))*delta_time*1.0f;
+	rot_x += (delta_pos.y - (height/2.0f))*delta_time*0.2f;
+	rot_y += (delta_pos.x - (width / 2.0f))*delta_time*0.2f;
 
 	InputSystem::getInstance()->setCursorPosition(Point(width/2.0f, height/2.0f ));
 }

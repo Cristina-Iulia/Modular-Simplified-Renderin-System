@@ -55,6 +55,12 @@
     <Filter Include="LowLevelRenderModule\MemoryBuffers\IndexBuffer">
       <UniqueIdentifier>{d10c0090-5000-4629-9f48-808e9db52682}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ResourceManagerModule">
+      <UniqueIdentifier>{5be642d9-ce90-4f84-92be-16340660c647}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceManagerModule\Texture">
+      <UniqueIdentifier>{9c20b38f-08e9-446b-9081-f2ccf0c35f4e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App/main.cpp" />
@@ -93,6 +99,21 @@
     </ClCompile>
     <ClCompile Include="LowLevelRenderModule\MemoryBuffers\IndexBuffer\IndexBuffer.cpp">
       <Filter>LowLevelRenderModule\MemoryBuffers\IndexBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManagerModule\Resource.cpp">
+      <Filter>ResourceManagerModule</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManagerModule\ResourceManager.cpp">
+      <Filter>ResourceManagerModule</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManagerModule\Texture\Texture.cpp">
+      <Filter>ResourceManagerModule\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManagerModule\Texture\TextureManager.cpp">
+      <Filter>ResourceManagerModule\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManagerModule\ResourceGenerator.cpp">
+      <Filter>ResourceManagerModule</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +172,30 @@
       <Filter>MathLibrary</Filter>
     </ClInclude>
     <ClInclude Include="MathLibrary\Vector4D.h">
+      <Filter>MathLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="LowLevelRenderModule\Resources.h">
+      <Filter>LowLevelRenderModule</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManagerModule\Resource.h">
+      <Filter>ResourceManagerModule</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManagerModule\ResourceManager.h">
+      <Filter>ResourceManagerModule</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManagerModule\Texture\Texture.h">
+      <Filter>ResourceManagerModule\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManagerModule\Texture\TextureManager.h">
+      <Filter>ResourceManagerModule\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManagerModule\Include.h">
+      <Filter>ResourceManagerModule</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManagerModule\ResourceGenerator.h">
+      <Filter>ResourceManagerModule</Filter>
+    </ClInclude>
+    <ClInclude Include="MathLibrary\Vector2D.h">
       <Filter>MathLibrary</Filter>
     </ClInclude>
   </ItemGroup>

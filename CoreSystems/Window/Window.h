@@ -6,9 +6,11 @@
 #include "../../spdlog-1.11.0/include/spdlog/spdlog.h"
 #include "../../LowLevelRenderModule/Renderer/Renderer.h"
 #include "../../MathLibrary/Vector3D.h"
+#include "../../MathLibrary/Vector2D.h"
 #include "../../MathLibrary/Matrix4x4.h"
 #include "../../Interfaces/InputListener.h"
 #include "../../InputSystem/InputSystem.h"
+#include "../../ResourceManagerModule/ResourceGenerator.h"
 
 
 class Window: public InputListener
@@ -33,6 +35,7 @@ public:
 	HWND getWindowDesc();
 	void setHwnd(HWND hwnd);
 	void setRenderer(Renderer* renderer);
+	void setResourceGenerator(ResourceGenerator* generator);
 
 	void update();
 
@@ -50,6 +53,9 @@ public:
 
 private:
 	Renderer* sglRenderer;
+	ResourceGenerator* sglResourceGenerator;
+
+
 	void windowSettup();
 	float old_delta = 0 ; // time for last frame
 	float new_delta = 0; // time for current frame
@@ -65,7 +71,7 @@ private:
 	float camera_Z = 0.0f;
 	float camera_X = 0.0f;
 
-
+	TexturePtr wood_tex = nullptr;
 
 protected:
 	HWND m_hwnd;

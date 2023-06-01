@@ -3,13 +3,10 @@
 #define DEV_CONTEXT
 
 #include "../../CoreSystems/DeviceManager/DeviceManager.h"
-#include "../SwapChain/SwapChain.h"
-#include "../MemoryBuffers/VertexBuffer/VertexBuffer.h"
-#include "../MemoryBuffers/IndexBuffer/IndexBuffer.h"
-#include "../Shaders/VertexShader/VertexShader.h"
-#include "../Shaders/PixelShader/PixelShader.h"
-#include "../MemoryBuffers/ConstantBuffer/ConstantBuffer.h"
 #include "../../spdlog-1.11.0/include/spdlog/spdlog.h"
+
+#include "../Resources.h"
+#include "../../ResourceManagerModule/Include.h"
 
 class DeviceContext
 {
@@ -20,13 +17,15 @@ public:
 	DeviceContext();
 
 	// SETER --- SETER --- SETER --- SETER --- SETER
-	void setVertexBuffer(VertexBuffer* vertex_buffer);
-	void setIndexBuffer(IndexBuffer* index_buffer);
-	void setVertexShader(VertexShader* vertex_shader);
+	void setVertexBuffer(const VertexBufferPtr& vertex_buffer);
+	void setIndexBuffer(const IndexBufferPtr& index_buffer);
+	void setVertexShader(const VertexShaderPtr& vertex_shader);
 	void setViewportSize(UINT width, UINT height);
-	void setPixelShader(PixelShader* pixel_shader);
-	void setConstantBuffer(VertexShader* vertex_shader, ConstantBuffer* constant_buffer);
-	void setConstantBuffer(PixelShader* pixel_shader, ConstantBuffer* constant_buffer);
+	void setPixelShader(const PixelShaderPtr& pixel_shader);
+	void setConstantBuffer(const VertexShaderPtr& vertex_shader, const ConstantBufferPtr& constant_buffer);
+	void setConstantBuffer(const PixelShaderPtr& pixel_shader, const ConstantBufferPtr& constant_buffer);
+	void setTexture(const VertexShaderPtr& vertex_shader, const TexturePtr& texture);
+	void setTexture(const PixelShaderPtr& pixel_shader, const TexturePtr& texture);
 
 
 	// ACTIONS --- ACTIONS --- ACTIONS --- ACTIONS --- ACTIONS

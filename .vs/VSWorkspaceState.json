@@ -3,14 +3,15 @@
     "",
     "\\CoreSystems",
     "\\CoreSystems\\ControlModule",
+    "\\CoreSystems\\DeviceManager",
     "\\LowLevelRenderModule",
     "\\LowLevelRenderModule\\DeviceContext",
     "\\LowLevelRenderModule\\MemoryBuffers",
     "\\LowLevelRenderModule\\MemoryBuffers\\IndexBuffer",
     "\\LowLevelRenderModule\\MemoryBuffers\\VertexBuffer",
-    "\\LowLevelRenderModule\\Renderer",
-    "\\MathLibrary"
+    "\\ResourceManagerModule",
+    "\\ResourceManagerModule\\Texture"
   ],
-  "SelectedNode": "\\CoreSystems\\Window\\Window.cpp",
+  "SelectedNode": "\\ResourceManagerModule\\Texture\\TextureManager.h",
   "PreviewInSolutionExplorer": false
 }

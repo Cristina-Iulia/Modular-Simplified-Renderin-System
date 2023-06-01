@@ -35,10 +35,6 @@ bool Renderer::release()
 {
 	sglSwapChain->release();
 	devContext->release();
-	vertexBuffer->release();
-	indexBuffer->release();
-	constantBuffer->release();
-	vertexShader->release();
 	return true;
 }
 
@@ -69,17 +65,17 @@ void Renderer::present(bool vsync)
 
 void Renderer::createVertexBuffer()
 {
-	vertexBuffer =  new VertexBuffer();
+	vertexBuffer = std::make_shared<VertexBuffer>();
 }
 
 void Renderer::createConstantBuffer()
 {
-	constantBuffer = new ConstantBuffer();
+	constantBuffer = std::make_shared <ConstantBuffer>();
 }
 
 void Renderer::createIndexBuffer()
 {
-	indexBuffer = new IndexBuffer();
+	indexBuffer = std::make_shared <IndexBuffer>();
 }
 
 void Renderer::compileVertexShader(const wchar_t* file, const char* entryPointName, void** shaderByteCode, size_t* byteCodeSize)
@@ -130,13 +126,13 @@ void Renderer::releaseCompiledShader()
 
 void Renderer::createVertexShader(void* shaderByteCode, size_t byteCodeSize)
 {
-	vertexShader = new VertexShader();
+	vertexShader = std::make_shared <VertexShader>();
 	vertexShader->init(shaderByteCode, byteCodeSize);
 }
 
 
 void Renderer::createPixelShader(void* shaderByteCode, size_t byteCodeSize)
 {
-	pixelShader = new PixelShader();
+	pixelShader = std::make_shared <PixelShader>();
 	pixelShader->init(shaderByteCode, byteCodeSize);
 }

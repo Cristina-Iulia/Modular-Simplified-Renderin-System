@@ -34,7 +34,17 @@ void Controller::init()
 	}
 
 	sglWindow->setRenderer(sglRenderer);
+
 	InputSystem::getInstance()->addListener(sglWindow);
+
+	sglResourceGenerator = ResourceGenerator::getInstance();
+	if (!sglResourceGenerator)
+	{
+		spdlog::critical("ResourceGenerator initialisation FAILED");
+	}
+
+	sglWindow->setResourceGenerator(sglResourceGenerator);
+
 }
 
 void Controller::release()

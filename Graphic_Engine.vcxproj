@@ -69,6 +69,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>Libs\DirectXTex\include;$(IncludePath)</IncludePath>
+    <LibraryPath>Libs\DirectXTex\bin;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>Libs\DirectXTex\include;$(IncludePath)</IncludePath>
+    <LibraryPath>Libs\DirectXTex\bin;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -101,7 +109,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTexD.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
       <AdditionalIncludeDirectories>$(SPDLOG_INCLUDE)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -111,7 +119,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTexD.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
       <AdditionalIncludeDirectories>$(SPDLOG_INCLUDE)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -132,6 +140,11 @@
     <ClCompile Include="LowLevelRenderModule/MemoryBuffers/VertexBuffer/VertexBuffer.cpp" />
     <ClCompile Include="LowLevelRenderModule/Shaders/VertexShader/VertexShader.cpp" />
     <ClCompile Include="LowLevelRenderModule\MemoryBuffers\IndexBuffer\IndexBuffer.cpp" />
+    <ClCompile Include="ResourceManagerModule\Resource.cpp" />
+    <ClCompile Include="ResourceManagerModule\ResourceGenerator.cpp" />
+    <ClCompile Include="ResourceManagerModule\ResourceManager.cpp" />
+    <ClCompile Include="ResourceManagerModule\Texture\Texture.cpp" />
+    <ClCompile Include="ResourceManagerModule\Texture\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputSystem\InputSystem.h" />
@@ -147,12 +160,20 @@
     <ClInclude Include="LowLevelRenderModule/MemoryBuffers/VertexBuffer/VertexBuffer.h" />
     <ClInclude Include="LowLevelRenderModule/Shaders/VertexShader/VertexShader.h" />
     <ClInclude Include="LowLevelRenderModule\MemoryBuffers\IndexBuffer\IndexBuffer.h" />
+    <ClInclude Include="LowLevelRenderModule\Resources.h" />
     <ClInclude Include="MathLibrary\IMatrix.h" />
     <ClInclude Include="MathLibrary\IVector.h" />
     <ClInclude Include="MathLibrary\Matrix4x4.h" />
     <ClInclude Include="MathLibrary\Point.h" />
+    <ClInclude Include="MathLibrary\Vector2D.h" />
     <ClInclude Include="MathLibrary\Vector3D.h" />
     <ClInclude Include="MathLibrary\Vector4D.h" />
+    <ClInclude Include="ResourceManagerModule\Include.h" />
+    <ClInclude Include="ResourceManagerModule\Resource.h" />
+    <ClInclude Include="ResourceManagerModule\ResourceGenerator.h" />
+    <ClInclude Include="ResourceManagerModule\ResourceManager.h" />
+    <ClInclude Include="ResourceManagerModule\Texture\Texture.h" />
+    <ClInclude Include="ResourceManagerModule\Texture\TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">
