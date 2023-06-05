@@ -61,6 +61,9 @@
     <Filter Include="ResourceManagerModule\Texture">
       <UniqueIdentifier>{9c20b38f-08e9-446b-9081-f2ccf0c35f4e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ResourceManagerModule\Mesh">
+      <UniqueIdentifier>{0bc8ac4b-85dd-444d-bc1c-7e7f0b7fdd1b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App/main.cpp" />
@@ -114,6 +117,12 @@
     </ClCompile>
     <ClCompile Include="ResourceManagerModule\ResourceGenerator.cpp">
       <Filter>ResourceManagerModule</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManagerModule\Mesh\MeshManager.cpp">
+      <Filter>ResourceManagerModule\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManagerModule\Mesh\Mesh.cpp">
+      <Filter>ResourceManagerModule\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -198,9 +207,19 @@
     <ClInclude Include="MathLibrary\Vector2D.h">
       <Filter>MathLibrary</Filter>
     </ClInclude>
+    <ClInclude Include="ResourceManagerModule\Mesh\MeshManager.h">
+      <Filter>ResourceManagerModule\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManagerModule\Mesh\Mesh.h">
+      <Filter>ResourceManagerModule\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="MathLibrary\VertexMesh.h">
+      <Filter>MathLibrary</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl" />
     <FxCompile Include="PixelShader.hlsl" />
+    <FxCompile Include="VertexMeshLayoutShader.hlsl" />
   </ItemGroup>
 </Project>

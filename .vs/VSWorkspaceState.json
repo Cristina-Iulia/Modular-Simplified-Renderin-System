@@ -4,14 +4,16 @@
     "\\CoreSystems",
     "\\CoreSystems\\ControlModule",
     "\\CoreSystems\\DeviceManager",
+    "\\CoreSystems\\Window",
     "\\LowLevelRenderModule",
-    "\\LowLevelRenderModule\\DeviceContext",
     "\\LowLevelRenderModule\\MemoryBuffers",
-    "\\LowLevelRenderModule\\MemoryBuffers\\IndexBuffer",
     "\\LowLevelRenderModule\\MemoryBuffers\\VertexBuffer",
+    "\\LowLevelRenderModule\\Renderer",
+    "\\LowLevelRenderModule\\SwapChain",
+    "\\MathLibrary",
     "\\ResourceManagerModule",
     "\\ResourceManagerModule\\Texture"
   ],
-  "SelectedNode": "\\ResourceManagerModule\\Texture\\TextureManager.h",
+  "SelectedNode": "\\VertexMeshLayoutShader.hlsl",
   "PreviewInSolutionExplorer": false
 }

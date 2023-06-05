@@ -33,6 +33,10 @@ ResourcePtr ResourceGenerator::getResource(resource_type type_, const wchar_t * 
 		return getTexture(file_path);
 		break;
 
+	case R_Mesh:
+		return getMesh(file_path);
+		break;
+
 	default:
 		spdlog::critical("UNKNOWN RESOURCE REQUESTED");
 	}
@@ -60,4 +64,22 @@ TexturePtr ResourceGenerator::getTexture(const wchar_t * file_path)
 	}
 		
 	return textureManager->getTexture(file_path);
+}
+
+MeshPtr ResourceGenerator::getMesh(const wchar_t * file_path)
+{
+	if (meshManager == nullptr)
+	{
+		meshManager = new MeshManager();
+		if (!meshManager)
+		{
+			spdlog::critical("Texture Manager initialisation FAILED");
+		}
+		else
+		{
+			spdlog::info("Texture Manager initialisation SUCCESSFUL");
+		}
+	}
+
+	return meshManager->getMesh(file_path);
 }

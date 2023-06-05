@@ -20,7 +20,6 @@ public:
 
 Window::Window()
 {
-	//spdlog::info("In Window::Window() ");
 }
 
 Window::~Window()
@@ -197,11 +196,11 @@ void Window::onUpdate()
 	sglRenderer->devContext->setTexture(sglRenderer->pixelShader, wood_tex);
 
 
-	sglRenderer->devContext->setVertexBuffer(sglRenderer->vertexBuffer);
-	sglRenderer->devContext->setIndexBuffer(sglRenderer->indexBuffer);
+	sglRenderer->devContext->setVertexBuffer(mesh->getVertexBuffer());
+	sglRenderer->devContext->setIndexBuffer(mesh->getIndexBuffer());
 
 
-	sglRenderer->devContext->drawIndexedTriangleList(sglRenderer->indexBuffer->sizeOfList, 0, 0);
+	sglRenderer->devContext->drawIndexedTriangleList(mesh->getIndexBuffer()->sizeOfList, 0, 0);
 
 	sglRenderer->present(true);
 
@@ -315,7 +314,8 @@ void Window::setRenderer(Renderer * renderer)
 
 	};
 
-	sglRenderer->createVertexBuffer();
+	//sglRenderer->createVertexBuffer();
+
 	UINT listSize = ARRAYSIZE(vertex_list);
 
 	unsigned int index_list[] =
@@ -340,24 +340,22 @@ void Window::setRenderer(Renderer * renderer)
 		22,23,20
 	};
 
-	sglRenderer->createIndexBuffer();
-	UINT indexListSize = ARRAYSIZE(index_list);
+	//sglRenderer->createIndexBuffer();
+	//UINT indexListSize = ARRAYSIZE(index_list);
 
-	sglRenderer->indexBuffer->init(index_list, indexListSize);
+	//sglRenderer->indexBuffer->init(index_list, indexListSize);
 
 	void* shader_byte_code = nullptr;
 	size_t shaderSize = 0;
 
+
 	sglRenderer->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &shaderSize);
 	sglRenderer->createVertexShader(shader_byte_code, shaderSize);
-	sglRenderer->vertexBuffer->init(vertex_list, sizeof(vertex), listSize, shader_byte_code, shaderSize);
-
+	//sglRenderer->vertexBuffer->init(vertex_list, sizeof(vertex), listSize, shader_byte_code, shaderSize);
 	sglRenderer->releaseCompiledShader();
 
 	sglRenderer->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &shaderSize);
 	sglRenderer->createPixelShader(shader_byte_code, shaderSize);
-
-
 	sglRenderer->releaseCompiledShader();
 
 	constant cc;
@@ -370,7 +368,7 @@ void Window::setResourceGenerator(ResourceGenerator * generator)
 {
 	sglResourceGenerator = generator;
 
-	wood_tex = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture,L"Assets\\Textures\\wood.jpg"));
+	wood_tex = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture,L"Assets\\Textures\\brick.png"));
 	//TextureManager* textmng = new TextureManager();
 	//wood_tex = textmng->getTexture(L"Assets\\Textures\\wood.jpg");
 
@@ -378,6 +376,21 @@ void Window::setResourceGenerator(ResourceGenerator * generator)
 	{
 		spdlog::error("NO TEXTURE");
 	}
+
+	mesh = std::dynamic_pointer_cast<Mesh>(ResourceGenerator::getInstance()->getResource(R_Mesh, L"Assets\\Meshes\\teapot.obj"));
+
+	if (mesh == nullptr)
+	{
+		spdlog::error("NO MESH OBJ");
+	}
+
+	/*void* shader_byte_code = nullptr;
+	size_t shaderSize = 0;
+
+	sglRenderer->compileVertexShader(L"VertexMeshLayoutShader.hlsl", "vsmain", &shader_byte_code, &shaderSize);
+	sglRenderer->createVertexMeshShader(shader_byte_code, shaderSize);
+	sglRenderer->vertexMeshShader->init(&(mesh->getVertexList)[0], sizeof(VertexMesh), (UINT)list_vertices.size(), shader_byte_code, (UINT)size_shader);
+	sglRenderer->releaseCompiledShader();*/
 }
 
 void Window::update()

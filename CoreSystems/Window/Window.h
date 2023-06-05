@@ -72,6 +72,7 @@ private:
 	float camera_X = 0.0f;
 
 	TexturePtr wood_tex = nullptr;
+	MeshPtr mesh = nullptr;
 
 protected:
 	HWND m_hwnd;
@@ -83,6 +84,7 @@ protected:
 	float m_angle = 0;
 
 	float scale_cube = 1;
+
 
 };
 

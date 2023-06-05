@@ -4,9 +4,11 @@
 
 #include "../../CoreSystems/DeviceManager/DeviceManager.h"
 #include "../../spdlog-1.11.0/include/spdlog/spdlog.h"
+#include "../../ResourceManagerModule/Texture/Texture.h"
 
 #include "../Resources.h"
-#include "../../ResourceManagerModule/Include.h"
+
+typedef std::shared_ptr<Texture> TexturePtr;
 
 class DeviceContext
 {
@@ -17,15 +19,15 @@ public:
 	DeviceContext();
 
 	// SETER --- SETER --- SETER --- SETER --- SETER
-	void setVertexBuffer(const VertexBufferPtr& vertex_buffer);
-	void setIndexBuffer(const IndexBufferPtr& index_buffer);
-	void setVertexShader(const VertexShaderPtr& vertex_shader);
+	void setVertexBuffer(VertexBufferPtr vertex_buffer);
+	void setIndexBuffer(IndexBufferPtr index_buffer);
+	void setVertexShader(VertexShaderPtr vertex_shader);
 	void setViewportSize(UINT width, UINT height);
-	void setPixelShader(const PixelShaderPtr& pixel_shader);
-	void setConstantBuffer(const VertexShaderPtr& vertex_shader, const ConstantBufferPtr& constant_buffer);
-	void setConstantBuffer(const PixelShaderPtr& pixel_shader, const ConstantBufferPtr& constant_buffer);
-	void setTexture(const VertexShaderPtr& vertex_shader, const TexturePtr& texture);
-	void setTexture(const PixelShaderPtr& pixel_shader, const TexturePtr& texture);
+	void setPixelShader(PixelShaderPtr pixel_shader);
+	void setConstantBuffer(VertexShaderPtr vertex_shader, ConstantBufferPtr constant_buffer);
+	void setConstantBuffer(PixelShaderPtr pixel_shader, ConstantBufferPtr constant_buffer);
+	void setTexture(VertexShaderPtr vertex_shader, TexturePtr texture);
+	void setTexture(PixelShaderPtr pixel_shader, TexturePtr texture);
 
 
 	// ACTIONS --- ACTIONS --- ACTIONS --- ACTIONS --- ACTIONS

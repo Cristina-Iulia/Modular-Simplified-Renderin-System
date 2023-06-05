@@ -130,9 +130,16 @@ void Renderer::createVertexShader(void* shaderByteCode, size_t byteCodeSize)
 	vertexShader->init(shaderByteCode, byteCodeSize);
 }
 
+void Renderer::createVertexMeshShader(void * shaderByteCode, size_t byteCodeSize)
+{
+	vertexMeshShader = std::make_shared <VertexShader>();
+	vertexMeshShader->init(shaderByteCode, byteCodeSize);
+}
+
 
 void Renderer::createPixelShader(void* shaderByteCode, size_t byteCodeSize)
 {
 	pixelShader = std::make_shared <PixelShader>();
 	pixelShader->init(shaderByteCode, byteCodeSize);
 }
+
