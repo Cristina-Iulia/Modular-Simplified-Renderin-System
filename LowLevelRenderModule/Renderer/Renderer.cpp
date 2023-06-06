@@ -27,6 +27,7 @@ bool Renderer::init(HWND m_hwnd, RECT rc)
 	devContext->init();
 
 	renderTarget = sglSwapChain->getRenderTarget();
+	depthStencil = sglSwapChain->getDepthStencil();
 
 	return true;
 }
@@ -55,7 +56,7 @@ Renderer * Renderer::getInstance()
 
 void Renderer::clearRenderTarget( float red, float green, float blue, float alpha)
 {
-	this->devContext->clearRenderTarget(this->renderTarget, red, green, blue, alpha);
+	this->devContext->clearRenderTarget(this->renderTarget, this->depthStencil, red, green, blue, alpha);
 }
 
 void Renderer::present(bool vsync)

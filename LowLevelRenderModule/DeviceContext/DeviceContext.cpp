@@ -19,11 +19,12 @@ DeviceContext::~DeviceContext()
 {
 }
 
-void DeviceContext::clearRenderTarget(ID3D11RenderTargetView* target, float red, float green, float blue, float alpha)
+void DeviceContext::clearRenderTarget(ID3D11RenderTargetView* target, ID3D11DepthStencilView* depth_view, float red, float green, float blue, float alpha)
 {
 	float color_channel[] = { red, green, blue, alpha };
 	m_dev_Context->ClearRenderTargetView(target, color_channel);
-	m_dev_Context->OMSetRenderTargets(1, &target, NULL);
+	m_dev_Context->ClearDepthStencilView(depth_view, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
+	m_dev_Context->OMSetRenderTargets(1, &target, depth_view);
 }
 
 void DeviceContext::setVertexBuffer(VertexBufferPtr vertex_buffer)

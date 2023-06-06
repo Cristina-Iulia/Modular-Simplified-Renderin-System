@@ -57,6 +57,7 @@ private:
 
 	SwapChain* sglSwapChain = nullptr;
 	ID3D11RenderTargetView* renderTarget = nullptr;
+	ID3D11DepthStencilView* depthStencil = nullptr;
 
 	ID3DBlob* m_blob = nullptr;
 

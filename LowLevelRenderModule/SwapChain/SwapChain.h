@@ -17,11 +17,13 @@ public:
 
 	static SwapChain* getInstance();
 	ID3D11RenderTargetView* getRenderTarget();
+	ID3D11DepthStencilView* getDepthStencil();
 	void present(bool vsync);
 
 private:
 	IDXGISwapChain* m_swap_chain;
 	ID3D11RenderTargetView* m_rtv;
+	ID3D11DepthStencilView* m_dsv = nullptr;
 };
 
 #endif

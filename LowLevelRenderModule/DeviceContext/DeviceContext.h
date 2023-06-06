@@ -31,7 +31,7 @@ public:
 
 
 	// ACTIONS --- ACTIONS --- ACTIONS --- ACTIONS --- ACTIONS
-	void clearRenderTarget(ID3D11RenderTargetView* target, float red, float green, float blue, float alpha);
+	void clearRenderTarget(ID3D11RenderTargetView* target, ID3D11DepthStencilView* depth_view, float red, float green, float blue, float alpha);
 	void drawTriangleList(UINT vertexCount, UINT startVertexIndex);
 	void drawIndexedTriangleList(UINT indexCount, UINT startVertexIndex, UINT startIndex);
 	void drawTriangleStrip(UINT vertexCount, UINT startVertexIndex);

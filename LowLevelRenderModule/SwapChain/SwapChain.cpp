@@ -85,6 +85,45 @@ void SwapChain::init(HWND hwnd, UINT width, UINT height)
 		spdlog::info("Render Target View creation SUCCESSFUL");
 	}
 
+	D3D11_TEXTURE2D_DESC textdesc = {};
+	textdesc.Width = width;
+	textdesc.Height = height;
+	textdesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	textdesc.Usage = D3D11_USAGE_DEFAULT;
+	textdesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	textdesc.MipLevels = 1;
+	textdesc.SampleDesc.Count = 1;
+	textdesc.SampleDesc.Quality = 0;
+	textdesc.MiscFlags = 0;
+	textdesc.ArraySize = 1;
+	textdesc.CPUAccessFlags = 0;
+
+	result = device->CreateTexture2D(&textdesc, nullptr, &buffer);
+
+	if (FAILED(result))
+	{
+		spdlog::critical("Depth texture creation UNSUCCESSFUL");
+		spdlog::critical(HRESULT_CODE(result));
+	}
+	else
+	{
+		spdlog::info("Depth texture creation SUCCESSFUL");
+	}
+
+	result = device->CreateDepthStencilView(buffer, NULL, &m_dsv);
+	buffer->Release();
+
+	if (FAILED(result))
+	{
+		spdlog::critical("Depth stencile view creation UNSUCCESSFUL");
+		spdlog::critical(HRESULT_CODE(result));
+	}
+	else
+	{
+		spdlog::info("Depth stencile view creation SUCCESSFUL");
+	}
+
+
 	spdlog::info("__Initializing SwapChain Entity__ : FINISHED");
 }
 
@@ -121,6 +160,22 @@ ID3D11RenderTargetView * SwapChain::getRenderTarget()
 	}
 
 	spdlog::critical("ERROR AT : SwapChain::RENDER_TARGET retrieval");
+	return nullptr;
+}
+
+ID3D11DepthStencilView * SwapChain::getDepthStencil()
+{
+	if (m_dsv == nullptr)
+	{
+		spdlog::critical("ERROR AT : SwapChain::DEPTH_STENCIL retrieval");
+	}
+	else
+	{
+		spdlog::info("Retrieve SwapChain::DEPTH_STENCIL");
+		return m_dsv;
+	}
+
+	spdlog::critical("ERROR AT : SwapChain::DEPTH_STENCIL retrieval");
 	return nullptr;
 }
 
