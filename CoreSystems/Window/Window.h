@@ -64,8 +64,10 @@ private:
 	float delta_pos = 0;
 	float delta_scale = 0;
 
-	float rot_x = 0;
-	float rot_y = 0;
+	float rot_x = 0.0f;
+	float rot_y = 0.0f;
+
+	float light_rot_y = 0.0f;
 
 	Matrix4x4 camera;
 	float camera_Z = 0.0f;

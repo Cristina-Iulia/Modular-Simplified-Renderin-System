@@ -183,9 +183,6 @@
     <ClInclude Include="MathLibrary\Vector4D.h">
       <Filter>MathLibrary</Filter>
     </ClInclude>
-    <ClInclude Include="LowLevelRenderModule\Resources.h">
-      <Filter>LowLevelRenderModule</Filter>
-    </ClInclude>
     <ClInclude Include="ResourceManagerModule\Resource.h">
       <Filter>ResourceManagerModule</Filter>
     </ClInclude>
@@ -215,6 +212,9 @@
     </ClInclude>
     <ClInclude Include="MathLibrary\VertexMesh.h">
       <Filter>MathLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="LowLevelRenderModule\Resources.h">
+      <Filter>LowLevelRenderModule</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -15,7 +15,8 @@ public:
 	Matrix4x4 m_world;
 	Matrix4x4 m_view;
 	Matrix4x4 m_proj;
-	float m_angle;
+	Vector4D m_light_direction;
+	Vector4D camera_pos;
 };
 
 Window::Window()
@@ -249,7 +250,7 @@ void Window::setRenderer(Renderer * renderer)
 	sglRenderer = renderer;
 
 	camera.setIdentity();
-	camera.setTranslation(Vector3D(0, 0, -2));
+	camera.setTranslation(Vector3D(0, 0, -1));
 
 	Vector3D position_list[] =
 	{
@@ -359,7 +360,6 @@ void Window::setRenderer(Renderer * renderer)
 	sglRenderer->releaseCompiledShader();
 
 	constant cc;
-	cc.m_angle = 0;
 	sglRenderer->createConstantBuffer();
 	sglRenderer->constantBuffer->init(&cc, sizeof(constant));
 }
@@ -377,7 +377,7 @@ void Window::setResourceGenerator(ResourceGenerator * generator)
 		spdlog::error("NO TEXTURE");
 	}
 
-	mesh = std::dynamic_pointer_cast<Mesh>(ResourceGenerator::getInstance()->getResource(R_Mesh, L"Assets\\Meshes\\teapot.obj"));
+	mesh = std::dynamic_pointer_cast<Mesh>(ResourceGenerator::getInstance()->getResource(R_Mesh, L"Assets\\Meshes\\statue.obj"));
 
 	if (mesh == nullptr)
 	{
@@ -396,7 +396,6 @@ void Window::setResourceGenerator(ResourceGenerator * generator)
 void Window::update()
 {
 	constant cc;
-	cc.m_angle = ::GetTickCount();
 
 
 	delta_pos += delta_time / 10.0f;
@@ -406,6 +405,13 @@ void Window::update()
 	}
 
 	Matrix4x4 temp;
+	Matrix4x4 light_rot_matrix;
+	light_rot_matrix.setIdentity();
+	light_rot_matrix.setRotationY(light_rot_y);
+
+	light_rot_y += 0.707f * delta_time;
+
+	cc.m_light_direction = light_rot_matrix.getDirectionZ();
 	
 	delta_scale += delta_time / 0.55f;
 
@@ -422,6 +428,9 @@ void Window::update()
 
 	Vector3D new_pos = camera.getTranslation() + cameraMartix.getDirectionZ() * (camera_Z * 0.3f);
 	new_pos = new_pos + cameraMartix.getDirectionX() * (camera_X * 0.3f);
+
+
+	cc.camera_pos = new_pos;
 
 	cameraMartix.setTranslation(new_pos);
 

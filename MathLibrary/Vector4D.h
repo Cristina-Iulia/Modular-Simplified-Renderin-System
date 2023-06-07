@@ -5,6 +5,7 @@ public:
 	Vector4D() : x(0), y(0), z(0), w(0) {}; // Default constructor
 	Vector4D(float x_, float y_, float z_, float w_) : x(x_), y(y_), z(z_), w(w_) {}; // Parametrized constructor
 	Vector4D(const Vector4D& vec) : x(vec.x), y(vec.y), z(vec.z), w(vec.w) {}; // Copy constructor
+	Vector4D(const Vector3D& vec) : x(vec.x), y(vec.y), z(vec.z), w(1.0) {};
 	~Vector4D() {};
 
 	void crossProd(Vector4D &v1, Vector4D &v2, Vector4D &v3)

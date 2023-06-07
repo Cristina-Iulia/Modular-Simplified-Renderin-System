@@ -34,6 +34,7 @@ bool Renderer::init(HWND m_hwnd, RECT rc)
 
 bool Renderer::release()
 {
+	m_blob->Release();
 	sglSwapChain->release();
 	devContext->release();
 	return true;
