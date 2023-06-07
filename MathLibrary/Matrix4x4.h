@@ -51,7 +51,6 @@ public:
 
 	void setRotationX(float x)
 	{
-		setIdentity();
 		data[1][1] = cos(x);
 		data[1][2] = sin(x);
 		data[2][1] = -sin(x);
@@ -60,7 +59,6 @@ public:
 
 	void setRotationY(float y)
 	{
-		setIdentity();
 		data[0][0] = cos(y);
 		data[0][2] = -sin(y);
 		data[2][0] = sin(y);
@@ -69,7 +67,6 @@ public:
 
 	void setRotationZ(float z)
 	{
-		setIdentity();
 		data[0][0] = cos(z);
 		data[0][1] = sin(z);
 		data[1][0] = -sin(z);

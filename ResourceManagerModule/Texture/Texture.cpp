@@ -3,7 +3,7 @@
 Texture::Texture(const wchar_t * absolute_path): Resource(absolute_path)
 {
 	DirectX::ScratchImage image_data;
-	HRESULT res = DirectX::LoadFromWICFile(absolute_path, DirectX::WIC_FLAGS_NONE, nullptr, image_data);
+	HRESULT res = DirectX::LoadFromWICFile(absolute_path, DirectX::WIC_FLAGS_IGNORE_SRGB, nullptr, image_data);
 
 	if (FAILED(res))
 	{

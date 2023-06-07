@@ -8,7 +8,11 @@
 #include "../DeviceContext/DeviceContext.h"
 #include "../Resources.h"
 
-
+enum Cull_type
+{
+	CULL_FRONT,
+	CULL_BACK
+};
 
 class Renderer
 {
@@ -24,8 +28,9 @@ public:
 	void createVertexShader(void* shaderByteCode, size_t byteCodeSize);
 	void createVertexMeshShader(void* shaderByteCode, size_t byteCodeSize);
 	void createPixelShader(void* shaderByteCode, size_t byteCodeSize);
+	void createEnvPixelShader(void* shaderByteCode, size_t byteCodeSize);
 	void createVertexBuffer();
-	void createConstantBuffer();
+	ConstantBufferPtr createConstantBuffer();
 	void createIndexBuffer();
 
 
@@ -37,23 +42,26 @@ public:
 	void compilePixelShader(const wchar_t* file, const char* entryPointName, void** shaderByteCode, size_t* byteCodeSize);
 	void releaseCompiledShader();
 
+	void setResterizerState(Cull_type type);
+
 	// RESOURCES --- RESOURCES --- RESOURCES --- RESOURCES --- RESOURCES
 	VertexBufferPtr vertexBuffer = nullptr;
 	ConstantBufferPtr constantBuffer = nullptr;
+	ConstantBufferPtr envConstantBuffer = nullptr;
 	VertexShaderPtr vertexShader = nullptr;
 	VertexShaderPtr vertexMeshShader = nullptr;
 	PixelShaderPtr pixelShader = nullptr;
+	PixelShaderPtr envPixelShader = nullptr;
 	IndexBufferPtr indexBuffer = nullptr;
 
 	DeviceContext* devContext;
 
-	//unsigned char m_mesh_layout_byte_code[1024];
-	//size_t m_mesh_layout_size = 0;
-
-	//void getVertexMeshLayoutShaderByteCodeAndSize(void ** byte_code, size_t* size);
-
 private:
 	~Renderer();
+
+	void congigureResterizer();
+	ID3D11RasterizerState* front_colling = nullptr;
+	ID3D11RasterizerState* back_colling = nullptr;
 
 	SwapChain* sglSwapChain = nullptr;
 	ID3D11RenderTargetView* renderTarget = nullptr;

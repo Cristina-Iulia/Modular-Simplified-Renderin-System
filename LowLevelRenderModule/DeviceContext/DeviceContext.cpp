@@ -101,3 +101,8 @@ void DeviceContext::setTexture(PixelShaderPtr pixel_shader, TexturePtr texture)
 	m_dev_Context->PSSetShaderResources(0, 1, &texture->m_shader_res_view);
 }
 
+void DeviceContext::setRSState(ID3D11RasterizerState * culling)
+{
+	m_dev_Context->RSSetState(culling);
+}
+

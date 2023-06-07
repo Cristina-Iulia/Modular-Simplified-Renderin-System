@@ -11,6 +11,20 @@ Renderer::~Renderer()
 {
 }
 
+void Renderer::congigureResterizer()
+{
+	D3D11_RASTERIZER_DESC desc = {};
+	desc.CullMode = D3D11_CULL_FRONT;
+	desc.DepthClipEnable = true;
+	desc.FillMode = D3D11_FILL_SOLID;
+
+	DeviceManager::getDevice()->CreateRasterizerState(&desc, &front_colling);
+
+
+	desc.CullMode = D3D11_CULL_BACK;
+	DeviceManager::getDevice()->CreateRasterizerState(&desc, &back_colling);
+}
+
 bool Renderer::init(HWND m_hwnd, RECT rc)
 {
 	sglSwapChain = SwapChain::getInstance();
@@ -28,6 +42,8 @@ bool Renderer::init(HWND m_hwnd, RECT rc)
 
 	renderTarget = sglSwapChain->getRenderTarget();
 	depthStencil = sglSwapChain->getDepthStencil();
+
+	congigureResterizer();
 
 	return true;
 }
@@ -70,9 +86,11 @@ void Renderer::createVertexBuffer()
 	vertexBuffer = std::make_shared<VertexBuffer>();
 }
 
-void Renderer::createConstantBuffer()
+ConstantBufferPtr Renderer::createConstantBuffer()
 {
-	constantBuffer = std::make_shared <ConstantBuffer>();
+	ConstantBufferPtr buffer;
+	buffer = std::make_shared <ConstantBuffer>();
+	return buffer;
 }
 
 void Renderer::createIndexBuffer()
@@ -83,8 +101,8 @@ void Renderer::createIndexBuffer()
 void Renderer::compileVertexShader(const wchar_t* file, const char* entryPointName, void** shaderByteCode, size_t* byteCodeSize)
 {
 	ID3DBlob* error_blob = nullptr;
-	if (m_blob)
-		m_blob->Release();
+	//if (!(m_blob == nullptr))
+		//m_blob->Release();
 	HRESULT result = ::D3DCompileFromFile(file, nullptr, nullptr, entryPointName, "vs_5_0", 0, 0, &m_blob, &error_blob);
 
 	if (FAILED(result))
@@ -126,6 +144,22 @@ void Renderer::releaseCompiledShader()
 		m_blob->Release();
 }
 
+void Renderer::setResterizerState(Cull_type type)
+{
+	if (type == CULL_FRONT)
+	{
+		devContext->setRSState(front_colling);
+	}
+	else if (type == CULL_BACK)
+	{
+		devContext->setRSState(back_colling);
+	}
+	else
+	{
+		spdlog::critical("Unkown culling type");
+	}
+}
+
 void Renderer::createVertexShader(void* shaderByteCode, size_t byteCodeSize)
 {
 	vertexShader = std::make_shared <VertexShader>();
@@ -145,3 +179,8 @@ void Renderer::createPixelShader(void* shaderByteCode, size_t byteCodeSize)
 	pixelShader->init(shaderByteCode, byteCodeSize);
 }
 
+void Renderer::createEnvPixelShader(void* shaderByteCode, size_t byteCodeSize)
+{
+	envPixelShader = std::make_shared <PixelShader>();
+	envPixelShader->init(shaderByteCode, byteCodeSize);
+}

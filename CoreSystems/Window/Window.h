@@ -37,7 +37,12 @@ public:
 	void setRenderer(Renderer* renderer);
 	void setResourceGenerator(ResourceGenerator* generator);
 
+	void drawMesh(const MeshPtr& mesh, const VertexShaderPtr& vs, const PixelShaderPtr& ps, const ConstantBufferPtr& buffer, const TexturePtr& tex); // to be moved
+
 	void update();
+	void updateCamera();
+	void updateModel();
+	void updateEnv();
 
 	// Inherited via InputListener
 	virtual void keyDown(int key) override;
@@ -70,11 +75,15 @@ private:
 	float light_rot_y = 0.0f;
 
 	Matrix4x4 camera;
+	Matrix4x4 camera_view;
+	Matrix4x4 camera_proj;
 	float camera_Z = 0.0f;
 	float camera_X = 0.0f;
 
 	TexturePtr wood_tex = nullptr;
+	TexturePtr sky_tex = nullptr;
 	MeshPtr mesh = nullptr;
+	MeshPtr sky_mesh = nullptr;
 
 protected:
 	HWND m_hwnd;

@@ -221,5 +221,6 @@
     <FxCompile Include="VertexShader.hlsl" />
     <FxCompile Include="PixelShader.hlsl" />
     <FxCompile Include="VertexMeshLayoutShader.hlsl" />
+    <FxCompile Include="EnvPixelShader.hlsl" />
   </ItemGroup>
 </Project>

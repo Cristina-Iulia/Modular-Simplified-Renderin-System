@@ -175,6 +175,9 @@ Window* Window::getInstance()
 void Window::onCreate()
 {
 	InputSystem::getInstance()->showCursor(false);
+
+	//camera.setIdentity();
+	camera.setTranslation(Vector3D(0, 0, -1));
 }
 
 void Window::onUpdate()
@@ -186,7 +189,7 @@ void Window::onUpdate()
 	RECT rc = getWindowRect();
 	sglRenderer->devContext->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
-	update();
+
 
 	sglRenderer->devContext->setVertexShader(sglRenderer->vertexShader);
 	sglRenderer->devContext->setPixelShader(sglRenderer->pixelShader);
@@ -202,6 +205,15 @@ void Window::onUpdate()
 
 
 	sglRenderer->devContext->drawIndexedTriangleList(mesh->getIndexBuffer()->sizeOfList, 0, 0);
+
+	update();
+	sglRenderer->setResterizerState(CULL_BACK);
+	drawMesh(mesh, sglRenderer->vertexShader, sglRenderer->pixelShader, sglRenderer->constantBuffer, wood_tex);
+	
+
+	sglRenderer->setResterizerState(CULL_FRONT);
+	drawMesh(sky_mesh, sglRenderer->vertexShader, sglRenderer->envPixelShader, sglRenderer->envConstantBuffer, sky_tex);
+	
 
 	sglRenderer->present(true);
 
@@ -249,102 +261,6 @@ void Window::setRenderer(Renderer * renderer)
 {
 	sglRenderer = renderer;
 
-	camera.setIdentity();
-	camera.setTranslation(Vector3D(0, 0, -1));
-
-	Vector3D position_list[] =
-	{
-		//X - Y - Z
-		//FRONT FACE
-		{Vector3D(-0.5f,-0.5f,-0.5f) },
-		{Vector3D(-0.5f,0.5f,-0.5f)},
-		{ Vector3D(0.5f,0.5f,-0.5f)},
-		{ Vector3D(0.5f,-0.5f,-0.5f)},
-
-		//BACK FACE
-		{ Vector3D(0.5f,-0.5f,0.5f)},
-		{ Vector3D(0.5f,0.5f,0.5f) },
-		{ Vector3D(-0.5f,0.5f,0.5f)},
-		{ Vector3D(-0.5f,-0.5f,0.5f)}
-	};
-
-	Vector2D texcoord_list[] =
-	{
-		{ Vector2D(0.0f, 0.0f)},
-		{ Vector2D(0.0f, 1.0f)},
-		{ Vector2D(1.0f, 0.0f)},
-		{ Vector2D(1.0f, 1.0f)}
-	};
-
-	vertex vertex_list[] =
-	{
-		//X - Y - Z
-		//FRONT FACE
-		{ position_list[0],texcoord_list[1] },
-		{ position_list[1],texcoord_list[0] },
-		{ position_list[2],texcoord_list[2] },
-		{ position_list[3],texcoord_list[3] },
-
-
-		{ position_list[4],texcoord_list[1] },
-		{ position_list[5],texcoord_list[0] },
-		{ position_list[6],texcoord_list[2] },
-		{ position_list[7],texcoord_list[3] },
-
-
-		{ position_list[1],texcoord_list[1] },
-		{ position_list[6],texcoord_list[0] },
-		{ position_list[5],texcoord_list[2] },
-		{ position_list[2],texcoord_list[3] },
-
-		{ position_list[7],texcoord_list[1] },
-		{ position_list[0],texcoord_list[0] },
-		{ position_list[3],texcoord_list[2] },
-		{ position_list[4],texcoord_list[3] },
-
-		{ position_list[3],texcoord_list[1] },
-		{ position_list[2],texcoord_list[0] },
-		{ position_list[5],texcoord_list[2] },
-		{ position_list[4],texcoord_list[3] },
-
-		{ position_list[7],texcoord_list[1] },
-		{ position_list[6],texcoord_list[0] },
-		{ position_list[1],texcoord_list[2] },
-		{ position_list[0],texcoord_list[3] }
-
-
-	};
-
-	//sglRenderer->createVertexBuffer();
-
-	UINT listSize = ARRAYSIZE(vertex_list);
-
-	unsigned int index_list[] =
-	{
-		//FRONT SIDE
-		0,1,2,  //FIRST TRIANGLE
-		2,3,0,  //SECOND TRIANGLE
-		//BACK SIDE
-		4,5,6,
-		6,7,4,
-		//TOP SIDE
-		8,9,10,
-		10,11,8,
-		//BOTTOM SIDE
-		12,13,14,
-		14,15,12,
-		//RIGHT SIDE
-		16,17,18,
-		18,19,16,
-		//LEFT SIDE
-		20,21,22,
-		22,23,20
-	};
-
-	//sglRenderer->createIndexBuffer();
-	//UINT indexListSize = ARRAYSIZE(index_list);
-
-	//sglRenderer->indexBuffer->init(index_list, indexListSize);
 
 	void* shader_byte_code = nullptr;
 	size_t shaderSize = 0;
@@ -352,16 +268,22 @@ void Window::setRenderer(Renderer * renderer)
 
 	sglRenderer->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &shaderSize);
 	sglRenderer->createVertexShader(shader_byte_code, shaderSize);
-	//sglRenderer->vertexBuffer->init(vertex_list, sizeof(vertex), listSize, shader_byte_code, shaderSize);
 	sglRenderer->releaseCompiledShader();
 
 	sglRenderer->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &shaderSize);
 	sglRenderer->createPixelShader(shader_byte_code, shaderSize);
 	sglRenderer->releaseCompiledShader();
 
+	sglRenderer->compilePixelShader(L"EnvPixelShader.hlsl", "psmain", &shader_byte_code, &shaderSize);
+	sglRenderer->createEnvPixelShader(shader_byte_code, shaderSize);
+	sglRenderer->releaseCompiledShader();
+
 	constant cc;
-	sglRenderer->createConstantBuffer();
+	sglRenderer->constantBuffer = sglRenderer->createConstantBuffer();
 	sglRenderer->constantBuffer->init(&cc, sizeof(constant));
+
+	sglRenderer->envConstantBuffer = sglRenderer->createConstantBuffer();
+	sglRenderer->envConstantBuffer->init(&cc, sizeof(constant));
 }
 
 void Window::setResourceGenerator(ResourceGenerator * generator)
@@ -369,12 +291,17 @@ void Window::setResourceGenerator(ResourceGenerator * generator)
 	sglResourceGenerator = generator;
 
 	wood_tex = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture,L"Assets\\Textures\\brick.png"));
-	//TextureManager* textmng = new TextureManager();
-	//wood_tex = textmng->getTexture(L"Assets\\Textures\\wood.jpg");
 
 	if (wood_tex == nullptr)
 	{
 		spdlog::error("NO TEXTURE");
+	}
+
+	sky_tex = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture, L"Assets\\Textures\\sky.jpg"));
+
+	if (sky_tex == nullptr)
+	{
+		spdlog::error("NO SKY TEXTURE");
 	}
 
 	mesh = std::dynamic_pointer_cast<Mesh>(ResourceGenerator::getInstance()->getResource(R_Mesh, L"Assets\\Meshes\\statue.obj"));
@@ -384,69 +311,100 @@ void Window::setResourceGenerator(ResourceGenerator * generator)
 		spdlog::error("NO MESH OBJ");
 	}
 
-	/*void* shader_byte_code = nullptr;
-	size_t shaderSize = 0;
+	sky_mesh = std::dynamic_pointer_cast<Mesh>(ResourceGenerator::getInstance()->getResource(R_Mesh, L"Assets\\Meshes\\sphere.obj"));
 
-	sglRenderer->compileVertexShader(L"VertexMeshLayoutShader.hlsl", "vsmain", &shader_byte_code, &shaderSize);
-	sglRenderer->createVertexMeshShader(shader_byte_code, shaderSize);
-	sglRenderer->vertexMeshShader->init(&(mesh->getVertexList)[0], sizeof(VertexMesh), (UINT)list_vertices.size(), shader_byte_code, (UINT)size_shader);
-	sglRenderer->releaseCompiledShader();*/
+	if (sky_mesh == nullptr)
+	{
+		spdlog::error("NO SKY MESH OBJ");
+	}
+}
+
+
+void Window::drawMesh(const MeshPtr & mesh, const VertexShaderPtr & vs, const PixelShaderPtr & ps, const ConstantBufferPtr & buffer, const TexturePtr & tex)
+{
+	sglRenderer->devContext->setVertexShader(vs);
+	sglRenderer->devContext->setPixelShader(ps);
+
+	sglRenderer->devContext->setConstantBuffer(vs, buffer);
+	sglRenderer->devContext->setConstantBuffer(ps, buffer);
+	sglRenderer->devContext->setTexture(vs, tex);
+	sglRenderer->devContext->setTexture(ps, tex);
+
+
+	sglRenderer->devContext->setVertexBuffer(mesh->getVertexBuffer());
+	sglRenderer->devContext->setIndexBuffer(mesh->getIndexBuffer());
+
+
+	sglRenderer->devContext->drawIndexedTriangleList(mesh->getIndexBuffer()->sizeOfList, 0, 0);
+
 }
 
 void Window::update()
 {
+	updateCamera();
+	updateModel();
+	updateEnv();
+}
+
+void Window::updateCamera()
+{
+	Matrix4x4 cameraMartix, temp;
+	cameraMartix.setIdentity();
+	temp.setIdentity();
+	temp.setRotationX(rot_x);
+	cameraMartix *= temp;
+
+	temp.setIdentity();
+	temp.setRotationY(rot_y);
+	cameraMartix *= temp;
+
+	Vector3D new_pos = camera.getTranslation() + cameraMartix.getDirectionZ() * (camera_Z * 0.05f);
+	new_pos = new_pos + cameraMartix.getDirectionX() * (camera_X * 0.05f);
+
+
+	cameraMartix.setTranslation(new_pos);
+
+	camera = cameraMartix;
+	cameraMartix.inverse();
+	camera_view = cameraMartix;
+
+	auto rec = getWindowRect();
+	auto width = (rec.right - rec.left);
+	auto height = (rec.bottom - rec.top);
+
+	camera_proj.setProjectionPerspective(1.57f, ((float)width / (float)height), 0.1f, 100.0f);
+}
+
+void Window::updateModel()
+{
 	constant cc;
 
-
-	delta_pos += delta_time / 10.0f;
-	if (delta_pos > 1.0f)
-	{
-		delta_pos = 0;
-	}
-
-	Matrix4x4 temp;
 	Matrix4x4 light_rot_matrix;
 	light_rot_matrix.setIdentity();
 	light_rot_matrix.setRotationY(light_rot_y);
 
 	light_rot_y += 0.707f * delta_time;
 
-	cc.m_light_direction = light_rot_matrix.getDirectionZ();
-	
-	delta_scale += delta_time / 0.55f;
-
 	cc.m_world.setIdentity();
-
-	Matrix4x4 cameraMartix;
-	cameraMartix.setIdentity();
-	temp.setRotationX(rot_x);
-	cameraMartix *= temp;	
-
-	temp.setIdentity();
-	temp.setRotationY(rot_y);
-	cameraMartix *= temp;
-
-	Vector3D new_pos = camera.getTranslation() + cameraMartix.getDirectionZ() * (camera_Z * 0.3f);
-	new_pos = new_pos + cameraMartix.getDirectionX() * (camera_X * 0.3f);
-
-
-	cc.camera_pos = new_pos;
-
-	cameraMartix.setTranslation(new_pos);
-
-	camera = cameraMartix;
-	cameraMartix.inverse();
-	cc.m_view = cameraMartix;
-
-	auto rec = getWindowRect();
-	auto width = (rec.right - rec.left);
-	auto height = (rec.bottom - rec.top);
-	//cc.m_proj.setProjectionORTH(width, height, -4.0f, 4.0f);
-
-	cc.m_proj.setProjectionPerspective(1.57f, ((float)width / (float)height), 0.1f, 100.0f);
-	
+	cc.m_view = camera_view;
+	cc.m_proj = camera_proj;
+	cc.camera_pos = camera.getTranslation();
+	cc.m_light_direction = light_rot_matrix.getDirectionZ();
 
 	sglRenderer->constantBuffer->update(reinterpret_cast<void *>(&cc));
+}
+
+void Window::updateEnv()
+{
+	constant cc;
+
+	cc.m_world.setIdentity();
+	cc.m_world.setScale(Vector3D(100.0f, 100.0f, 100.0f));
+	cc.m_world.setTranslation(camera.getTranslation());
+	cc.m_view = camera_view;
+	cc.m_proj = camera_proj;
+
+	sglRenderer->envConstantBuffer->update(reinterpret_cast<void *>(&cc));
 }
 
 void Window::windowSettup()
