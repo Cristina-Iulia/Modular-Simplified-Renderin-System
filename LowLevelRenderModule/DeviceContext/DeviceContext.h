@@ -26,8 +26,8 @@ public:
 	void setPixelShader(PixelShaderPtr pixel_shader);
 	void setConstantBuffer(VertexShaderPtr vertex_shader, ConstantBufferPtr constant_buffer);
 	void setConstantBuffer(PixelShaderPtr pixel_shader, ConstantBufferPtr constant_buffer);
-	void setTexture(VertexShaderPtr vertex_shader, TexturePtr texture);
-	void setTexture(PixelShaderPtr pixel_shader, TexturePtr texture);
+	void setTexture(VertexShaderPtr vertex_shader, TexturePtr* texture, unsigned int tex_nr);
+	void setTexture(PixelShaderPtr pixel_shader, TexturePtr* texture, unsigned int tex_nr);
 	void setRSState(ID3D11RasterizerState* culling);
 
 

@@ -37,7 +37,7 @@ public:
 	void setRenderer(Renderer* renderer);
 	void setResourceGenerator(ResourceGenerator* generator);
 
-	void drawMesh(const MeshPtr& mesh, const VertexShaderPtr& vs, const PixelShaderPtr& ps, const ConstantBufferPtr& buffer, const TexturePtr& tex); // to be moved
+	void drawMesh(const MeshPtr& mesh, const VertexShaderPtr& vs, const PixelShaderPtr& ps, const ConstantBufferPtr& buffer, TexturePtr* texture, unsigned int tex_nr); // to be moved
 
 	void update();
 	void updateCamera();
@@ -80,10 +80,15 @@ private:
 	float camera_Z = 0.0f;
 	float camera_X = 0.0f;
 
-	TexturePtr wood_tex = nullptr;
+	TexturePtr earth_tex = nullptr;
+	TexturePtr earth_spec = nullptr;
+	TexturePtr earth_clouds = nullptr;
+	TexturePtr earth_night = nullptr;
 	TexturePtr sky_tex = nullptr;
 	MeshPtr mesh = nullptr;
 	MeshPtr sky_mesh = nullptr;
+
+	float time_cloud = 0.0f;
 
 protected:
 	HWND m_hwnd;

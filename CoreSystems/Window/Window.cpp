@@ -17,6 +17,7 @@ public:
 	Matrix4x4 m_proj;
 	Vector4D m_light_direction;
 	Vector4D camera_pos;
+	float time_cloud = 0.0f;
 };
 
 Window::Window()
@@ -183,7 +184,7 @@ void Window::onCreate()
 void Window::onUpdate()
 {
 	InputSystem::getInstance()->update();
-	sglRenderer->clearRenderTarget(0,0,0,1);
+	sglRenderer->clearRenderTarget(0, 0.3f, 0.4f, 1);
 
 
 	RECT rc = getWindowRect();
@@ -196,8 +197,6 @@ void Window::onUpdate()
 
 	sglRenderer->devContext->setConstantBuffer(sglRenderer->vertexShader, sglRenderer->constantBuffer);
 	sglRenderer->devContext->setConstantBuffer(sglRenderer->pixelShader, sglRenderer->constantBuffer);
-	sglRenderer->devContext->setTexture(sglRenderer->vertexShader, wood_tex);
-	sglRenderer->devContext->setTexture(sglRenderer->pixelShader, wood_tex);
 
 
 	sglRenderer->devContext->setVertexBuffer(mesh->getVertexBuffer());
@@ -207,12 +206,19 @@ void Window::onUpdate()
 	sglRenderer->devContext->drawIndexedTriangleList(mesh->getIndexBuffer()->sizeOfList, 0, 0);
 
 	update();
-	sglRenderer->setResterizerState(CULL_BACK);
-	drawMesh(mesh, sglRenderer->vertexShader, sglRenderer->pixelShader, sglRenderer->constantBuffer, wood_tex);
-	
 
+	TexturePtr texture_list[4];
+	texture_list[0] = earth_tex;
+	texture_list[1] = earth_spec;
+	texture_list[2] = earth_clouds;
+	texture_list[3] = earth_night;
+
+	sglRenderer->setResterizerState(CULL_BACK);
+	drawMesh(mesh, sglRenderer->vertexShader, sglRenderer->pixelShader, sglRenderer->constantBuffer, texture_list, 4);
+	
+	texture_list[0] = sky_tex;
 	sglRenderer->setResterizerState(CULL_FRONT);
-	drawMesh(sky_mesh, sglRenderer->vertexShader, sglRenderer->envPixelShader, sglRenderer->envConstantBuffer, sky_tex);
+	drawMesh(sky_mesh, sglRenderer->vertexShader, sglRenderer->envPixelShader, sglRenderer->envConstantBuffer, texture_list, 1);
 	
 
 	sglRenderer->present(true);
@@ -220,6 +226,7 @@ void Window::onUpdate()
 	old_delta = new_delta;
 	new_delta = ::GetTickCount();
 	delta_time = (old_delta) ? ((new_delta - old_delta)/1000.0f)  : 0;
+	time_cloud += delta_time;
 }
 
 void Window::onDestroy()
@@ -284,51 +291,36 @@ void Window::setRenderer(Renderer * renderer)
 
 	sglRenderer->envConstantBuffer = sglRenderer->createConstantBuffer();
 	sglRenderer->envConstantBuffer->init(&cc, sizeof(constant));
+
+	camera.setTranslation(Vector3D(0, 0, 2));
 }
 
 void Window::setResourceGenerator(ResourceGenerator * generator)
 {
 	sglResourceGenerator = generator;
 
-	wood_tex = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture,L"Assets\\Textures\\brick.png"));
+	earth_tex = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture,L"Assets\\Textures\\earth_color.jpg"));
+	earth_spec = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture, L"Assets\\Textures\\earth_spec.jpg"));
+	earth_clouds = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture, L"Assets\\Textures\\clouds.jpg"));
+	earth_night = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture, L"Assets\\Textures\\earth_night.jpg"));
 
-	if (wood_tex == nullptr)
-	{
-		spdlog::error("NO TEXTURE");
-	}
-
-	sky_tex = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture, L"Assets\\Textures\\sky.jpg"));
-
-	if (sky_tex == nullptr)
-	{
-		spdlog::error("NO SKY TEXTURE");
-	}
-
-	mesh = std::dynamic_pointer_cast<Mesh>(ResourceGenerator::getInstance()->getResource(R_Mesh, L"Assets\\Meshes\\statue.obj"));
-
-	if (mesh == nullptr)
-	{
-		spdlog::error("NO MESH OBJ");
-	}
-
+	
+	sky_tex = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture, L"Assets\\Textures\\stars_map.jpg"));
+	mesh = std::dynamic_pointer_cast<Mesh>(ResourceGenerator::getInstance()->getResource(R_Mesh, L"Assets\\Meshes\\sphere_hq.obj"));
 	sky_mesh = std::dynamic_pointer_cast<Mesh>(ResourceGenerator::getInstance()->getResource(R_Mesh, L"Assets\\Meshes\\sphere.obj"));
 
-	if (sky_mesh == nullptr)
-	{
-		spdlog::error("NO SKY MESH OBJ");
-	}
 }
 
 
-void Window::drawMesh(const MeshPtr & mesh, const VertexShaderPtr & vs, const PixelShaderPtr & ps, const ConstantBufferPtr & buffer, const TexturePtr & tex)
+void Window::drawMesh(const MeshPtr & mesh, const VertexShaderPtr & vs, const PixelShaderPtr & ps, const ConstantBufferPtr & buffer, TexturePtr* texture_list, unsigned int tex_nr)
 {
 	sglRenderer->devContext->setVertexShader(vs);
 	sglRenderer->devContext->setPixelShader(ps);
 
 	sglRenderer->devContext->setConstantBuffer(vs, buffer);
 	sglRenderer->devContext->setConstantBuffer(ps, buffer);
-	sglRenderer->devContext->setTexture(vs, tex);
-	sglRenderer->devContext->setTexture(ps, tex);
+	sglRenderer->devContext->setTexture(vs, texture_list, tex_nr);
+	sglRenderer->devContext->setTexture(ps, texture_list, tex_nr);
 
 
 	sglRenderer->devContext->setVertexBuffer(mesh->getVertexBuffer());
@@ -383,13 +375,14 @@ void Window::updateModel()
 	light_rot_matrix.setIdentity();
 	light_rot_matrix.setRotationY(light_rot_y);
 
-	light_rot_y += 0.707f * delta_time;
+	light_rot_y += 0.307f * delta_time;
 
 	cc.m_world.setIdentity();
 	cc.m_view = camera_view;
 	cc.m_proj = camera_proj;
 	cc.camera_pos = camera.getTranslation();
 	cc.m_light_direction = light_rot_matrix.getDirectionZ();
+	cc.time_cloud = time_cloud;
 
 	sglRenderer->constantBuffer->update(reinterpret_cast<void *>(&cc));
 }

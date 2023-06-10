@@ -20,6 +20,16 @@ Texture::Texture(const wchar_t * absolute_path): Resource(absolute_path)
 		desc.Texture2D.MipLevels = (UINT)image_data.GetMetadata().mipLevels;
 		desc.Texture2D.MostDetailedMip = 0;
 
+		D3D11_SAMPLER_DESC semp_desc = {};
+		semp_desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+		semp_desc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+		semp_desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+		semp_desc.Filter = D3D11_FILTER_ANISOTROPIC;
+		semp_desc.MinLOD = 0;
+		semp_desc.MaxLOD = (UINT)image_data.GetMetadata().mipLevels;
+
+		DeviceManager::getDevice()->CreateSamplerState(&semp_desc, &sampler_state);
+
 		DeviceManager::getDevice()->CreateShaderResourceView(m_texture, &desc, &m_shader_res_view);
 	}
 }
