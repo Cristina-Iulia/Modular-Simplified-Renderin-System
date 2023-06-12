@@ -28,12 +28,6 @@
     <Filter Include="Interfaces">
       <UniqueIdentifier>{9497aa94-c35d-452a-8714-9f8b1e8b6a34}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LowLevelRenderModule\MemoryBuffers">
-      <UniqueIdentifier>{73c8f2dc-ba25-4052-a63b-6676568752d3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LowLevelRenderModule\MemoryBuffers\VertexBuffer">
-      <UniqueIdentifier>{59058353-dcf2-48b2-8c76-5f6caf006f0a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="LowLevelRenderModule\Shaders">
       <UniqueIdentifier>{9f18855e-01e9-4163-964c-2004ebbce4b3}</UniqueIdentifier>
     </Filter>
@@ -43,17 +37,11 @@
     <Filter Include="LowLevelRenderModule\Shaders\PixelShader">
       <UniqueIdentifier>{6984050b-3cf1-408f-be7c-a82f379f0348}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LowLevelRenderModule\MemoryBuffers\ConstantBuffer">
-      <UniqueIdentifier>{62a2ea0f-8f0b-4ee8-ba5f-04b8091c546f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MathLibrary">
       <UniqueIdentifier>{6d817659-2d80-4b04-8e9c-50ad9f9f32e4}</UniqueIdentifier>
     </Filter>
     <Filter Include="InputSystem">
       <UniqueIdentifier>{2fa2a8be-1821-4256-9dbd-9364a218c11c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LowLevelRenderModule\MemoryBuffers\IndexBuffer">
-      <UniqueIdentifier>{d10c0090-5000-4629-9f48-808e9db52682}</UniqueIdentifier>
     </Filter>
     <Filter Include="ResourceManagerModule">
       <UniqueIdentifier>{5be642d9-ce90-4f84-92be-16340660c647}</UniqueIdentifier>
@@ -63,6 +51,18 @@
     </Filter>
     <Filter Include="ResourceManagerModule\Mesh">
       <UniqueIdentifier>{0bc8ac4b-85dd-444d-bc1c-7e7f0b7fdd1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MemoryBuffers">
+      <UniqueIdentifier>{25d49a97-1c13-47cd-a7d5-a7f3e14efd0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MemoryBuffers\ConstantBuffer">
+      <UniqueIdentifier>{157cde6b-ad21-4b40-9086-e3870b502c3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MemoryBuffers\IndexBuffer">
+      <UniqueIdentifier>{a881b2e6-e68b-4560-899d-60a511dae93f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MemoryBuffers\VertexBuffer">
+      <UniqueIdentifier>{73bf97dc-db4b-41c0-84ff-0b91f7460b02}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -85,23 +85,14 @@
     <ClCompile Include="LowLevelRenderModule/DeviceContext/DeviceContext.cpp">
       <Filter>LowLevelRenderModule\DeviceContext</Filter>
     </ClCompile>
-    <ClCompile Include="LowLevelRenderModule/MemoryBuffers/VertexBuffer/VertexBuffer.cpp">
-      <Filter>LowLevelRenderModule\MemoryBuffers\VertexBuffer</Filter>
-    </ClCompile>
     <ClCompile Include="LowLevelRenderModule/Shaders/VertexShader/VertexShader.cpp">
       <Filter>LowLevelRenderModule\Shaders\VertexShader</Filter>
     </ClCompile>
     <ClCompile Include="LowLevelRenderModule/Shaders/PixelShader/PixelShader.cpp">
       <Filter>LowLevelRenderModule\Shaders\PixelShader</Filter>
     </ClCompile>
-    <ClCompile Include="LowLevelRenderModule/MemoryBuffers/ConstantBuffer/ConstantBuffer.cpp">
-      <Filter>LowLevelRenderModule\MemoryBuffers\ConstantBuffer</Filter>
-    </ClCompile>
     <ClCompile Include="InputSystem\InputSystem.cpp">
       <Filter>InputSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="LowLevelRenderModule\MemoryBuffers\IndexBuffer\IndexBuffer.cpp">
-      <Filter>LowLevelRenderModule\MemoryBuffers\IndexBuffer</Filter>
     </ClCompile>
     <ClCompile Include="ResourceManagerModule\Resource.cpp">
       <Filter>ResourceManagerModule</Filter>
@@ -124,6 +115,15 @@
     <ClCompile Include="ResourceManagerModule\Mesh\Mesh.cpp">
       <Filter>ResourceManagerModule\Mesh</Filter>
     </ClCompile>
+    <ClCompile Include="MemoryBuffers/ConstantBuffer/ConstantBuffer.cpp">
+      <Filter>MemoryBuffers\ConstantBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryBuffers\IndexBuffer\IndexBuffer.cpp">
+      <Filter>MemoryBuffers\IndexBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryBuffers/VertexBuffer/VertexBuffer.cpp">
+      <Filter>MemoryBuffers\VertexBuffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CoreSystems/Window/Window.h">
@@ -144,17 +144,11 @@
     <ClInclude Include="LowLevelRenderModule/DeviceContext/DeviceContext.h">
       <Filter>LowLevelRenderModule\DeviceContext</Filter>
     </ClInclude>
-    <ClInclude Include="LowLevelRenderModule/MemoryBuffers/VertexBuffer/VertexBuffer.h">
-      <Filter>LowLevelRenderModule\MemoryBuffers\VertexBuffer</Filter>
-    </ClInclude>
     <ClInclude Include="LowLevelRenderModule/Shaders/VertexShader/VertexShader.h">
       <Filter>LowLevelRenderModule\Shaders\VertexShader</Filter>
     </ClInclude>
     <ClInclude Include="LowLevelRenderModule/Shaders/PixelShader/PixelShader.h">
       <Filter>LowLevelRenderModule\Shaders\PixelShader</Filter>
-    </ClInclude>
-    <ClInclude Include="LowLevelRenderModule/MemoryBuffers/ConstantBuffer/ConstantBuffer.h">
-      <Filter>LowLevelRenderModule\MemoryBuffers\ConstantBuffer</Filter>
     </ClInclude>
     <ClInclude Include="MathLibrary\Vector3D.h">
       <Filter>MathLibrary</Filter>
@@ -173,9 +167,6 @@
     </ClInclude>
     <ClInclude Include="Interfaces\InputListener.h">
       <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="LowLevelRenderModule\MemoryBuffers\IndexBuffer\IndexBuffer.h">
-      <Filter>LowLevelRenderModule\MemoryBuffers\IndexBuffer</Filter>
     </ClInclude>
     <ClInclude Include="MathLibrary\Point.h">
       <Filter>MathLibrary</Filter>
@@ -213,8 +204,23 @@
     <ClInclude Include="MathLibrary\VertexMesh.h">
       <Filter>MathLibrary</Filter>
     </ClInclude>
-    <ClInclude Include="LowLevelRenderModule\Resources.h">
+    <ClInclude Include="MemoryBuffers/ConstantBuffer/ConstantBuffer.h">
+      <Filter>MemoryBuffers\ConstantBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryBuffers\IndexBuffer\IndexBuffer.h">
+      <Filter>MemoryBuffers\IndexBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryBuffers/VertexBuffer/VertexBuffer.h">
+      <Filter>MemoryBuffers\VertexBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryBuffers\MemoryBufferLib.h">
+      <Filter>MemoryBuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="LowLevelRenderModule\RenderSystemLib.h">
       <Filter>LowLevelRenderModule</Filter>
+    </ClInclude>
+    <ClInclude Include="LowLevelRenderModule\Shaders\ShadersLib.h">
+      <Filter>LowLevelRenderModule\Shaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

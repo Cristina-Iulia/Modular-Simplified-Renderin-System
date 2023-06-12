@@ -129,7 +129,7 @@
   <ItemGroup>
     <ClCompile Include="App/main.cpp" />
     <ClCompile Include="InputSystem\InputSystem.cpp" />
-    <ClCompile Include="LowLevelRenderModule/MemoryBuffers/ConstantBuffer/ConstantBuffer.cpp" />
+    <ClCompile Include="MemoryBuffers/ConstantBuffer/ConstantBuffer.cpp" />
     <ClCompile Include="CoreSystems/ControlModule/Controller.cpp" />
     <ClCompile Include="CoreSystems/Window/Window.cpp" />
     <ClCompile Include="CoreSystems/DeviceManager/DeviceManager.cpp" />
@@ -137,9 +137,9 @@
     <ClCompile Include="LowLevelRenderModule/Renderer/Renderer.cpp" />
     <ClCompile Include="LowLevelRenderModule/SwapChain/SwapChain.cpp" />
     <ClCompile Include="LowLevelRenderModule/Shaders/PixelShader/PixelShader.cpp" />
-    <ClCompile Include="LowLevelRenderModule/MemoryBuffers/VertexBuffer/VertexBuffer.cpp" />
+    <ClCompile Include="MemoryBuffers/VertexBuffer/VertexBuffer.cpp" />
     <ClCompile Include="LowLevelRenderModule/Shaders/VertexShader/VertexShader.cpp" />
-    <ClCompile Include="LowLevelRenderModule\MemoryBuffers\IndexBuffer\IndexBuffer.cpp" />
+    <ClCompile Include="MemoryBuffers\IndexBuffer\IndexBuffer.cpp" />
     <ClCompile Include="ResourceManagerModule\Mesh\Mesh.cpp" />
     <ClCompile Include="ResourceManagerModule\Mesh\MeshManager.cpp" />
     <ClCompile Include="ResourceManagerModule\Resource.cpp" />
@@ -151,7 +151,8 @@
   <ItemGroup>
     <ClInclude Include="InputSystem\InputSystem.h" />
     <ClInclude Include="Interfaces\InputListener.h" />
-    <ClInclude Include="LowLevelRenderModule/MemoryBuffers/ConstantBuffer/ConstantBuffer.h" />
+    <ClInclude Include="LowLevelRenderModule\Shaders\ShadersLib.h" />
+    <ClInclude Include="MemoryBuffers/ConstantBuffer/ConstantBuffer.h" />
     <ClInclude Include="CoreSystems/ControlModule/Controller.h" />
     <ClInclude Include="CoreSystems/Window/Window.h" />
     <ClInclude Include="CoreSystems/DeviceManager/DeviceManager.h" />
@@ -159,10 +160,10 @@
     <ClInclude Include="LowLevelRenderModule/Renderer/Renderer.h" />
     <ClInclude Include="LowLevelRenderModule/SwapChain/SwapChain.h" />
     <ClInclude Include="LowLevelRenderModule/Shaders/PixelShader/PixelShader.h" />
-    <ClInclude Include="LowLevelRenderModule/MemoryBuffers/VertexBuffer/VertexBuffer.h" />
+    <ClInclude Include="MemoryBuffers/VertexBuffer/VertexBuffer.h" />
     <ClInclude Include="LowLevelRenderModule/Shaders/VertexShader/VertexShader.h" />
-    <ClInclude Include="LowLevelRenderModule\MemoryBuffers\IndexBuffer\IndexBuffer.h" />
-    <ClInclude Include="LowLevelRenderModule\Resources.h" />
+    <ClInclude Include="MemoryBuffers\IndexBuffer\IndexBuffer.h" />
+    <ClInclude Include="LowLevelRenderModule\RenderSystemLib.h" />
     <ClInclude Include="MathLibrary\IMatrix.h" />
     <ClInclude Include="MathLibrary\IVector.h" />
     <ClInclude Include="MathLibrary\Matrix4x4.h" />
@@ -171,6 +172,7 @@
     <ClInclude Include="MathLibrary\Vector3D.h" />
     <ClInclude Include="MathLibrary\Vector4D.h" />
     <ClInclude Include="MathLibrary\VertexMesh.h" />
+    <ClInclude Include="MemoryBuffers\MemoryBufferLib.h" />
     <ClInclude Include="ResourceManagerModule\Include.h" />
     <ClInclude Include="ResourceManagerModule\Mesh\Mesh.h" />
     <ClInclude Include="ResourceManagerModule\Mesh\MeshManager.h" />

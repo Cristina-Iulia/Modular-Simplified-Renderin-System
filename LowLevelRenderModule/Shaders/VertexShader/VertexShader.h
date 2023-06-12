@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef  VERTEX_SHADER
+#define VERTEX_SHADER
+
 #include "../../../CoreSystems/DeviceManager/DeviceManager.h"
 
 
@@ -19,3 +22,4 @@ private:
 	ID3D11VertexShader* shader = nullptr;
 };
 
+#endif

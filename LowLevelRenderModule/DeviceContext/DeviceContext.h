@@ -1,12 +1,14 @@
 #pragma once
-#ifndef  DEV_CONTEXT
-#define DEV_CONTEXT
+#ifndef  DEVICE_CONTEXT
+#define  DEVICE_CONTEXT
 
 #include "../../CoreSystems/DeviceManager/DeviceManager.h"
 #include "../../spdlog-1.11.0/include/spdlog/spdlog.h"
 #include "../../ResourceManagerModule/Texture/Texture.h"
 
-#include "../Resources.h"
+#include "../../MemoryBuffers/MemoryBufferLib.h"
+#include "../Shaders/ShadersLib.h"
+
 
 typedef std::shared_ptr<Texture> TexturePtr;
 

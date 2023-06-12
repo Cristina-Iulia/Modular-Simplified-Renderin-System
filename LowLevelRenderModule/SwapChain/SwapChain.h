@@ -1,6 +1,6 @@
 #pragma once
-#ifndef  SWAPCHAIN_MECHANISM
-#define SWAPCHAIN_MECHANISM
+#ifndef  SWAPCHAIN
+#define SWAPCHAIN
 
 #include "../../CoreSystems/DeviceManager/DeviceManager.h"
 #include "../../spdlog-1.11.0/include/spdlog/spdlog.h"

@@ -1,19 +1,15 @@
 {
   "ExpandedNodes": [
     "",
-    "\\CoreSystems",
     "\\CoreSystems\\ControlModule",
     "\\CoreSystems\\DeviceManager",
     "\\CoreSystems\\Window",
     "\\LowLevelRenderModule",
-    "\\LowLevelRenderModule\\MemoryBuffers",
-    "\\LowLevelRenderModule\\MemoryBuffers\\VertexBuffer",
     "\\LowLevelRenderModule\\Renderer",
-    "\\LowLevelRenderModule\\SwapChain",
-    "\\MathLibrary",
-    "\\ResourceManagerModule",
-    "\\ResourceManagerModule\\Texture"
+    "\\MemoryBuffers",
+    "\\MemoryBuffers\\ConstantBuffer",
+    "\\MemoryBuffers\\IndexBuffer",
+    "\\MemoryBuffers\\VertexBuffer"
   ],
-  "SelectedNode": "\\VertexMeshLayoutShader.hlsl",
   "PreviewInSolutionExplorer": false
 }

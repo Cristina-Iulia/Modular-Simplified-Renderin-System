@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef  PIXEL_SHADER
+#define  PIXEL_SHADER
+
 #include "../../../CoreSystems/DeviceManager/DeviceManager.h"
 
 
@@ -19,3 +22,4 @@ private:
 	ID3D11PixelShader* shader = nullptr;
 };
 
+#endif

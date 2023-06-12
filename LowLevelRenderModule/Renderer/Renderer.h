@@ -1,12 +1,14 @@
 #pragma once
-#ifndef  LOW_LEVEL_RENDERER
-#define LOW_LEVEL_RENDERER
+#ifndef  RENDERER
+#define RENDERER
 
 #include <Windows.h>
 #include "../../spdlog-1.11.0/include/spdlog/spdlog.h"
 
 #include "../DeviceContext/DeviceContext.h"
-#include "../Resources.h"
+#include "../../MemoryBuffers/MemoryBufferLib.h"
+#include "../Shaders/ShadersLib.h"
+#include "../SwapChain/SwapChain.h"
 
 enum Cull_type
 {
