@@ -38,7 +38,29 @@ ResourcePtr ResourceGenerator::getResource(resource_type type_, const wchar_t * 
 		break;
 
 	default:
-		spdlog::critical("UNKNOWN RESOURCE REQUESTED");
+		spdlog::info("UNKNOWN RESOURCE REQUESTED");
+	}
+
+	return nullptr;
+}
+
+MaterialPtr ResourceGenerator::getResource(resource_type type_, const wchar_t* vertex_shader_path, const wchar_t* pixel_shader_pat)
+{
+	if (type_ == R_Material)
+	{
+		MaterialPtr mt = nullptr;
+
+		try
+		{
+			mt = std::make_shared<Material>(vertex_shader_path, pixel_shader_pat);
+		}
+		catch(...) {}
+
+		return mt;
+	}
+	else
+	{ 
+		spdlog::info("UNKNOWN RESOURCE REQUESTED");
 	}
 
 	return nullptr;
@@ -55,7 +77,7 @@ TexturePtr ResourceGenerator::getTexture(const wchar_t * file_path)
 		textureManager = new TextureManager();
 		if (!textureManager)
 		{
-			spdlog::critical("Texture Manager initialisation FAILED");
+			spdlog::info("Texture Manager initialisation FAILED");
 		}
 		else
 		{
@@ -73,7 +95,7 @@ MeshPtr ResourceGenerator::getMesh(const wchar_t * file_path)
 		meshManager = new MeshManager();
 		if (!meshManager)
 		{
-			spdlog::critical("Texture Manager initialisation FAILED");
+			spdlog::info("Texture Manager initialisation FAILED");
 		}
 		else
 		{

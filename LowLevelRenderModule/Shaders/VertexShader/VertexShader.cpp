@@ -14,8 +14,8 @@ void VertexShader::init(void* shaderByteCode, size_t byteCodeSize)
 
 	if (FAILED(result))
 	{
-		spdlog::critical("Shader of VertexShader creation UNSUCCESSFUL");
-		spdlog::critical(HRESULT_CODE(result));
+		spdlog::info("Shader of VertexShader creation UNSUCCESSFUL");
+		spdlog::info(HRESULT_CODE(result));
 		exit(1);
 	}
 }
@@ -30,7 +30,7 @@ ID3D11VertexShader * VertexShader::getShader()
 {
 	if (!shader)
 	{
-		spdlog::critical("Shader of VertexShader retrieval UNSUCCESSFUL");
+		spdlog::info("Shader of VertexShader retrieval UNSUCCESSFUL");
 		exit(1);
 	}
 	return shader;

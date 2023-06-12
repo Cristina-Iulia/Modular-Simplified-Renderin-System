@@ -7,14 +7,8 @@
 
 #include "../DeviceContext/DeviceContext.h"
 #include "../../MemoryBuffers/MemoryBufferLib.h"
-#include "../Shaders/ShadersLib.h"
+#include "../Shaders/ShaderManager/ShaderManager.h"
 #include "../SwapChain/SwapChain.h"
-
-enum Cull_type
-{
-	CULL_FRONT,
-	CULL_BACK
-};
 
 class Renderer
 {
@@ -27,10 +21,6 @@ public:
 	static Renderer* getInstance();
 
 	// CREATE RESOURCES --- CREATE RESOURCES --- CREATE RESOURCES --- CREATE RESOURCES --- CREATE RESOURCES
-	void createVertexShader(void* shaderByteCode, size_t byteCodeSize);
-	void createVertexMeshShader(void* shaderByteCode, size_t byteCodeSize);
-	void createPixelShader(void* shaderByteCode, size_t byteCodeSize);
-	void createEnvPixelShader(void* shaderByteCode, size_t byteCodeSize);
 	void createVertexBuffer();
 	ConstantBufferPtr createConstantBuffer();
 	void createIndexBuffer();
@@ -40,23 +30,12 @@ public:
 	void clearRenderTarget(float red, float green, float blue, float alpha);
 	void present(bool vsync);
 
-	void compileVertexShader(const wchar_t* file, const char* entryPointName, void** shaderByteCode, size_t* byteCodeSize);
-	void compilePixelShader(const wchar_t* file, const char* entryPointName, void** shaderByteCode, size_t* byteCodeSize);
-	void releaseCompiledShader();
-
-	void setResterizerState(Cull_type type);
-
 	// RESOURCES --- RESOURCES --- RESOURCES --- RESOURCES --- RESOURCES
 	VertexBufferPtr vertexBuffer = nullptr;
-	ConstantBufferPtr constantBuffer = nullptr;
-	ConstantBufferPtr envConstantBuffer = nullptr;
-	VertexShaderPtr vertexShader = nullptr;
-	VertexShaderPtr vertexMeshShader = nullptr;
-	PixelShaderPtr pixelShader = nullptr;
-	PixelShaderPtr envPixelShader = nullptr;
 	IndexBufferPtr indexBuffer = nullptr;
 
 	DeviceContext* devContext;
+	ShaderManager* shaderManager;
 
 private:
 	~Renderer();
@@ -68,8 +47,6 @@ private:
 	SwapChain* sglSwapChain = nullptr;
 	ID3D11RenderTargetView* renderTarget = nullptr;
 	ID3D11DepthStencilView* depthStencil = nullptr;
-
-	ID3DBlob* m_blob = nullptr;
 
 };
 

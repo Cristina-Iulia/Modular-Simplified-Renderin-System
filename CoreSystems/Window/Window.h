@@ -11,6 +11,7 @@
 #include "../../Interfaces/InputListener.h"
 #include "../../InputSystem/InputSystem.h"
 #include "../../ResourceManagerModule/ResourceGenerator.h"
+#include "../../ResourceManagerModule/Include.h"
 
 
 class Window: public InputListener
@@ -37,7 +38,7 @@ public:
 	void setRenderer(Renderer* renderer);
 	void setResourceGenerator(ResourceGenerator* generator);
 
-	void drawMesh(const MeshPtr& mesh, const VertexShaderPtr& vs, const PixelShaderPtr& ps, const ConstantBufferPtr& buffer, TexturePtr* texture, unsigned int tex_nr); // to be moved
+	void drawMesh(const MeshPtr& mesh, const MaterialPtr& material); // to be moved
 
 	void update();
 	void updateCamera();
@@ -87,6 +88,14 @@ private:
 	TexturePtr sky_tex = nullptr;
 	MeshPtr mesh = nullptr;
 	MeshPtr sky_mesh = nullptr;
+
+	VertexShaderPtr vertexShader = nullptr;
+	VertexShaderPtr vertexMeshShader = nullptr;
+	PixelShaderPtr pixelShader = nullptr;
+	PixelShaderPtr envPixelShader = nullptr;
+
+	MaterialPtr object;
+	MaterialPtr env;
 
 	float time_cloud = 0.0f;
 

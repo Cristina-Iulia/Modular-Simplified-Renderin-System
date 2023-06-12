@@ -37,20 +37,23 @@ bool Renderer::init(HWND m_hwnd, RECT rc)
 		sglSwapChain->init(m_hwnd, rc.right-rc.left, rc.bottom-rc.top);
 	}
 
+	congigureResterizer();
+
 	devContext = new DeviceContext();
-	devContext->init();
+	devContext->init(front_colling, back_colling);
 
 	renderTarget = sglSwapChain->getRenderTarget();
 	depthStencil = sglSwapChain->getDepthStencil();
 
-	congigureResterizer();
+	
+
+	shaderManager = ShaderManager::getInstance();
 
 	return true;
 }
 
 bool Renderer::release()
 {
-	m_blob->Release();
 	sglSwapChain->release();
 	devContext->release();
 	return true;
@@ -96,91 +99,4 @@ ConstantBufferPtr Renderer::createConstantBuffer()
 void Renderer::createIndexBuffer()
 {
 	indexBuffer = std::make_shared <IndexBuffer>();
-}
-
-void Renderer::compileVertexShader(const wchar_t* file, const char* entryPointName, void** shaderByteCode, size_t* byteCodeSize)
-{
-	ID3DBlob* error_blob = nullptr;
-	//if (!(m_blob == nullptr))
-		//m_blob->Release();
-	HRESULT result = ::D3DCompileFromFile(file, nullptr, nullptr, entryPointName, "vs_5_0", 0, 0, &m_blob, &error_blob);
-
-	if (FAILED(result))
-	{
-		spdlog::critical("VertexShader compilation UNSUCCESSFUL");
-		spdlog::critical(HRESULT_CODE(result));
-		if (error_blob)
-			error_blob->Release();
-		exit(1);
-	}
-
-	*shaderByteCode = m_blob->GetBufferPointer();
-	*byteCodeSize = m_blob->GetBufferSize();
-}
-
-void Renderer::compilePixelShader(const wchar_t * file, const char * entryPointName, void ** shaderByteCode, size_t * byteCodeSize)
-{
-	ID3DBlob* error_blob = nullptr;
-	if (m_blob)
-		m_blob->Release();
-	HRESULT result = ::D3DCompileFromFile(file, nullptr, nullptr, entryPointName, "ps_5_0", 0, 0, &m_blob, &error_blob);
-
-	if (FAILED(result))
-	{
-		spdlog::critical("PixelShader compilation UNSUCCESSFUL");
-		spdlog::critical(HRESULT_CODE(result));
-		if (error_blob)
-			error_blob->Release();
-		exit(1);
-	}
-
-	*shaderByteCode = m_blob->GetBufferPointer();
-	*byteCodeSize = m_blob->GetBufferSize();
-}
-
-void Renderer::releaseCompiledShader()
-{
-	if (m_blob)
-		m_blob->Release();
-}
-
-void Renderer::setResterizerState(Cull_type type)
-{
-	if (type == CULL_FRONT)
-	{
-		devContext->setRSState(front_colling);
-	}
-	else if (type == CULL_BACK)
-	{
-		devContext->setRSState(back_colling);
-	}
-	else
-	{
-		spdlog::critical("Unkown culling type");
-	}
-}
-
-void Renderer::createVertexShader(void* shaderByteCode, size_t byteCodeSize)
-{
-	vertexShader = std::make_shared <VertexShader>();
-	vertexShader->init(shaderByteCode, byteCodeSize);
-}
-
-void Renderer::createVertexMeshShader(void * shaderByteCode, size_t byteCodeSize)
-{
-	vertexMeshShader = std::make_shared <VertexShader>();
-	vertexMeshShader->init(shaderByteCode, byteCodeSize);
-}
-
-
-void Renderer::createPixelShader(void* shaderByteCode, size_t byteCodeSize)
-{
-	pixelShader = std::make_shared <PixelShader>();
-	pixelShader->init(shaderByteCode, byteCodeSize);
-}
-
-void Renderer::createEnvPixelShader(void* shaderByteCode, size_t byteCodeSize)
-{
-	envPixelShader = std::make_shared <PixelShader>();
-	envPixelShader->init(shaderByteCode, byteCodeSize);
 }

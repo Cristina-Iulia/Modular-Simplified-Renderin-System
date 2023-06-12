@@ -62,7 +62,8 @@ Mesh::Mesh(const wchar_t * absolute_path) : Resource(absolute_path)
 
 	void* shader_byte_code = nullptr;
 	size_t size_shader = 0;
-	Renderer::getInstance()->compileVertexShader(L"VertexMeshLayoutShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
+	ShaderManager* shaderManager = ShaderManager::getInstance();
+	shaderManager->compileVertexShader(L"VertexMeshLayoutShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
 	m_vertex_buffer = std::make_shared<VertexBuffer>();
 	m_vertex_buffer->init(&list_vertices[0], sizeof(VertexMesh), (UINT)list_vertices.size(), shader_byte_code, (UINT)size_shader);
 	m_index_buffer = std::make_shared <IndexBuffer>();

@@ -43,7 +43,7 @@ bool DeviceManager::init()
 
 	if (FAILED(res))
 	{
-		spdlog::critical("Device Creation FAILED");
+		spdlog::info("Device Creation FAILED");
 		return false;
 	}
 
@@ -78,7 +78,7 @@ DeviceManager * DeviceManager::getInstance()
 		return dvmSingleton;
 	}
 
-	spdlog::critical("ERROR AT : DeviceManager::INSTANCE retrieval");
+	spdlog::info("ERROR AT : DeviceManager::INSTANCE retrieval");
 	return nullptr;
 }
 
@@ -86,7 +86,7 @@ IDXGIFactory * DeviceManager::getFactory()
 {
 	if (dvmSingleton->m_dxgiFactory == nullptr)
 	{
-		spdlog::critical("ERROR AT : DeviceManager::FACTORY retrieval");
+		spdlog::info("ERROR AT : DeviceManager::FACTORY retrieval");
 	}
 	else
 	{
@@ -94,7 +94,7 @@ IDXGIFactory * DeviceManager::getFactory()
 		return dvmSingleton->m_dxgiFactory;
 	}
 
-	spdlog::critical("ERROR AT : DeviceManager::FACTORY retrieval");
+	spdlog::info("ERROR AT : DeviceManager::FACTORY retrieval");
 	return nullptr;
 }
 
@@ -103,7 +103,7 @@ ID3D11DeviceContext * DeviceManager::getDeviceContext()
 
 	if (dvmSingleton->m_immContext == nullptr)
 	{
-		spdlog::critical("ERROR AT : DeviceManager::CONTEXT retrieval");
+		spdlog::info("ERROR AT : DeviceManager::CONTEXT retrieval");
 	}
 	else
 	{
@@ -111,7 +111,7 @@ ID3D11DeviceContext * DeviceManager::getDeviceContext()
 		return dvmSingleton->m_immContext;
 	}
 
-	spdlog::critical("ERROR AT : DeviceManager::CONTEXT retrieval");
+	spdlog::info("ERROR AT : DeviceManager::CONTEXT retrieval");
 	return nullptr;
 }
 
@@ -119,7 +119,7 @@ ID3D11Device* DeviceManager::getDevice()
 {
 	if (dvmSingleton->m_d3dDevice == nullptr)
 	{
-		spdlog::critical("ERROR AT : DeviceManager::DEVICE retrieval");
+		spdlog::info("ERROR AT : DeviceManager::DEVICE retrieval");
 	}
 	else
 	{
@@ -127,6 +127,6 @@ ID3D11Device* DeviceManager::getDevice()
 		return dvmSingleton->m_d3dDevice;
 	}
 
-	spdlog::critical("ERROR AT : DeviceManager::DEVICE retrieval");
+	spdlog::info("ERROR AT : DeviceManager::DEVICE retrieval");
 	return nullptr;
 }

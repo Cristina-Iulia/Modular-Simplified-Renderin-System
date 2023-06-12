@@ -4,7 +4,7 @@
 
 #include "../../CoreSystems/DeviceManager/DeviceManager.h"
 #include "../../spdlog-1.11.0/include/spdlog/spdlog.h"
-#include "../../ResourceManagerModule/Texture/Texture.h"
+#include "../../ResourceManagerModule/Include.h"
 
 #include "../../MemoryBuffers/MemoryBufferLib.h"
 #include "../Shaders/ShadersLib.h"
@@ -15,7 +15,7 @@ typedef std::shared_ptr<Texture> TexturePtr;
 class DeviceContext
 {
 public:
-	void init();
+	void init(ID3D11RasterizerState* front_colling, ID3D11RasterizerState* back_colling);
 	void release();
 
 	DeviceContext();
@@ -30,7 +30,8 @@ public:
 	void setConstantBuffer(PixelShaderPtr pixel_shader, ConstantBufferPtr constant_buffer);
 	void setTexture(VertexShaderPtr vertex_shader, TexturePtr* texture, unsigned int tex_nr);
 	void setTexture(PixelShaderPtr pixel_shader, TexturePtr* texture, unsigned int tex_nr);
-	void setRSState(ID3D11RasterizerState* culling);
+	void setMaterial(const MaterialPtr& material);
+	void setRSState(Cull_type type);
 
 
 	// ACTIONS --- ACTIONS --- ACTIONS --- ACTIONS --- ACTIONS
@@ -44,6 +45,8 @@ private:
 	~DeviceContext();
 
 	ID3D11DeviceContext* m_dev_Context = nullptr;
+	ID3D11RasterizerState* front_colling = nullptr;
+	ID3D11RasterizerState* back_colling = nullptr;
 
 
 };

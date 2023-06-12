@@ -7,7 +7,8 @@
 enum resource_type
 {
 	R_Texture,
-	R_Mesh
+	R_Mesh,
+	R_Material
 };
 
 class ResourceGenerator
@@ -17,6 +18,7 @@ public:
 	static ResourceGenerator* getInstance();
 
 	ResourcePtr getResource(resource_type type_, const wchar_t * file_path);
+	MaterialPtr getResource(resource_type type_, const wchar_t* vertex_shader_path, const wchar_t* pixel_shader_pat);
 
 private:
 	ResourceGenerator();

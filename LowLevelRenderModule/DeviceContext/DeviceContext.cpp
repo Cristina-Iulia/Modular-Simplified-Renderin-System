@@ -1,9 +1,12 @@
 #include "DeviceContext.h"
 
 
-void DeviceContext::init()
+void DeviceContext::init(ID3D11RasterizerState* front_colling, ID3D11RasterizerState* back_colling)
 {
 	m_dev_Context = DeviceManager::getDeviceContext();
+	this->front_colling = front_colling;
+	this->back_colling = back_colling;
+
 }
 
 void DeviceContext::release()
@@ -117,8 +120,31 @@ void DeviceContext::setTexture(PixelShaderPtr pixel_shader, TexturePtr* texture,
 	m_dev_Context->PSSetSamplers(0, tex_nr, list_semp);
 }
 
-void DeviceContext::setRSState(ID3D11RasterizerState * culling)
+void DeviceContext::setMaterial(const MaterialPtr & material)
 {
-	m_dev_Context->RSSetState(culling);
+	setRSState((material->cull_mode));
+
+	setVertexShader(material->vertex_shader);
+	setPixelShader(material->pixel_shader);
+
+	setConstantBuffer(material->vertex_shader, material->constant_buffer);
+	setConstantBuffer(material->pixel_shader, material->constant_buffer);
+	setTexture(material->pixel_shader, &material->textures[0], material->textures.size());
+}
+
+void DeviceContext::setRSState(Cull_type type)
+{
+	if (type == CULL_FRONT)
+	{
+		m_dev_Context->RSSetState(front_colling);
+	}
+	else if (type == CULL_BACK)
+	{
+		m_dev_Context->RSSetState(back_colling);
+	}
+	else
+	{
+		spdlog::critical("Unkown culling type");
+	}
 }
 

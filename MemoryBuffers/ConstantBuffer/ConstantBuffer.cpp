@@ -20,8 +20,8 @@ void ConstantBuffer::init(void* buffer, UINT bufferSize)
 
 	if (FAILED(result))
 	{
-		spdlog::critical("Buffer of ConstantBuffer creation UNSUCCESSFUL");
-		spdlog::critical(HRESULT_CODE(result));
+		spdlog::info("Buffer of ConstantBuffer creation UNSUCCESSFUL");
+		spdlog::info(HRESULT_CODE(result));
 	}
 
 }

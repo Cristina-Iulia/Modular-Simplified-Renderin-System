@@ -35,13 +35,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 	{
 		case WM_CREATE:
 		{
-			// Event fired when the window is created
-			// collected here..
-			//Window::wdSingleton = (Window*)((LPCREATESTRUCT)lparam)->lpCreateParams;
-			// .. and then stored for later lookup
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)wdSingleton);
 			wdSingleton->setHwnd(hwnd);
-			// On Create window Event
 			wdSingleton->onCreate();
 			break;
 		}
@@ -79,9 +74,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 		}
 		case WM_DESTROY:
 		{
-			// Event fired when the window is destroyed
 			Window* window = (Window*)GetWindowLong(hwnd, GWLP_USERDATA);
-			// On Destroy window Event
 			if (window) window->onDestroy();
 			::PostQuitMessage(0); // Make request to system to terminate process
 			break;
@@ -161,7 +154,7 @@ Window* Window::getInstance()
 		wdSingleton = new Window();
 
 		if (wdSingleton == nullptr) {
-			spdlog::info("In Window::getInstance wdSingleton ");
+			spdlog::critical("In Window::getInstance wdSingleton ");
 		}
 		return wdSingleton;
 	}
@@ -190,36 +183,10 @@ void Window::onUpdate()
 	RECT rc = getWindowRect();
 	sglRenderer->devContext->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
-
-
-	sglRenderer->devContext->setVertexShader(sglRenderer->vertexShader);
-	sglRenderer->devContext->setPixelShader(sglRenderer->pixelShader);
-
-	sglRenderer->devContext->setConstantBuffer(sglRenderer->vertexShader, sglRenderer->constantBuffer);
-	sglRenderer->devContext->setConstantBuffer(sglRenderer->pixelShader, sglRenderer->constantBuffer);
-
-
-	sglRenderer->devContext->setVertexBuffer(mesh->getVertexBuffer());
-	sglRenderer->devContext->setIndexBuffer(mesh->getIndexBuffer());
-
-
-	sglRenderer->devContext->drawIndexedTriangleList(mesh->getIndexBuffer()->sizeOfList, 0, 0);
-
 	update();
 
-	TexturePtr texture_list[4];
-	texture_list[0] = earth_tex;
-	texture_list[1] = earth_spec;
-	texture_list[2] = earth_clouds;
-	texture_list[3] = earth_night;
-
-	sglRenderer->setResterizerState(CULL_BACK);
-	drawMesh(mesh, sglRenderer->vertexShader, sglRenderer->pixelShader, sglRenderer->constantBuffer, texture_list, 4);
-	
-	texture_list[0] = sky_tex;
-	sglRenderer->setResterizerState(CULL_FRONT);
-	drawMesh(sky_mesh, sglRenderer->vertexShader, sglRenderer->envPixelShader, sglRenderer->envConstantBuffer, texture_list, 1);
-	
+	drawMesh(mesh, object);
+	drawMesh(sky_mesh, env);
 
 	sglRenderer->present(true);
 
@@ -267,31 +234,6 @@ void Window::setHwnd(HWND hwnd)
 void Window::setRenderer(Renderer * renderer)
 {
 	sglRenderer = renderer;
-
-
-	void* shader_byte_code = nullptr;
-	size_t shaderSize = 0;
-
-
-	sglRenderer->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &shaderSize);
-	sglRenderer->createVertexShader(shader_byte_code, shaderSize);
-	sglRenderer->releaseCompiledShader();
-
-	sglRenderer->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &shaderSize);
-	sglRenderer->createPixelShader(shader_byte_code, shaderSize);
-	sglRenderer->releaseCompiledShader();
-
-	sglRenderer->compilePixelShader(L"EnvPixelShader.hlsl", "psmain", &shader_byte_code, &shaderSize);
-	sglRenderer->createEnvPixelShader(shader_byte_code, shaderSize);
-	sglRenderer->releaseCompiledShader();
-
-	constant cc;
-	sglRenderer->constantBuffer = sglRenderer->createConstantBuffer();
-	sglRenderer->constantBuffer->init(&cc, sizeof(constant));
-
-	sglRenderer->envConstantBuffer = sglRenderer->createConstantBuffer();
-	sglRenderer->envConstantBuffer->init(&cc, sizeof(constant));
-
 	camera.setTranslation(Vector3D(0, 0, 2));
 }
 
@@ -309,18 +251,23 @@ void Window::setResourceGenerator(ResourceGenerator * generator)
 	mesh = std::dynamic_pointer_cast<Mesh>(ResourceGenerator::getInstance()->getResource(R_Mesh, L"Assets\\Meshes\\sphere_hq.obj"));
 	sky_mesh = std::dynamic_pointer_cast<Mesh>(ResourceGenerator::getInstance()->getResource(R_Mesh, L"Assets\\Meshes\\sphere.obj"));
 
+	object = sglResourceGenerator->getResource(R_Material, L"VertexShader.hlsl", L"PixelShader.hlsl");
+	object->addTexture(earth_tex);
+	object->addTexture(earth_spec);
+	object->addTexture(earth_clouds);
+	object->addTexture(earth_night);
+	object->setCullMode(CULL_BACK);
+
+	env = sglResourceGenerator->getResource(R_Material, L"VertexShader.hlsl", L"EnvPixelShader.hlsl");
+	env->addTexture(sky_tex);
+	env->setCullMode(CULL_FRONT);
+
 }
 
 
-void Window::drawMesh(const MeshPtr & mesh, const VertexShaderPtr & vs, const PixelShaderPtr & ps, const ConstantBufferPtr & buffer, TexturePtr* texture_list, unsigned int tex_nr)
+void Window::drawMesh(const MeshPtr& mesh, const MaterialPtr& material)
 {
-	sglRenderer->devContext->setVertexShader(vs);
-	sglRenderer->devContext->setPixelShader(ps);
-
-	sglRenderer->devContext->setConstantBuffer(vs, buffer);
-	sglRenderer->devContext->setConstantBuffer(ps, buffer);
-	sglRenderer->devContext->setTexture(vs, texture_list, tex_nr);
-	sglRenderer->devContext->setTexture(ps, texture_list, tex_nr);
+	sglRenderer->devContext->setMaterial(material);
 
 
 	sglRenderer->devContext->setVertexBuffer(mesh->getVertexBuffer());
@@ -333,6 +280,7 @@ void Window::drawMesh(const MeshPtr & mesh, const VertexShaderPtr & vs, const Pi
 
 void Window::update()
 {
+	spdlog::info("UPDATE");
 	updateCamera();
 	updateModel();
 	updateEnv();
@@ -384,7 +332,7 @@ void Window::updateModel()
 	cc.m_light_direction = light_rot_matrix.getDirectionZ();
 	cc.time_cloud = time_cloud;
 
-	sglRenderer->constantBuffer->update(reinterpret_cast<void *>(&cc));
+	object->setData(reinterpret_cast<void *>(&cc), sizeof(constant));
 }
 
 void Window::updateEnv()
@@ -397,7 +345,7 @@ void Window::updateEnv()
 	cc.m_view = camera_view;
 	cc.m_proj = camera_proj;
 
-	sglRenderer->envConstantBuffer->update(reinterpret_cast<void *>(&cc));
+	env->setData(reinterpret_cast<void *>(&cc), sizeof(constant));
 }
 
 void Window::windowSettup()

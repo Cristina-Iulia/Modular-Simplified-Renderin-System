@@ -5,7 +5,8 @@
 #include <codecvt>
 #include "../../CoreSystems/DeviceManager/DeviceManager.h"
 #include "../../MathLibrary/VertexMesh.h"
-#include "../../LowLevelRenderModule/Renderer/Renderer.h"
+#include "../../LowLevelRenderModule/Shaders/ShaderManager/ShaderManager.h"
+#include "../../MemoryBuffers/MemoryBufferLib.h"
 
 
 //#define TINYOBJLOADER_IMPLEMENTATION

@@ -64,6 +64,12 @@
     <Filter Include="MemoryBuffers\VertexBuffer">
       <UniqueIdentifier>{73bf97dc-db4b-41c0-84ff-0b91f7460b02}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ResourceManagerModule\Material">
+      <UniqueIdentifier>{a5edcffe-696b-4c8e-9b5c-43084874cb52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LowLevelRenderModule\Shaders\ShaderManager">
+      <UniqueIdentifier>{6d39aab2-deb9-4735-a42a-37f0ad4f8554}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App/main.cpp" />
@@ -123,6 +129,12 @@
     </ClCompile>
     <ClCompile Include="MemoryBuffers/VertexBuffer/VertexBuffer.cpp">
       <Filter>MemoryBuffers\VertexBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManagerModule\Material\Material.cpp">
+      <Filter>ResourceManagerModule\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="LowLevelRenderModule\Shaders\ShaderManager\ShaderManager.cpp">
+      <Filter>LowLevelRenderModule\Shaders\ShaderManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -221,6 +233,12 @@
     </ClInclude>
     <ClInclude Include="LowLevelRenderModule\Shaders\ShadersLib.h">
       <Filter>LowLevelRenderModule\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManagerModule\Material\Material.h">
+      <Filter>ResourceManagerModule\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="LowLevelRenderModule\Shaders\ShaderManager\ShaderManager.h">
+      <Filter>LowLevelRenderModule\Shaders\ShaderManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

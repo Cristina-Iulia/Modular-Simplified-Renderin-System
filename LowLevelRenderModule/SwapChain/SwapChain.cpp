@@ -18,7 +18,7 @@ void SwapChain::init(HWND hwnd, UINT width, UINT height)
 	
 	if (device == nullptr)
 	{
-		spdlog::critical("DEVICE retrieval returned NULLPTR");
+		spdlog::info("DEVICE retrieval returned NULLPTR");
 	}
 	DXGI_SWAP_CHAIN_DESC desc = {}; //declare swap chain descriptor
 	desc.BufferCount = 2; //set the number of backbuffers to be used to one
@@ -52,7 +52,7 @@ void SwapChain::init(HWND hwnd, UINT width, UINT height)
 		}
 		else
 		{
-			spdlog::critical("SwapChain creation UNSUCCESSFUL");
+			spdlog::info("SwapChain creation UNSUCCESSFUL");
 		}
 	}
 
@@ -185,7 +185,7 @@ void SwapChain::present(bool vsync)
 
 	if (FAILED(res))
 	{
-		spdlog::critical("Presentation UNSUCCESSFUL");
-		spdlog::critical(HRESULT_CODE(res));
+		spdlog::info("Presentation UNSUCCESSFUL");
+		spdlog::info(HRESULT_CODE(res));
 	}
 }
