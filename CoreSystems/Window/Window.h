@@ -89,9 +89,12 @@ private:
 	TexturePtr sky_tex = nullptr;
 	TexturePtr brick_tex = nullptr;
 	TexturePtr wall_tex = nullptr;
+
+
 	MeshPtr mesh = nullptr;
 	MeshPtr monkey_mesh = nullptr;
 	MeshPtr sky_mesh = nullptr;
+	MeshPtr plane_mesh = nullptr;
 
 	VertexShaderPtr vertexShader = nullptr;
 	VertexShaderPtr vertexMeshShader = nullptr;

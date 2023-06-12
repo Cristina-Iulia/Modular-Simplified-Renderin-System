@@ -1,5 +1,6 @@
 #include "Window.h"
 
+
 static Window* wdSingleton = nullptr;
 
 struct vertex
@@ -169,9 +170,6 @@ Window* Window::getInstance()
 void Window::onCreate()
 {
 	InputSystem::getInstance()->showCursor(false);
-
-	//camera.setIdentity();
-	//camera.setTranslation(Vector3D(0, 0, -1));
 }
 
 void Window::onUpdate()
@@ -185,14 +183,14 @@ void Window::onUpdate()
 
 	update();
 
-	updateModel(Vector3D(0,0,0), object);
+	updateModel(Vector3D(0, 2, 0), object);
 	drawMesh(mesh, object);
 
-	updateModel(Vector3D(4, 0, 0), wall);
+	updateModel(Vector3D(4, 2, 0), wall);
 	drawMesh(monkey_mesh, wall);
 
-	updateModel(Vector3D(-4, 0, 0), brick);
-	drawMesh(mesh, brick);
+	updateModel(Vector3D(0, 0, 0), brick);
+	drawMesh(plane_mesh, brick);
 
 	drawMesh(sky_mesh, env);
 
@@ -242,7 +240,7 @@ void Window::setHwnd(HWND hwnd)
 void Window::setRenderer(Renderer * renderer)
 {
 	sglRenderer = renderer;
-	camera.setTranslation(Vector3D(0, 0, 2));
+	camera.setTranslation(Vector3D(0, -3, -2));
 }
 
 void Window::setResourceGenerator(ResourceGenerator * generator)
@@ -261,6 +259,7 @@ void Window::setResourceGenerator(ResourceGenerator * generator)
 	mesh = std::dynamic_pointer_cast<Mesh>(ResourceGenerator::getInstance()->getResource(R_Mesh, L"Assets\\Meshes\\sphere_hq.obj"));
 	sky_mesh = std::dynamic_pointer_cast<Mesh>(ResourceGenerator::getInstance()->getResource(R_Mesh, L"Assets\\Meshes\\sphere.obj"));
 	monkey_mesh = std::dynamic_pointer_cast<Mesh>(ResourceGenerator::getInstance()->getResource(R_Mesh, L"Assets\\Meshes\\suzanne.obj"));
+	plane_mesh = std::dynamic_pointer_cast<Mesh>(ResourceGenerator::getInstance()->getResource(R_Mesh, L"Assets\\Meshes\\plane.obj"));
 
 	object = sglResourceGenerator->getResource(R_Material, L"VertexShader.hlsl", L"PixelShader.hlsl");
 	object->addTexture(earth_tex);
@@ -317,6 +316,7 @@ void Window::updateCamera()
 	temp.setRotationY(rot_y);
 	cameraMartix *= temp;
 
+
 	Vector3D new_pos = camera.getTranslation() + cameraMartix.getDirectionZ() * (camera_Z * 0.05f);
 	new_pos = new_pos + cameraMartix.getDirectionX() * (camera_X * 0.05f);
 
@@ -342,10 +342,15 @@ void Window::updateModel(Vector3D position, const MaterialPtr& material)
 	light_rot_matrix.setIdentity();
 	light_rot_matrix.setRotationY(light_rot_y);
 
+	Matrix4x4  temp;
+	temp.setIdentity();
+	temp.setRotationX(acos(-1));
+
 	
 
 	cc.m_world.setIdentity();
 	cc.m_world.setTranslation(position);
+	cc.m_world *= temp;
 	cc.m_view = camera_view;
 	cc.m_proj = camera_proj;
 	cc.camera_pos = camera.getTranslation();

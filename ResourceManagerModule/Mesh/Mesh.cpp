@@ -43,8 +43,13 @@ Mesh::Mesh(const wchar_t * absolute_path) : Resource(absolute_path)
 				tinyobj::real_t vy = attribute.vertices[index.vertex_index * 3 + 1];
 				tinyobj::real_t vz = attribute.vertices[index.vertex_index * 3 + 2];
 
-				tinyobj::real_t tx = attribute.texcoords[index.texcoord_index * 2 + 0];
-				tinyobj::real_t ty = attribute.texcoords[index.texcoord_index * 2 + 1];
+				tinyobj::real_t tx = 0;
+				tinyobj::real_t ty = 0;
+				if (index.texcoord_index >= 0)
+				{
+					tx = attribute.texcoords[index.texcoord_index * 2 + 0];
+					ty = attribute.texcoords[index.texcoord_index * 2 + 1];
+				}
 
 				tinyobj::real_t nx = attribute.normals[index.normal_index * 3 + 0];
 				tinyobj::real_t ny = attribute.normals[index.normal_index * 3 + 1];
