@@ -176,6 +176,7 @@
     <ClInclude Include="MathLibrary\Vector4D.h" />
     <ClInclude Include="MathLibrary\VertexMesh.h" />
     <ClInclude Include="MemoryBuffers\MemoryBufferLib.h" />
+    <ClInclude Include="ResourceManagerModule\Defines.h" />
     <ClInclude Include="ResourceManagerModule\Include.h" />
     <ClInclude Include="ResourceManagerModule\Material\Material.h" />
     <ClInclude Include="ResourceManagerModule\Mesh\Mesh.h" />

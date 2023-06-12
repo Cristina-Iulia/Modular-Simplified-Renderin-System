@@ -42,8 +42,9 @@ public:
 
 	void update();
 	void updateCamera();
-	void updateModel();
+	void updateModel(Vector3D position, const MaterialPtr& material);
 	void updateEnv();
+	void updateLight();
 
 	// Inherited via InputListener
 	virtual void keyDown(int key) override;
@@ -86,7 +87,10 @@ private:
 	TexturePtr earth_clouds = nullptr;
 	TexturePtr earth_night = nullptr;
 	TexturePtr sky_tex = nullptr;
+	TexturePtr brick_tex = nullptr;
+	TexturePtr wall_tex = nullptr;
 	MeshPtr mesh = nullptr;
+	MeshPtr monkey_mesh = nullptr;
 	MeshPtr sky_mesh = nullptr;
 
 	VertexShaderPtr vertexShader = nullptr;
@@ -95,6 +99,9 @@ private:
 	PixelShaderPtr envPixelShader = nullptr;
 
 	MaterialPtr object;
+	MaterialPtr brick;
+	MaterialPtr wall;
+
 	MaterialPtr env;
 
 	float time_cloud = 0.0f;

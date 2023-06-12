@@ -9,8 +9,8 @@
 #include "../../LowLevelRenderModule/Shaders/ShaderManager/ShaderManager.h"
 #include "../Texture/Texture.h"
 #include "../../MemoryBuffers/MemoryBufferLib.h"
+#include "../Defines.h"
 
-typedef std::shared_ptr<Texture> TexturePtr;
 
 enum Cull_type
 {
@@ -22,6 +22,7 @@ class Material
 {
 public:
 	Material(const wchar_t* vertex_shader_path, const wchar_t* pixel_shader_path);
+	Material(const MaterialPtr& material);
 	~Material();
 
 	void addTexture(const TexturePtr& tex);

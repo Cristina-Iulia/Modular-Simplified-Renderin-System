@@ -171,7 +171,7 @@ void Window::onCreate()
 	InputSystem::getInstance()->showCursor(false);
 
 	//camera.setIdentity();
-	camera.setTranslation(Vector3D(0, 0, -1));
+	//camera.setTranslation(Vector3D(0, 0, -1));
 }
 
 void Window::onUpdate()
@@ -185,7 +185,15 @@ void Window::onUpdate()
 
 	update();
 
+	updateModel(Vector3D(0,0,0), object);
 	drawMesh(mesh, object);
+
+	updateModel(Vector3D(4, 0, 0), wall);
+	drawMesh(monkey_mesh, wall);
+
+	updateModel(Vector3D(-4, 0, 0), brick);
+	drawMesh(mesh, brick);
+
 	drawMesh(sky_mesh, env);
 
 	sglRenderer->present(true);
@@ -245,11 +253,14 @@ void Window::setResourceGenerator(ResourceGenerator * generator)
 	earth_spec = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture, L"Assets\\Textures\\earth_spec.jpg"));
 	earth_clouds = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture, L"Assets\\Textures\\clouds.jpg"));
 	earth_night = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture, L"Assets\\Textures\\earth_night.jpg"));
+	wall_tex = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture, L"Assets\\Textures\\wall.jpg"));
+	brick_tex = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture, L"Assets\\Textures\\brick.png"));
 
 	
 	sky_tex = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture, L"Assets\\Textures\\stars_map.jpg"));
 	mesh = std::dynamic_pointer_cast<Mesh>(ResourceGenerator::getInstance()->getResource(R_Mesh, L"Assets\\Meshes\\sphere_hq.obj"));
 	sky_mesh = std::dynamic_pointer_cast<Mesh>(ResourceGenerator::getInstance()->getResource(R_Mesh, L"Assets\\Meshes\\sphere.obj"));
+	monkey_mesh = std::dynamic_pointer_cast<Mesh>(ResourceGenerator::getInstance()->getResource(R_Mesh, L"Assets\\Meshes\\suzanne.obj"));
 
 	object = sglResourceGenerator->getResource(R_Material, L"VertexShader.hlsl", L"PixelShader.hlsl");
 	object->addTexture(earth_tex);
@@ -257,6 +268,14 @@ void Window::setResourceGenerator(ResourceGenerator * generator)
 	object->addTexture(earth_clouds);
 	object->addTexture(earth_night);
 	object->setCullMode(CULL_BACK);
+
+	wall = sglResourceGenerator->getResource(R_Material, object);
+	wall->addTexture(wall_tex);
+	wall->setCullMode(CULL_BACK);
+
+	brick = sglResourceGenerator->getResource(R_Material, object);
+	brick->addTexture(brick_tex);
+	brick->setCullMode(CULL_BACK);
 
 	env = sglResourceGenerator->getResource(R_Material, L"VertexShader.hlsl", L"EnvPixelShader.hlsl");
 	env->addTexture(sky_tex);
@@ -282,7 +301,7 @@ void Window::update()
 {
 	spdlog::info("UPDATE");
 	updateCamera();
-	updateModel();
+	updateLight();
 	updateEnv();
 }
 
@@ -315,7 +334,7 @@ void Window::updateCamera()
 	camera_proj.setProjectionPerspective(1.57f, ((float)width / (float)height), 0.1f, 100.0f);
 }
 
-void Window::updateModel()
+void Window::updateModel(Vector3D position, const MaterialPtr& material)
 {
 	constant cc;
 
@@ -323,16 +342,17 @@ void Window::updateModel()
 	light_rot_matrix.setIdentity();
 	light_rot_matrix.setRotationY(light_rot_y);
 
-	light_rot_y += 0.307f * delta_time;
+	
 
 	cc.m_world.setIdentity();
+	cc.m_world.setTranslation(position);
 	cc.m_view = camera_view;
 	cc.m_proj = camera_proj;
 	cc.camera_pos = camera.getTranslation();
 	cc.m_light_direction = light_rot_matrix.getDirectionZ();
 	cc.time_cloud = time_cloud;
 
-	object->setData(reinterpret_cast<void *>(&cc), sizeof(constant));
+	material->setData(reinterpret_cast<void *>(&cc), sizeof(constant));
 }
 
 void Window::updateEnv()
@@ -346,6 +366,11 @@ void Window::updateEnv()
 	cc.m_proj = camera_proj;
 
 	env->setData(reinterpret_cast<void *>(&cc), sizeof(constant));
+}
+
+void Window::updateLight()
+{
+	light_rot_y += 0.307f * delta_time;
 }
 
 void Window::windowSettup()

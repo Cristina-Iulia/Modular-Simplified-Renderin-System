@@ -7,11 +7,7 @@
 #include "Texture/Texture.h"
 #include "Mesh/Mesh.h"
 #include "Material/Material.h"
+#include "Defines.h"
 
-
-typedef std::shared_ptr<Resource> ResourcePtr;
-typedef std::shared_ptr<Texture> TexturePtr;
-typedef std::shared_ptr<Mesh> MeshPtr;
-typedef std::shared_ptr<Material> MaterialPtr;
 
 #endif

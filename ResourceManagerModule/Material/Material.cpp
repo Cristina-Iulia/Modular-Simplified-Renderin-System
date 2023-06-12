@@ -21,6 +21,12 @@ Material::Material(const wchar_t * vertex_shader_path, const wchar_t * pixel_sha
 	if (!pixel_shader) throw std::runtime_error("Material pixel shader not created");
 }
 
+Material::Material(const MaterialPtr & material)
+{
+	vertex_shader = material->vertex_shader;
+	pixel_shader = material->pixel_shader;
+}
+
 Material::~Material()
 {
 	vertex_shader->release();

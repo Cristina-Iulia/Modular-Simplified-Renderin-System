@@ -66,6 +66,28 @@ MaterialPtr ResourceGenerator::getResource(resource_type type_, const wchar_t* v
 	return nullptr;
 }
 
+MaterialPtr ResourceGenerator::getResource(resource_type type_, const MaterialPtr & material)
+{
+	if(type_ == R_Material)
+	{
+		MaterialPtr mt = nullptr;
+
+		try
+		{
+			mt = std::make_shared<Material>(material);
+		}
+		catch (...) {}
+
+		return mt;
+	}
+	else
+	{
+	spdlog::info("UNKNOWN RESOURCE REQUESTED");
+	}
+
+	return nullptr;
+}
+
 ResourceGenerator::ResourceGenerator()
 {
 }
