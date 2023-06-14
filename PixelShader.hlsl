@@ -31,7 +31,7 @@ cbuffer constant: register(b0)
 
 float4 psmain(PS_INPUT input) : SV_TARGET
 {
-	float4 earth_tex = EarthTex.Sample(EarthTexSampler, input.textcoord);
+	float4 earth_tex = EarthTex.Sample(EarthTexSampler, float2(input.textcoord.x, 1.0 - input.textcoord.y));
 	float4 earth_spec = EarthSpec.Sample(EarthSpecSampler, input.textcoord).r;
 	float4 earth_clouds = EarthClouds.Sample(EarthCloudsSampler, input.textcoord + float2(time_cloud/100.0, 0)).r;
 	float4 earth_night = EarthNight.Sample(EarthNightSampler, input.textcoord);
@@ -39,11 +39,13 @@ float4 psmain(PS_INPUT input) : SV_TARGET
 	//AMBIENT LIGHT
 	float ka = 1.5; // ambient reflection constatnt
 	float3 ia = float3(0.09, 0.082, 0.082);
+	//float3 ia = float3(1.0, 1.0, 1.0);
 	ia *= (earth_tex.rgb);
 	float3 ambient_light = ka * ia;
 
 	//DIFFUSE LIGHT
 	float kd = 0.7;
+	//float3 id = float3(1.0, 1.0, 1.0);
 	float3 id_day = float3(1.0, 1.0, 1.0);
 	id_day *= (earth_tex.rgb + earth_clouds);
 
@@ -55,6 +57,7 @@ float4 psmain(PS_INPUT input) : SV_TARGET
 	float3 id = lerp(id_night, id_day, (amount_diffuse_light + 1.0) / 2.0);
 
 	float3 diffuse_light = kd * id;
+	//float3 diffuse_light = kd * amount_diffuse_light * id;
 
 
 	//SPECULAR LIGHT

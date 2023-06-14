@@ -170,6 +170,7 @@ Window* Window::getInstance()
 void Window::onCreate()
 {
 	InputSystem::getInstance()->showCursor(false);
+	material_vector.resize(32);
 }
 
 void Window::onUpdate()
@@ -183,16 +184,32 @@ void Window::onUpdate()
 
 	update();
 
-	updateModel(Vector3D(0, 2, 0), object);
+	/*updateModel(Vector3D(0, 2, 0), object);
 	drawMesh(mesh, object);
 
 	updateModel(Vector3D(4, 2, 0), wall);
 	drawMesh(monkey_mesh, wall);
 
 	updateModel(Vector3D(0, 0, 0), brick);
-	drawMesh(plane_mesh, brick);
+	drawMesh(plane_mesh, brick);*/
 
-	drawMesh(sky_mesh, env);
+	material_vector.clear();
+	material_vector.push_back(barrel);
+	material_vector.push_back(brick);
+	material_vector.push_back(window_m);
+	material_vector.push_back(wood);
+	updateModel(Vector3D(0, 0, 0), material_vector);
+	drawMesh(house_mesh, material_vector);
+
+	material_vector.clear();
+	material_vector.push_back(terrain);
+	updateModel(Vector3D(0, 0, 0), material_vector);
+	drawMesh(terrain_mesh, material_vector);
+
+
+	material_vector.clear();
+	material_vector.push_back(env);
+	drawMesh(sky_mesh, material_vector);
 
 	sglRenderer->present(true);
 
@@ -240,41 +257,61 @@ void Window::setHwnd(HWND hwnd)
 void Window::setRenderer(Renderer * renderer)
 {
 	sglRenderer = renderer;
-	camera.setTranslation(Vector3D(0, -3, -2));
+	camera.setTranslation(Vector3D(0, -1, 2));
 }
 
 void Window::setResourceGenerator(ResourceGenerator * generator)
 {
 	sglResourceGenerator = generator;
 
-	earth_tex = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture,L"Assets\\Textures\\earth_color.jpg"));
+	/*earth_tex = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture,L"Assets\\Textures\\earth_color.jpg"));
 	earth_spec = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture, L"Assets\\Textures\\earth_spec.jpg"));
 	earth_clouds = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture, L"Assets\\Textures\\clouds.jpg"));
 	earth_night = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture, L"Assets\\Textures\\earth_night.jpg"));
-	wall_tex = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture, L"Assets\\Textures\\wall.jpg"));
-	brick_tex = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture, L"Assets\\Textures\\brick.png"));
+	wall_tex = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture, L"Assets\\Textures\\wall.jpg"));*/
+
+
+	brick_tex = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture, L"Assets\\Textures\\house_brick.jpg"));
+	wood_tex = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture, L"Assets\\Textures\\house_wood.jpg"));
+	window_tex = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture, L"Assets\\Textures\\house_windows.jpg"));
+	barrel_tex = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture, L"Assets\\Textures\\barrel.jpg"));
 
 	
-	sky_tex = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture, L"Assets\\Textures\\stars_map.jpg"));
-	mesh = std::dynamic_pointer_cast<Mesh>(ResourceGenerator::getInstance()->getResource(R_Mesh, L"Assets\\Meshes\\sphere_hq.obj"));
+	sky_tex = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture, L"Assets\\Textures\\sky.jpg"));
+	terrain_tex = std::dynamic_pointer_cast<Texture>(ResourceGenerator::getInstance()->getResource(R_Texture, L"Assets\\Textures\\sand.jpg"));
+	//mesh = std::dynamic_pointer_cast<Mesh>(ResourceGenerator::getInstance()->getResource(R_Mesh, L"Assets\\Meshes\\sphere_hq.obj"));
 	sky_mesh = std::dynamic_pointer_cast<Mesh>(ResourceGenerator::getInstance()->getResource(R_Mesh, L"Assets\\Meshes\\sphere.obj"));
-	monkey_mesh = std::dynamic_pointer_cast<Mesh>(ResourceGenerator::getInstance()->getResource(R_Mesh, L"Assets\\Meshes\\suzanne.obj"));
-	plane_mesh = std::dynamic_pointer_cast<Mesh>(ResourceGenerator::getInstance()->getResource(R_Mesh, L"Assets\\Meshes\\plane.obj"));
+	terrain_mesh = std::dynamic_pointer_cast<Mesh>(ResourceGenerator::getInstance()->getResource(R_Mesh, L"Assets\\Meshes\\terrain.obj"));
+	house_mesh = std::dynamic_pointer_cast<Mesh>(ResourceGenerator::getInstance()->getResource(R_Mesh, L"Assets\\Meshes\\house.obj"));
+	//monkey_mesh = std::dynamic_pointer_cast<Mesh>(ResourceGenerator::getInstance()->getResource(R_Mesh, L"Assets\\Meshes\\suzanne.obj"));
+	//plane_mesh = std::dynamic_pointer_cast<Mesh>(ResourceGenerator::getInstance()->getResource(R_Mesh, L"Assets\\Meshes\\plane.obj"));
 
 	object = sglResourceGenerator->getResource(R_Material, L"VertexShader.hlsl", L"PixelShader.hlsl");
-	object->addTexture(earth_tex);
+	/*object->addTexture(earth_tex);
 	object->addTexture(earth_spec);
 	object->addTexture(earth_clouds);
 	object->addTexture(earth_night);
-	object->setCullMode(CULL_BACK);
+	object->setCullMode(CULL_BACK);*/
 
-	wall = sglResourceGenerator->getResource(R_Material, object);
-	wall->addTexture(wall_tex);
-	wall->setCullMode(CULL_BACK);
+	barrel = sglResourceGenerator->getResource(R_Material, object);
+	barrel->addTexture(barrel_tex);
+	barrel->setCullMode(CULL_BACK);
+
+	window_m = sglResourceGenerator->getResource(R_Material, object);
+	window_m->addTexture(window_tex);
+	window_m->setCullMode(CULL_BACK);
+
+	wood = sglResourceGenerator->getResource(R_Material, object);
+	wood->addTexture(wood_tex);
+	wood->setCullMode(CULL_BACK);
 
 	brick = sglResourceGenerator->getResource(R_Material, object);
 	brick->addTexture(brick_tex);
 	brick->setCullMode(CULL_BACK);
+
+	terrain = sglResourceGenerator->getResource(R_Material, object);
+	terrain->addTexture(terrain_tex);
+	terrain->setCullMode(CULL_BACK);
 
 	env = sglResourceGenerator->getResource(R_Material, L"VertexShader.hlsl", L"EnvPixelShader.hlsl");
 	env->addTexture(sky_tex);
@@ -283,16 +320,22 @@ void Window::setResourceGenerator(ResourceGenerator * generator)
 }
 
 
-void Window::drawMesh(const MeshPtr& mesh, const MaterialPtr& material)
+void Window::drawMesh(const MeshPtr& mesh, const std::vector<MaterialPtr>& material_list)
 {
-	sglRenderer->devContext->setMaterial(material);
-
-
 	sglRenderer->devContext->setVertexBuffer(mesh->getVertexBuffer());
 	sglRenderer->devContext->setIndexBuffer(mesh->getIndexBuffer());
 
 
-	sglRenderer->devContext->drawIndexedTriangleList(mesh->getIndexBuffer()->sizeOfList, 0, 0);
+	for (size_t m = 0; mesh->getNrMaterialSlots(); ++m)
+	{
+		if (m >= material_list.size()) break;
+
+		MaterialSlot mat = mesh->getMaterialSlot(m);
+		sglRenderer->devContext->setMaterial(material_list[m]);
+
+		sglRenderer->devContext->drawIndexedTriangleList(mat.nr_elem_slot, 0, mat.index_start);
+	}
+	
 
 }
 
@@ -334,7 +377,7 @@ void Window::updateCamera()
 	camera_proj.setProjectionPerspective(1.57f, ((float)width / (float)height), 0.1f, 100.0f);
 }
 
-void Window::updateModel(Vector3D position, const MaterialPtr& material)
+void Window::updateModel(Vector3D position, const std::vector<MaterialPtr>& material_list)
 {
 	constant cc;
 
@@ -357,7 +400,10 @@ void Window::updateModel(Vector3D position, const MaterialPtr& material)
 	cc.m_light_direction = light_rot_matrix.getDirectionZ();
 	cc.time_cloud = time_cloud;
 
-	material->setData(reinterpret_cast<void *>(&cc), sizeof(constant));
+	for (size_t m = 0; m < material_list.size(); ++m)
+	{
+		material_list[m]->setData(reinterpret_cast<void *>(&cc), sizeof(constant));
+	}
 }
 
 void Window::updateEnv()
@@ -401,12 +447,13 @@ void Window::keyDown(int key)
 	if (key == 'W')
 	{
 		//rot_x += 1.707*delta_time;
-		camera_Z = 0.5f;
+		camera_Z = -0.5f;
+		
 	}
 	else if (key == 'S')
 	{
 		//rot_x -= 1.707*delta_time;
-		camera_Z = -0.5f;
+		camera_Z = 0.5f;
 	}
 	else if (key == 'A')
 	{

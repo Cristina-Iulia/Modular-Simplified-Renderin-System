@@ -3,6 +3,7 @@
 #define WND_DEF
 
 #include <Windows.h>
+#include <vector>
 #include "../../spdlog-1.11.0/include/spdlog/spdlog.h"
 #include "../../LowLevelRenderModule/Renderer/Renderer.h"
 #include "../../MathLibrary/Vector3D.h"
@@ -38,11 +39,11 @@ public:
 	void setRenderer(Renderer* renderer);
 	void setResourceGenerator(ResourceGenerator* generator);
 
-	void drawMesh(const MeshPtr& mesh, const MaterialPtr& material); // to be moved
+	void drawMesh(const MeshPtr& mesh, const std::vector<MaterialPtr>& material_list); // to be moved
 
 	void update();
 	void updateCamera();
-	void updateModel(Vector3D position, const MaterialPtr& material);
+	void updateModel(Vector3D position, const std::vector<MaterialPtr>& material_list);
 	void updateEnv();
 	void updateLight();
 
@@ -89,12 +90,20 @@ private:
 	TexturePtr sky_tex = nullptr;
 	TexturePtr brick_tex = nullptr;
 	TexturePtr wall_tex = nullptr;
+	TexturePtr terrain_tex = nullptr;
+
+	TexturePtr barrel_tex = nullptr;
+	TexturePtr window_tex = nullptr;
+	TexturePtr wood_tex = nullptr;
 
 
 	MeshPtr mesh = nullptr;
 	MeshPtr monkey_mesh = nullptr;
 	MeshPtr sky_mesh = nullptr;
 	MeshPtr plane_mesh = nullptr;
+	MeshPtr terrain_mesh = nullptr;
+	MeshPtr house_mesh = nullptr;
+
 
 	VertexShaderPtr vertexShader = nullptr;
 	VertexShaderPtr vertexMeshShader = nullptr;
@@ -104,10 +113,16 @@ private:
 	MaterialPtr object;
 	MaterialPtr brick;
 	MaterialPtr wall;
+	MaterialPtr terrain;
+	MaterialPtr barrel;
+	MaterialPtr window_m;
+	MaterialPtr wood;
 
 	MaterialPtr env;
 
 	float time_cloud = 0.0f;
+
+	std::vector<MaterialPtr> material_vector;
 
 protected:
 	HWND m_hwnd;
