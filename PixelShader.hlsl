@@ -21,19 +21,19 @@ struct PS_INPUT
 
 cbuffer constant: register(b0)
 {
-	row_major float4x4 m_world;
-	row_major float4x4 m_view;
-	row_major float4x4 m_proj;
-	float4 m_light_direction;
+	row_major float4x4 world_matrix;
+	row_major float4x4 view_matrix;
+	row_major float4x4 projection_matrix;
+	float4 light_direction;
 	float4 camera_pos;
-	float time_cloud;
+	float time_variation;
 };
 
 float4 psmain(PS_INPUT input) : SV_TARGET
 {
 	float4 earth_tex = EarthTex.Sample(EarthTexSampler, float2(input.textcoord.x, 1.0 - input.textcoord.y));
 	float4 earth_spec = EarthSpec.Sample(EarthSpecSampler, input.textcoord).r;
-	float4 earth_clouds = EarthClouds.Sample(EarthCloudsSampler, input.textcoord + float2(time_cloud/100.0, 0)).r;
+	float4 earth_clouds = EarthClouds.Sample(EarthCloudsSampler, input.textcoord + float2(time_variation/100.0, 0)).r;
 	float4 earth_night = EarthNight.Sample(EarthNightSampler, input.textcoord);
 
 	//AMBIENT LIGHT
@@ -52,7 +52,7 @@ float4 psmain(PS_INPUT input) : SV_TARGET
 	float3 id_night = float3(1.0, 1.0, 1.0);
 	id_night *= (earth_night.rgb + earth_clouds*0.3);
 
-	float amount_diffuse_light = dot(m_light_direction.xyz, input.normal);
+	float amount_diffuse_light = dot(light_direction.xyz, input.normal);
 
 	float3 id = lerp(id_night, id_day, (amount_diffuse_light + 1.0) / 2.0);
 
@@ -63,7 +63,7 @@ float4 psmain(PS_INPUT input) : SV_TARGET
 	//SPECULAR LIGHT
 	float ks = earth_spec;
 	float3 is = float3(1.0, 1.0, 1.0);
-	float3 reflected_light = reflect(m_light_direction.xyz, input.normal);
+	float3 reflected_light = reflect(light_direction.xyz, input.normal);
 	float shininess = 30.0;
 	float amount_specular_light = pow(max(0.0, dot(reflected_light, input.direction_to_camera)), shininess);
 

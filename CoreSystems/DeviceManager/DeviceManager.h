@@ -23,12 +23,12 @@ private:
 	DeviceManager();
 	~DeviceManager();
 
-	ID3D11Device* m_d3dDevice = nullptr;
-	ID3D11DeviceContext* m_immContext = nullptr;
-	D3D_FEATURE_LEVEL m_feature_level;
-	IDXGIDevice*  m_dxgiDevice = nullptr;
-	IDXGIAdapter* m_dxgiAdapter = nullptr;
-	IDXGIFactory* m_dxgiFactory = nullptr;
+	ID3D11Device* d3dDevice_ptr = nullptr;
+	ID3D11DeviceContext* immediate_context = nullptr;
+	D3D_FEATURE_LEVEL feature_level;
+	IDXGIDevice*  dxgiDevice_ptr = nullptr;
+	IDXGIAdapter* dxgiAdapter_ptr = nullptr;
+	IDXGIFactory* dxgiFactory_ptr = nullptr;
 
 };
 

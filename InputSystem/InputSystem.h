@@ -41,7 +41,7 @@ private:
 
 
 	// MOUSE HANDLING ATTRIBUTES
-	Point old_mouse_pos;
+	Point old_position;
 
 
 

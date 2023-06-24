@@ -120,7 +120,7 @@ private:
 
 	MaterialPtr env;
 
-	float time_cloud = 0.0f;
+	float time_variation = 0.0f;
 
 	std::vector<MaterialPtr> material_vector;
 

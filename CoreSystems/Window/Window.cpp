@@ -13,12 +13,12 @@ __declspec(align(16))
 struct constant
 {
 public:
-	Matrix4x4 m_world;
-	Matrix4x4 m_view;
-	Matrix4x4 m_proj;
-	Vector4D m_light_direction;
+	Matrix4x4 world_matrix;
+	Matrix4x4 view_matrix;
+	Matrix4x4 projection_matrix;
+	Vector4D light_direction;
 	Vector4D camera_pos;
-	float time_cloud = 0.0f;
+	float time_variation = 0.0f;
 };
 
 Window::Window()
@@ -53,7 +53,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 			if (window) window->onLoseFocus();
 			break;
 		}
-		case WM_LBUTTONDOWN:
+		/*case WM_LBUTTONDOWN:
 		{
 			InputSystem::getInstance()->handleLeftMouseDown();
 			break;
@@ -72,7 +72,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 		{
 			InputSystem::getInstance()->handleRightMouseUp();
 			break;
-		}
+		}*/
 		case WM_DESTROY:
 		{
 			Window* window = (Window*)GetWindowLong(hwnd, GWLP_USERDATA);
@@ -216,7 +216,7 @@ void Window::onUpdate()
 	old_delta = new_delta;
 	new_delta = ::GetTickCount();
 	delta_time = (old_delta) ? ((new_delta - old_delta)/1000.0f)  : 0;
-	time_cloud += delta_time;
+	time_variation += delta_time;
 }
 
 void Window::onDestroy()
@@ -391,14 +391,14 @@ void Window::updateModel(Vector3D position, const std::vector<MaterialPtr>& mate
 
 	
 
-	cc.m_world.setIdentity();
-	cc.m_world.setTranslation(position);
-	cc.m_world *= temp;
-	cc.m_view = camera_view;
-	cc.m_proj = camera_proj;
+	cc.world_matrix.setIdentity();
+	cc.world_matrix.setTranslation(position);
+	cc.world_matrix *= temp;
+	cc.view_matrix = camera_view;
+	cc.projection_matrix = camera_proj;
 	cc.camera_pos = camera.getTranslation();
-	cc.m_light_direction = light_rot_matrix.getDirectionZ();
-	cc.time_cloud = time_cloud;
+	cc.light_direction = light_rot_matrix.getDirectionZ();
+	cc.time_variation = time_variation;
 
 	for (size_t m = 0; m < material_list.size(); ++m)
 	{
@@ -410,11 +410,11 @@ void Window::updateEnv()
 {
 	constant cc;
 
-	cc.m_world.setIdentity();
-	cc.m_world.setScale(Vector3D(100.0f, 100.0f, 100.0f));
-	cc.m_world.setTranslation(camera.getTranslation());
-	cc.m_view = camera_view;
-	cc.m_proj = camera_proj;
+	cc.world_matrix.setIdentity();
+	cc.world_matrix.setScale(Vector3D(100.0f, 100.0f, 100.0f));
+	cc.world_matrix.setTranslation(camera.getTranslation());
+	cc.view_matrix = camera_view;
+	cc.projection_matrix = camera_proj;
 
 	env->setData(reinterpret_cast<void *>(&cc), sizeof(constant));
 }

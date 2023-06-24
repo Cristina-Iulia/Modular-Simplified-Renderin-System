@@ -28,14 +28,14 @@ bool DeviceManager::init()
 	};
 
 	UINT num_driver_types = ARRAYSIZE(driver_types);
-	UINT num_feature_levels = ARRAYSIZE(feature_levels);
+	UINT nufeature_levels = ARRAYSIZE(feature_levels);
 	HRESULT res = 0;
 
 
 	for (UINT driver_type_index = 0; driver_type_index < num_driver_types;)
 	{
 		res = D3D11CreateDevice(NULL, driver_types[driver_type_index], NULL, NULL, feature_levels,
-			num_feature_levels, D3D11_SDK_VERSION, &m_d3dDevice, &m_feature_level, &m_immContext);
+			nufeature_levels, D3D11_SDK_VERSION, &d3dDevice_ptr, &feature_level, &immediate_context);
 		if (SUCCEEDED(res))
 			break;
 		++driver_type_index;
@@ -47,9 +47,9 @@ bool DeviceManager::init()
 		return false;
 	}
 
-	m_d3dDevice->QueryInterface(__uuidof(IDXGIDevice), (void**)&m_dxgiDevice);
-	m_dxgiDevice->GetParent(__uuidof(IDXGIAdapter), (void**)&m_dxgiAdapter);
-	m_dxgiAdapter->GetParent(__uuidof(IDXGIFactory), (void**)&m_dxgiFactory);
+	d3dDevice_ptr->QueryInterface(__uuidof(IDXGIDevice), (void**)&dxgiDevice_ptr);
+	dxgiDevice_ptr->GetParent(__uuidof(IDXGIAdapter), (void**)&dxgiAdapter_ptr);
+	dxgiAdapter_ptr->GetParent(__uuidof(IDXGIFactory), (void**)&dxgiFactory_ptr);
 
 	spdlog::info("Device Creation SUCCESS");
 	return true;
@@ -58,11 +58,11 @@ bool DeviceManager::init()
 void DeviceManager::relese()
 {
 	spdlog::info("Destroy DeviceManager : RELEASE resources");
-	m_immContext->Release();
-	m_dxgiDevice->Release();
-	m_dxgiAdapter->Release();
-	m_dxgiFactory->Release();
-	m_d3dDevice->Release();
+	immediate_context->Release();
+	dxgiDevice_ptr->Release();
+	dxgiAdapter_ptr->Release();
+	dxgiFactory_ptr->Release();
+	d3dDevice_ptr->Release();
 }
 
 DeviceManager * DeviceManager::getInstance()
@@ -84,14 +84,14 @@ DeviceManager * DeviceManager::getInstance()
 
 IDXGIFactory * DeviceManager::getFactory()
 {
-	if (dvmSingleton->m_dxgiFactory == nullptr)
+	if (dvmSingleton->dxgiFactory_ptr == nullptr)
 	{
 		spdlog::info("ERROR AT : DeviceManager::FACTORY retrieval");
 	}
 	else
 	{
 		spdlog::info("Retrieve DeviceManager::FACTORY");
-		return dvmSingleton->m_dxgiFactory;
+		return dvmSingleton->dxgiFactory_ptr;
 	}
 
 	spdlog::info("ERROR AT : DeviceManager::FACTORY retrieval");
@@ -101,14 +101,14 @@ IDXGIFactory * DeviceManager::getFactory()
 ID3D11DeviceContext * DeviceManager::getDeviceContext()
 {
 
-	if (dvmSingleton->m_immContext == nullptr)
+	if (dvmSingleton->immediate_context == nullptr)
 	{
 		spdlog::info("ERROR AT : DeviceManager::CONTEXT retrieval");
 	}
 	else
 	{
 		spdlog::info("Retrieve DeviceManager::CONTEXT");
-		return dvmSingleton->m_immContext;
+		return dvmSingleton->immediate_context;
 	}
 
 	spdlog::info("ERROR AT : DeviceManager::CONTEXT retrieval");
@@ -117,14 +117,14 @@ ID3D11DeviceContext * DeviceManager::getDeviceContext()
 
 ID3D11Device* DeviceManager::getDevice()
 {
-	if (dvmSingleton->m_d3dDevice == nullptr)
+	if (dvmSingleton->d3dDevice_ptr == nullptr)
 	{
 		spdlog::info("ERROR AT : DeviceManager::DEVICE retrieval");
 	}
 	else
 	{
 		spdlog::info("Retrieve DeviceManager::DEVICE");
-		return dvmSingleton->m_d3dDevice;
+		return dvmSingleton->d3dDevice_ptr;
 	}
 
 	spdlog::info("ERROR AT : DeviceManager::DEVICE retrieval");

@@ -43,10 +43,10 @@ void InputSystem::removeListener(InputListener * listener)
 void InputSystem::update()
 {
 
-	POINT current_mouse_pos = {};
-	::GetCursorPos(&current_mouse_pos);
+	POINT current_position = {};
+	::GetCursorPos(&current_position);
 
-	if (current_mouse_pos.x != old_mouse_pos.x || current_mouse_pos.y != old_mouse_pos.y)
+	if (current_position.x != old_position.x || current_position.y != old_position.y)
 	{
 		// the mouse was moved
 		std::unordered_set<InputListener*>::iterator it = listenersSet.begin();
@@ -54,12 +54,12 @@ void InputSystem::update()
 		while (it != listenersSet.end() && *it)
 		{
 			// notify listeners
-			(*it)->onMouseMove(Point(current_mouse_pos.x, current_mouse_pos.y));
+			(*it)->onMouseMove(Point(current_position.x, current_position.y));
 			++it;
 		}
 	}
 
-	old_mouse_pos = Point(current_mouse_pos.x, current_mouse_pos.y); //update last read position of the mouse
+	old_position = Point(current_position.x, current_position.y); //update last read position of the mouse
 
 
 
@@ -102,78 +102,78 @@ void InputSystem::update()
 
 void InputSystem::handleLeftMouseDown()
 {
-	POINT current_mouse_pos = {};
-	::GetCursorPos(&current_mouse_pos);
+	POINT current_position = {};
+	::GetCursorPos(&current_position);
 
 	std::unordered_set<InputListener*>::iterator it = listenersSet.begin();
 
 	while (it != listenersSet.end() && *it)
 	{
 		
-		(*it)->onLeftMouseDown(Point(current_mouse_pos.x, current_mouse_pos.y));
+		(*it)->onLeftMouseDown(Point(current_position.x, current_position.y));
 		
 
 		++it;
 	}
 
-	old_mouse_pos = Point(current_mouse_pos.x, current_mouse_pos.y); //update last read position of the mouse
+	old_position = Point(current_position.x, current_position.y); //update last read position of the mouse
 }
 
 void InputSystem::handleLeftMouseUp()
 {
-	POINT current_mouse_pos = {};
-	::GetCursorPos(&current_mouse_pos);
+	POINT current_position = {};
+	::GetCursorPos(&current_position);
 
 	std::unordered_set<InputListener*>::iterator it = listenersSet.begin();
 
 	while (it != listenersSet.end() && *it)
 	{
 
-		(*it)->onLeftMouseUp(Point(current_mouse_pos.x, current_mouse_pos.y));
+		(*it)->onLeftMouseUp(Point(current_position.x, current_position.y));
 
 
 		++it;
 	}
 
-	old_mouse_pos = Point(current_mouse_pos.x, current_mouse_pos.y); //update last read position of the mouse
+	old_position = Point(current_position.x, current_position.y); //update last read position of the mouse
 }
 
 void InputSystem::handleRightMouseDown()
 {
-	POINT current_mouse_pos = {};
-	::GetCursorPos(&current_mouse_pos);
+	POINT current_position = {};
+	::GetCursorPos(&current_position);
 
 	std::unordered_set<InputListener*>::iterator it = listenersSet.begin();
 
 	while (it != listenersSet.end() && *it)
 	{
 
-		(*it)->onRightMouseDown(Point(current_mouse_pos.x, current_mouse_pos.y));
+		(*it)->onRightMouseDown(Point(current_position.x, current_position.y));
 
 
 		++it;
 	}
 
-	old_mouse_pos = Point(current_mouse_pos.x, current_mouse_pos.y); //update last read position of the mouse
+	old_position = Point(current_position.x, current_position.y); //update last read position of the mouse
 }
 
 void InputSystem::handleRightMouseUp()
 {
-	POINT current_mouse_pos = {};
-	::GetCursorPos(&current_mouse_pos);
+	POINT current_position = {};
+	::GetCursorPos(&current_position);
 
 	std::unordered_set<InputListener*>::iterator it = listenersSet.begin();
 
 	while (it != listenersSet.end() && *it)
 	{
 
-		(*it)->onRightMouseUp(Point(current_mouse_pos.x, current_mouse_pos.y));
+		(*it)->onRightMouseUp(Point(current_position.x, current_position.y));
 
 
 		++it;
 	}
 
-	old_mouse_pos = Point(current_mouse_pos.x, current_mouse_pos.y); //update last read position of the mouse
+	old_position = Point(current_position.x, current_position.y); //update last read position of the mouse
 }
 
 void InputSystem::setCursorPosition(const Point & pos)
@@ -189,9 +189,9 @@ void InputSystem::showCursor(bool show)
 InputSystem::InputSystem()
 {
 	// Initialize firs ever read position of the mouse
-	POINT current_mouse_pos = {};
-	::GetCursorPos(&current_mouse_pos);
-	old_mouse_pos = Point(current_mouse_pos.x, current_mouse_pos.y);
+	POINT current_position = {};
+	::GetCursorPos(&current_position);
+	old_position = Point(current_position.x, current_position.y);
 
 }
 

@@ -16,10 +16,10 @@ struct VS_OUTPUT
 
 cbuffer constant: register(b0)
 {
-	row_major float4x4 m_world;
-	row_major float4x4 m_view;
-	row_major float4x4 m_proj;
-	float4 m_light_direction;
+	row_major float4x4 world_matrix;
+	row_major float4x4 view_matrix;
+	row_major float4x4 projection_matrix;
+	float4 light_direction;
 	float4 camera_pos;
 };
 
@@ -29,12 +29,12 @@ VS_OUTPUT vsmain(VS_INPUT input)
 
 	//output.position = lerp(input.position, input.position_after, (sin(m_angle) + 1.0f) / 2.0f);
 	// World space
-	output.position = mul(input.position, m_world);
+	output.position = mul(input.position, world_matrix);
 	output.direction_to_camera = normalize(output.position.xyz - camera_pos.xyz);
 	// View space
-	output.position = mul(output.position, m_view);
+	output.position = mul(output.position, view_matrix);
 	// Screen space
-	output.position = mul(output.position, m_proj);
+	output.position = mul(output.position, projection_matrix);
 
 
 	output.textcoord = input.textcoord;
